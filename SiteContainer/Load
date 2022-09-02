@@ -1,4 +1,4 @@
-for ScriptFile in /PaydarCore/Infra/Scripts/**; 
+for ScriptFile in /PaydarCore/Scripts/**; 
 do
     . "$ScriptFile"
 done

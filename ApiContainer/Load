@@ -6,7 +6,7 @@ elif echo $prompt | grep -q '^sudo:'; then
 else
     echo ""
 fi
-for ScriptFile in /PaydarCore/Infra/Scripts/**;
+for ScriptFile in /PaydarCore/Scripts/**;
 do
     . "$ScriptFile"
 done
