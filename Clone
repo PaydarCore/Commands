@@ -35,6 +35,9 @@ else
 fi
 
 # sudo chmod -R 777 /$Organization 2>/dev/null
+
+find /PaydarCore /PaydarNode -type d -name ".git" 2>/dev/null | xargs sudo chmod -R 777
+
 Safe
 
 FixGit
