@@ -1,0 +1,17 @@
+#!/bin/bash
+
+. Load
+
+Info 'Setting all git repositories to safe ...'
+
+find /PaydarCore /PaydarNode -type d -name .git 2>/dev/null | 
+{
+    while read gitFolder; do
+        parent=$(dirname $gitFolder);
+        git config --global --add safe.directory $parent
+    done
+    wait
+}
+Divide
+Success "All git repositories are set to be safe"
+Divide

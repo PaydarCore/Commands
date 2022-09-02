@@ -1,0 +1,43 @@
+. Load
+
+sudo echo ""
+
+Target=$1
+
+if [[ $Target == "" ]]; then
+    Target=$PWD
+fi
+
+if [[ $Target == / ]]; then
+    Error 'Checking the root is not possible';
+    exit;
+fi
+
+Divide
+Info "Checking $Target ..."
+Divide
+
+if [[ $Target = /* ]]; then
+    Target=$Target
+elif [[ $Target = ./* ]]; then
+    Target=$PWD/${Target/.\//}
+else
+    Target=$PWD/$Target
+fi
+
+if [ -f $Target ]; then
+    /PaydarCore/Policies/Run.py $Target
+else
+    find -H $Target \
+    -mindepth 1 \
+    -type f \
+    -not -name .git \
+    -not -path "*/.git/*" \
+    -not -path "*/.github/*" \
+    -not -path "*/Favicons/*" \
+    -not -path "*/Migration/*" 2>/dev/null |
+    while read File;
+    do
+        /PaydarCore/Policies/Run.py $File
+    done
+fi

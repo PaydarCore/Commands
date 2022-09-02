@@ -1,0 +1,36 @@
+#!/bin/bash
+
+. Load
+
+Info 'Getting the current status ...'
+Status
+
+echo
+echo
+Warning 'Still pushing? (y,n)'
+read Consent
+
+if [ $Consent != 'y' ]; then
+    exit;
+fi
+
+find /PaydarCore /PaydarNode -type d -name .git 2>/dev/null | 
+{
+    while read gitFolder; do
+        parent=$(dirname $gitFolder);
+        if [[ `git -C $parent status --porcelain` ]]; then
+            echo "";
+            (
+                Info $parent;
+                sudo git -C $parent status --porcelain
+                sudo git -C $parent add .
+                sudo git -C $parent commit -m "committed by script"
+                sudo git -C $parent push
+            ) &
+        fi
+    done
+    wait
+}
+Divide
+Success "Pushed all"
+Divide

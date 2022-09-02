@@ -1,0 +1,34 @@
+. Load
+
+export ContainerName=$1;
+
+if [[ $ContainerName == "" ]]; then
+    Extract
+    ContainerName=$Repository$Project
+fi
+
+docker ps -a | grep $ContainerName
+
+export ExitCode=$?
+
+if [[ $ExitCode != 0 ]]; then
+    Divide
+    Error "No container named $ContainerName is found"
+    Divide
+    exit
+else
+    docker ps -a | grep $ContainerName | grep Exited
+    export ExitCode=$?
+
+    if [[ $ExitCode == 0 ]]; then
+        Divide
+        Error "Container $ContainerName is stopeed"
+        Divide
+        exit
+    fi
+fi
+
+Divide
+Info "Entering into $ContainerName"
+Divide
+docker exec -it $ContainerName bash

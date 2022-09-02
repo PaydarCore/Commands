@@ -1,0 +1,9 @@
+. Load
+
+# export ANALYZE=true
+
+Kill
+Divide
+Info "Running /$Repository/$Project in the development mode ..."
+Divide
+npx next dev -p 3000 &

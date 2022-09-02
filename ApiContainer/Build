@@ -1,0 +1,8 @@
+. Load
+
+Divide
+Info "Building /$Repository/$Project ...";
+Divide
+
+dotnet build /$Repository/$Project
+chmod -R 777 /$Repository/$Project

@@ -1,0 +1,27 @@
+#!/bin/bash
+
+. Load
+
+echo
+
+find /PaydarCore /PaydarNode -type d -name .git 2>/dev/null | 
+while read gitFolder; do
+    parent=$(dirname $gitFolder);
+
+    if [[ `git -C $parent status --porcelain` ]]; then
+        Info $parent;
+        git -C $parent status --porcelain
+        if [ -d /PaydarCore/Policies ]; then
+            /PaydarCore/Policies/Run.sh $parent
+        fi
+        Divide
+    elif [[ $(git -C $parent status | grep ahead) ]]; then
+        Warning "Push $parent";
+        Divide
+    elif [[ $(git -C $parent status | grep diverged) ]]; then
+        Warning "Sync $parent";
+        Divide
+    fi
+done 
+
+# https://stackoverflow.com/questions/9612090/how-to-loop-through-file-names-returned-by-find

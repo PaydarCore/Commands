@@ -1,0 +1,6 @@
+. Load
+
+Warning "Test with/without VPN"
+
+sudo apt update
+sudo apt upgrade -y

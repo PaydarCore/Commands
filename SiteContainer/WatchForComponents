@@ -1,0 +1,75 @@
+#!/bin/bash
+
+. Load
+
+function SetJsConfig()
+{
+    declare -A Aliases
+    Aliases[Pages]=pages/Exports.js
+    # Aliases[Tailwind]=tailwind.js
+    Aliases[Base]=Base/Exports.js
+    # Aliases[Branding]=public/Branding/Exports
+    while IFS=$'\t' read Alias Path
+    do
+        ReplacedAlias="${Alias/\/Site\/Components\//}"
+        ReplacedAlias="${ReplacedAlias/\//}"
+        ReplacedPath="${Path/\/Site\/Components\//}"
+        Aliases[$ReplacedAlias]=$ReplacedPath
+    done <<< "$(find /Site/Components -mindepth 1 -type d -printf '%p\tComponents/%p/Exports\n' | sort)"
+
+    jq -n --argjson n "${#Aliases[@]}" '
+        { compilerOptions: {
+                baseUrl: ".",
+                paths:
+                (
+                        reduce range($n) as $i ({};
+                                .[$ARGS.positional[$i]] = [$ARGS.positional[$i+$n]]
+                        )
+                )
+        } }' --args "${!Aliases[@]}" "${Aliases[@]}" > /Site/jsconfig.json
+}
+
+function SetExports()
+{
+    Content=""
+    while read FileName
+    do
+        FileNameWithoutExtension="${FileName/.js/}"
+        Content="${Content}import $FileNameWithoutExtension from './$FileNameWithoutExtension'\n"
+    done <<< "$(find $Directory -mindepth 1 -maxdepth 1 -type f -name "*.js" -not -name 'Exports.js' -printf '%f\n' | sort)"
+    Content="${Content}\n"
+    while read FileName
+    do
+        FileNameWithoutExtension="${FileName/.js/}"
+        Content="${Content}export { $FileNameWithoutExtension }\n"
+    done <<< "$(find $Directory -mindepth 1 -maxdepth 1 -type f -name "*.js" -not -name 'Exports.js' -printf '%f\n' | sort)"
+    if [ -f $Directory/Exports.js ]; then
+        CurrentContent=$(cat $Directory/Exports.js)
+        if [[ $(echo $CurrentContent | xargs) != $(echo $Content | xargs) ]]; then
+            Info "Updating Exports.js of $Directory"
+            echo -e -n $Content > $Directory/Exports.js
+        else
+            Success 'equal'
+        fi
+    else
+        Info "Creating Exports.js for the first time in $Directory"
+        echo -e -n $Content > $Directory/Exports.js
+    fi
+}
+
+SetJsConfig
+
+inotifywait -m /Site/Components -r \
+-e modify \
+-e move \
+-e create \
+-e delete \
+--exclude "Exports.js" |
+while IFS=' ' read Directory Event File
+do
+    export Directory
+    export Event
+    export File
+    SetJsConfig
+    SetExports
+done

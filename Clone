@@ -1,0 +1,44 @@
+#!/bin/bash
+. Load
+
+Organization=$1
+
+if [[ $Organization == "" ]]; then 
+    Error 'Organization name is not provided';
+    exit;
+fi
+
+Info "Organization: $Organization"
+
+sudo mkdir -p /$Organization
+sudo chmod 777 /$Organization
+
+cd /$Organization
+
+export accessToken=$(cat /LocalSecrets/GitHubAccessToken)
+
+Response=$(curl --silent -H "Authorization: token $accessToken" "https://api.github.com/orgs/$Organization/repos?per_page=100")
+
+if [[ $Response == *"Not Found"* ]]; then
+    Error $Response
+else
+    echo $Response | jq -r ".[].name" | 
+    {
+        while read -r name ; do
+            (git clone git@github.com:$Organization/$name) &
+            # if [[ "$name" == *Api ]] || [[ "$name" == *Panel ]] || [[ "$name" == Site ]] || [[ "$name" == Common ]] || [[ "$name" == Blog ]]; then
+            #     git clone git@github.com:$Organization/$name
+            # fi
+        done
+        wait
+    }
+fi
+
+# sudo chmod -R 777 /$Organization 2>/dev/null
+Safe
+
+FixGit
+
+Divide
+Success "Cloned all"
+Divide

@@ -1,0 +1,6 @@
+find /PaydarCore /PaydarNode -type d -name ".git" | 
+while read GitDirectory;
+do
+    export Parent=$(dirname $GitDirectory)
+    git -C $Parent config pull.rebase false
+done
