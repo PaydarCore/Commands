@@ -1,0 +1,21 @@
+#!/bin/bash
+
+. Load
+
+function FormatOnSave()
+{
+    echo "$Directory"
+    echo "$Event"
+    echo "$File"
+}
+
+inotifywait -m /$Repository/$Project/Components /$Repository/$Project/pages -r \
+-e modify \
+--exclude "Exports.js" |
+while IFS=' ' read Directory Event File
+do
+    export Directory
+    export Event
+    export File
+    FormatOnSave
+done
