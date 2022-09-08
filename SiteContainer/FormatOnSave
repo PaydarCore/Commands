@@ -4,9 +4,7 @@
 
 function FormatOnSave()
 {
-    echo "$Directory"
-    echo "$Event"
-    echo "$File"
+    npx prettier --write $Directory$File
 }
 
 inotifywait -m /$Repository/$Project/Components /$Repository/$Project/pages -r \
