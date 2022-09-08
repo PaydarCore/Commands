@@ -1,0 +1,24 @@
+. Load
+
+if [ ! -f /$ApiOrganization/Common/ApiDependencies ]; then
+    Error "Can't find the file /$ApiOrganization/Common/ApiDependencies";
+    exit;
+fi
+
+export IsBuilt=1;
+export RunMigration=False;
+
+while read Dependency; do  
+    Info "${Org}/${Repo}"
+    Org=$(echo $Dependency | cut -d'/' -f1)
+    Repo=$(echo $Dependency | cut -d'/' -f2)
+
+    if [ ! -f "/$Org/$Repo/Database.json" ]; then
+        Warning "Did not found Database.json for $Org/$Repo";
+    else 
+        cd /$Org/$Repo
+        Generate
+    fi
+done <<< "$({ cat "/$ApiOrganization/Common/ApiDependencies"; echo; })"
+
+Migrate

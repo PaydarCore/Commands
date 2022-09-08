@@ -1,0 +1,42 @@
+. Load
+
+Name=$1
+
+if [[ $Name == "" ]]; then 
+    Extract
+else
+    find / -type d -name $Name 2>/dev/null |
+    while read dir;
+    do
+        if [ -f $dir/Database.json ]; then
+            cd $dir
+            Generate
+        fi
+    done
+fi
+
+if [ ! -f $PWD/Database.json ]; then
+    Warning "Did not found $PWD/Database.json";
+    exit;
+fi
+
+export Directory=$PWD
+
+cp /$ApiOrganization/Common/ConnectionStrings.json /PaydarCore/Generation/bin
+
+cd /PaydarCore/Generation
+
+dotnet run $Directory $Organization $Repository
+
+prompt=$(sudo -nv 2>&1)
+if [ $? -eq 0 ]; then
+    sudo chmod -R 777 $Directory
+elif echo $prompt | grep -q '^sudo:'; then
+    sudo chmod -R 777 $Directory
+else
+    chmod -R 777 $Directory
+fi
+
+if [[ $RunMigration != False ]]; then
+    Migrate
+fi
