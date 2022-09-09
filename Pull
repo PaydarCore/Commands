@@ -2,7 +2,7 @@
 
 . Load
 
-find /PaydarCore /PaydarNode -type d -name .git 2>/dev/null | 
+find /PaydarCore /PaydarNode -maxdepth 2  -type d -name .git 2>/dev/null | 
 {
     while read gitFolder; do
         parent=$(dirname $gitFolder);
