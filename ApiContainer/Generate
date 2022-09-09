@@ -22,8 +22,6 @@ fi
 
 export Directory=$PWD
 
-cp /$ApiOrganization/Common/ConnectionStrings.json /PaydarCore/Generation/bin
-
 cd /PaydarCore/Generation
 
 dotnet run $Directory $Organization $Repository
