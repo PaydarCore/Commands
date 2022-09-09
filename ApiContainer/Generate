@@ -24,6 +24,11 @@ export Directory=$PWD
 
 cd /PaydarCore/Generation
 
+# if [ -z ${IsBuilt+x} ] && [ ! -d /PaydarCore/Generation/bin ]; then
+    dotnet build /PaydarCore/Generation
+    chmod -R 777 /PaydarCore/Generation
+# fi
+
 dotnet run $Directory $Organization $Repository
 
 prompt=$(sudo -nv 2>&1)
