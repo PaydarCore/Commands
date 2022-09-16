@@ -11,7 +11,10 @@ fi
 Info "Organization: $Organization"
 
 sudo mkdir -p /$Organization
-sudo chmod 777 /$Organization
+if [[ $(ls -lah /$Organization | wc -l) == 3 ]]; then
+    Info "Giving full permission to /$Organization"
+    sudo chmod 777 /$Organization
+fi
 
 cd /$Organization
 
