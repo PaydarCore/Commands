@@ -42,8 +42,8 @@ else
     chmod -R 777 $Directory
 fi
 
-if [[ $RunMigration != False ]]; then
-    Migrate
-fi
+# if [[ $RunMigration != False ]]; then
+#     Migrate
+# fi
 
 Stop
