@@ -4,6 +4,8 @@
 
 echo
 
+Start
+
 find /PaydarCore /PaydarNode -maxdepth 2  -type d -name .git 2>/dev/null | 
 {
     while read gitFolder; do
@@ -27,5 +29,8 @@ find /PaydarCore /PaydarNode -maxdepth 2  -type d -name .git 2>/dev/null |
     done
     wait
 }
+
+Stop
+Divide
 
 # https://stackoverflow.com/questions/9612090/how-to-loop-through-file-names-returned-by-find
