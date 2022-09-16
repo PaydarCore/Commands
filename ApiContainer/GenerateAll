@@ -1,9 +1,14 @@
 . Load
 
-if [ ! -f /$ApiOrganization/Common/ApiDependencies ]; then
-    Error "Can't find the file /$ApiOrganization/Common/ApiDependencies";
+if [ ! -f /$Repository/Common/ApiDependencies ]; then
+    Error "Can't find the file /$Repository/Common/ApiDependencies";
     exit;
 fi
+
+# if [ -z ${IsBuilt+x} ] && [ ! -d /PaydarCore/Generation/bin ]; then
+    dotnet build /PaydarCore/Generation
+    chmod -R 777 /PaydarCore/Generation
+# fi
 
 export IsBuilt=1;
 export RunMigration=False;
@@ -19,6 +24,6 @@ while read Dependency; do
         cd /$Org/$Repo
         Generate
     fi
-done <<< "$({ cat "/$ApiOrganization/Common/ApiDependencies"; echo; })"
+done <<< "$({ cat "/$Repository/Common/ApiDependencies"; echo; })"
 
 Migrate

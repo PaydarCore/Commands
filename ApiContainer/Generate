@@ -2,6 +2,8 @@
 
 Name=$1
 
+Start
+
 if [[ $Name == "" ]]; then 
     Extract
 else
@@ -24,10 +26,10 @@ export Directory=$PWD
 
 cd /PaydarCore/Generation
 
-# if [ -z ${IsBuilt+x} ] && [ ! -d /PaydarCore/Generation/bin ]; then
+if [ -z ${IsBuilt+x} ] && [ ! -d /PaydarCore/Generation/bin ]; then
     dotnet build /PaydarCore/Generation
     chmod -R 777 /PaydarCore/Generation
-# fi
+fi
 
 dotnet run $Directory $Organization $Repository
 
@@ -43,3 +45,5 @@ fi
 if [[ $RunMigration != False ]]; then
     Migrate
 fi
+
+Stop
