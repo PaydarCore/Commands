@@ -30,6 +30,8 @@ cd /PaydarCore/Generation
 
 dotnet run Drop $Repository
 
+dotnet run Create $Repository
+
 # while read Dependency; do  
 #     Info "${Org}/${Repo}"
 #     Org=$(echo $Dependency | cut -d'/' -f1)
