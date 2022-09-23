@@ -28,8 +28,16 @@ find /PaydarCore /PaydarNode -maxdepth 2 -type d -name .git 2>/dev/null |
                 if [[ $? == 128 ]]; then
                     git -C $parent commit -m "commited by script" 1>/dev/null 2>/dev/null
                     git -C $parent push
+                    if [[ $? == 1 ]]; then
+                        git -C $parent pull
+                        git -C $parent push
+                    fi
                 else 
                     git -C $parent push
+                    if [[ $? == 1 ]]; then
+                        git -C $parent pull
+                        git -C $parent push
+                    fi
                 fi
             ) &
         fi
