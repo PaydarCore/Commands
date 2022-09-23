@@ -1,0 +1,14 @@
+. Load
+
+Start
+
+cd /PaydarCore/Database
+
+if [ -z ${IsBuilt+x} ] && [ ! -d /PaydarCore/Database/bin ]; then
+    dotnet build /PaydarCore/Database
+    chmod -R 777 /PaydarCore/Database
+fi
+
+dotnet run "FixSynonyms" $Repository
+
+Stop

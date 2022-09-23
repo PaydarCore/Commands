@@ -74,3 +74,5 @@ while read Dependency; do
         Generate
     fi
 done <<< "$({ cat "/$Repository/Common/ApiDependencies"; echo; })"
+
+FixSynonyms
