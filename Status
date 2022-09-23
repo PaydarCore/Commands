@@ -34,5 +34,3 @@ Stop
 Divide
 
 # https://stackoverflow.com/questions/9612090/how-to-loop-through-file-names-returned-by-find
-
-echo 'bye'
