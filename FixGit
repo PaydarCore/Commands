@@ -1,4 +1,4 @@
-find /PaydarCore /PaydarNode -maxdepth 2  -type d -name ".git" | 
+FindGits | 
 while read GitDirectory;
 do
     export Parent=$(dirname $GitDirectory)
