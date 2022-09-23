@@ -1,0 +1,14 @@
+#!/bin/bash
+
+. Load
+
+FindGits | 
+{
+    while read gitFolder; do
+        parent=$(dirname $gitFolder);
+        cd $parent
+        if ( Size | awk '{print $1}' | grep M 1>/dev/null ); then
+            du $parent -h -s
+        fi
+    done 
+} | sort -h
