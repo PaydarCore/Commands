@@ -8,7 +8,7 @@ find /PaydarCore /PaydarNode -maxdepth 2  -type d -name .git 2>/dev/null |
         parent=$(dirname $gitFolder);
         echo "";
         Info $parent;
-        (sudo git -C $parent pull; Success "Got $parent") &
+        (git -C $parent pull; Success "Got $parent") &
     done 
     wait
 }
