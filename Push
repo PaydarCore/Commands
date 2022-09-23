@@ -44,6 +44,9 @@ FindGits |
     done
     wait
 }
+
+Status | grep Push | awk '{print $2}' | while read dir; do git -C $dir push; done
+
 Divide
 Success "Pushed all"
 Divide
