@@ -5,6 +5,7 @@
 Info 'Getting the current status ...'
 Status
 
+
 echo
 echo
 Warning 'Still pushing? (y,n)'
