@@ -5,7 +5,6 @@
 Info 'Getting the current status ...'
 Status
 
-
 echo
 echo
 Warning 'Still pushing? (y,n)'
@@ -48,5 +47,3 @@ find /PaydarCore /PaydarNode -maxdepth 2 -type d -name .git 2>/dev/null |
 Divide
 Success "Pushed all"
 Divide
-
-
