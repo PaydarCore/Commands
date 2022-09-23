@@ -22,14 +22,14 @@ find /PaydarCore /PaydarNode -maxdepth 2 -type d -name .git 2>/dev/null |
             echo "";
             (
                 Info $parent;
-                sudo git -C $parent status --porcelain
-                sudo git -C $parent add .
-                sudo git -C $parent commit -m "committed by script" 1>/dev/null 2>/dev/null
+                git -C $parent status --porcelain
+                git -C $parent add .
+                git -C $parent commit -m "committed by script" 1>/dev/null 2>/dev/null
                 if [[ $? == 128 ]]; then
                     git -C $parent commit -m "commited by script" 1>/dev/null 2>/dev/null
                     git -C $parent push
                 else 
-                    sudo git -C $parent push
+                    git -C $parent push
                 fi
             ) &
         fi
