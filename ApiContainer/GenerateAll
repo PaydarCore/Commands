@@ -56,6 +56,8 @@ done <<< "$({ cat "/$Repository/Common/ApiDependencies"; echo; })"
 
 export Runnable=$Repository
 
+cd /PaydarCore/Generation
+
 dotnet run Drop $Repository
 
 dotnet run Create $Repository
