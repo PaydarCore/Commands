@@ -7,7 +7,7 @@ if [[ $ContainerName == "" ]]; then
     ContainerName=$Repository$Project
 fi
 
-docker ps -a | grep $ContainerName
+docker ps -a | grep $ContainerName 1>/dev/null
 
 export ExitCode=$?
 
@@ -17,7 +17,7 @@ if [[ $ExitCode != 0 ]]; then
     Divide
     exit
 else
-    docker ps -a | grep $ContainerName | grep Exited
+    docker ps -a | grep $ContainerName | grep Exited 1>/dev/null
     export ExitCode=$?
 
     if [[ $ExitCode == 0 ]]; then
