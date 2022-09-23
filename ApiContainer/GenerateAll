@@ -28,12 +28,6 @@ export IsBuilt=1;
 
 cd /PaydarCore/Generation
 
-export Runnable=$Repository
-
-dotnet run Drop $Repository
-
-dotnet run Create $Repository
-
 while read Dependency; do  
     Info "${Org}/${Repo}"
     Org=$(echo $Dependency | cut -d'/' -f1)
@@ -47,4 +41,21 @@ while read Dependency; do
     fi
 done <<< "$({ cat "/$Repository/Common/ApiDependencies"; echo; })"
 
-# Migrate
+# export Runnable=$Repository
+
+# dotnet run Drop $Repository
+
+# dotnet run Create $Repository
+
+# while read Dependency; do  
+#     Info "${Org}/${Repo}"
+#     Org=$(echo $Dependency | cut -d'/' -f1)
+#     Repo=$(echo $Dependency | cut -d'/' -f2)
+
+#     if [ ! -f "/$Org/$Repo/Database.json" ]; then
+#         Warning "Did not found Database.json for $Org/$Repo";
+#     else 
+#         cd /$Org/$Repo
+#         Generate
+#     fi
+# done <<< "$({ cat "/$Repository/Common/ApiDependencies"; echo; })"
