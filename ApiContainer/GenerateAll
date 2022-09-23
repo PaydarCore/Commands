@@ -41,21 +41,34 @@ while read Dependency; do
     fi
 done <<< "$({ cat "/$Repository/Common/ApiDependencies"; echo; })"
 
-# export Runnable=$Repository
+while read Dependency; do  
+    Info "${Org}/${Repo}"
+    Org=$(echo $Dependency | cut -d'/' -f1)
+    Repo=$(echo $Dependency | cut -d'/' -f2)
 
-# dotnet run Drop $Repository
+    if [ ! -f "/$Org/$Repo/Database.json" ]; then
+        Warning "Did not found Database.json for $Org/$Repo";
+    else 
+        cd /$Org/$Repo
+        Generate
+    fi
+done <<< "$({ cat "/$Repository/Common/ApiDependencies"; echo; })"
 
-# dotnet run Create $Repository
+export Runnable=$Repository
 
-# while read Dependency; do  
-#     Info "${Org}/${Repo}"
-#     Org=$(echo $Dependency | cut -d'/' -f1)
-#     Repo=$(echo $Dependency | cut -d'/' -f2)
+dotnet run Drop $Repository
 
-#     if [ ! -f "/$Org/$Repo/Database.json" ]; then
-#         Warning "Did not found Database.json for $Org/$Repo";
-#     else 
-#         cd /$Org/$Repo
-#         Generate
-#     fi
-# done <<< "$({ cat "/$Repository/Common/ApiDependencies"; echo; })"
+dotnet run Create $Repository
+
+while read Dependency; do  
+    Info "${Org}/${Repo}"
+    Org=$(echo $Dependency | cut -d'/' -f1)
+    Repo=$(echo $Dependency | cut -d'/' -f2)
+
+    if [ ! -f "/$Org/$Repo/Database.json" ]; then
+        Warning "Did not found Database.json for $Org/$Repo";
+    else 
+        cd /$Org/$Repo
+        Generate
+    fi
+done <<< "$({ cat "/$Repository/Common/ApiDependencies"; echo; })"
