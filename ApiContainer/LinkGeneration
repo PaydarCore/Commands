@@ -1,7 +1,0 @@
-ln -s -f /PaydarCore/DotNet/Infra /PaydarCore/Generation/Infra
-ln -s -f /PaydarCore/DotNet/Normalization /PaydarCore/Generation/Normalization
-ln -s -f /PaydarCore/DotNet/Validation /PaydarCore/Generation/Validation
-ln -s -f /PaydarCore/DotNet/Models /PaydarCore/Generation/InfraModels
-ln -s -f /PaydarCore/DotNet/DataAccess /PaydarCore/Generation/InfraDataAccess
-ln -s -f /PaydarCore/DotNet/Business /PaydarCore/Generation/Business
-ln -s -f /PaydarCore/DotNet/Api /PaydarCore/Generation/Api

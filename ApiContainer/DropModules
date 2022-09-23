@@ -1,42 +1,14 @@
-declare @query nvarchar(max);
+. Load
 
-select @query = (
-select ' union all
-select ' +  + quotename(name,'''') + ' as database_name,
-	s.name COLLATE DATABASE_DEFAULT as schema_name
-from '+ quotename(name) + '.sys.schemas s
-where s.name not in  (
-	''dbo'',
-	''db_accessadmin'',
-	''db_backupoperator'',
-	''db_datareader'',
-	''db_datawriter'',
-	''db_ddladmin'',
-	''db_denydatareader'',
-	''db_denydatawriter'',
-	''db_owner'',
-	''db_securityadmin'',
-	''guest'',
-	''INFORMATION_SCHEMA'',
-	''sys''
-)'
-from sys.databases 
-where state=0 and database_id > 4
-order by [name] for xml path(''), type).value('.', 'nvarchar(max)');
+Start
 
-set @query = stuff(@query, 1, 12, '') + ' order by database_name, schema_name';
+cd /PaydarCore/Database
 
-create table #Temp (
-	[database_name] nvarchar(50) NULL,
-	[schema_name] nvarchar(50) NULL,
-)
+if [ -z ${IsBuilt+x} ] && [ ! -d /PaydarCore/Database/bin ]; then
+    dotnet build /PaydarCore/Database
+    chmod -R 777 /PaydarCore/Database
+fi
 
-insert into #Temp
-execute (@query)
+dotnet run "DropModules"
 
-select 'alter database [' + [database_name] + '] set single_user with rollback immediate; ' + ' drop database [' + [database_name] + '];'
-from #Temp
-group by [database_name]
-having count([schema_name]) = 1
-
-drop table #Temp
+Stop
