@@ -1,7 +1,7 @@
 . Load
 
-if [ ! -f /$Repository/Common/ApiDependencies ]; then
-    Error "Can't find the file /$Repository/Common/ApiDependencies";
+if [ ! -f /$Repository/Common/Dependencies ]; then
+    Error "Can't find the file /$Repository/Common/Dependencies";
     exit;
 fi
 
@@ -24,7 +24,7 @@ export IsBuilt=1;
 #         cd /$Org/$Repo
 #         Generate
 #     fi
-# done <<< "$({ cat "/$Repository/Common/ApiDependencies"; echo; })"
+# done <<< "$({ cat "/$Repository/Common/Dependencies"; echo; })"
 
 cd /PaydarCore/Generation
 
@@ -39,7 +39,7 @@ while read Dependency; do
         cd /$Org/$Repo
         Generate
     fi
-done <<< "$({ cat "/$Repository/Common/ApiDependencies"; echo; })"
+done <<< "$({ cat "/$Repository/Common/Dependencies"; echo; })"
 
 while read Dependency; do  
     Info "${Org}/${Repo}"
@@ -52,7 +52,7 @@ while read Dependency; do
         cd /$Org/$Repo
         Generate
     fi
-done <<< "$({ cat "/$Repository/Common/ApiDependencies"; echo; })"
+done <<< "$({ cat "/$Repository/Common/Dependencies"; echo; })"
 
 export Runnable=$Repository
 
@@ -73,6 +73,6 @@ while read Dependency; do
         cd /$Org/$Repo
         Generate
     fi
-done <<< "$({ cat "/$Repository/Common/ApiDependencies"; echo; })"
+done <<< "$({ cat "/$Repository/Common/Dependencies"; echo; })"
 
 FixSynonyms
