@@ -29,9 +29,17 @@ export IsBuilt=1;
 cd /PaydarCore/Generation
 
 while read Dependency; do  
+    Repo=${Dependency}Api
+    if [ -d /$Organization/$Repository/$Dependency ]; then
+        Org=$Organization
+    else
+        Org=PaydarCore
+    fi
+    if [ ! -f /$Org/$Repo/Database.json ]; then
+        Warning "Wrong dependency: $Dependency. No /$Org/$Repo/Database.json"
+        continue;
+    fi
     Info "${Org}/${Repo}"
-    Org=$(echo $Dependency | cut -d'/' -f1)
-    Repo=$(echo $Dependency | cut -d'/' -f2)
 
     if [ ! -f "/$Org/$Repo/Database.json" ]; then
         Warning "Did not found Database.json for $Org/$Repo";
@@ -42,9 +50,17 @@ while read Dependency; do
 done <<< "$({ cat "/$Repository/Common/Dependencies"; echo; })"
 
 while read Dependency; do  
+    Repo=${Dependency}Api
+    if [ -d /$Organization/$Repository/$Dependency ]; then
+        Org=$Organization
+    else
+        Org=PaydarCore
+    fi
+    if [ ! -f /$Org/$Repo/Database.json ]; then
+        Warning "Wrong dependency: $Dependency. No /$Org/$Repo/Database.json"
+        continue;
+    fi
     Info "${Org}/${Repo}"
-    Org=$(echo $Dependency | cut -d'/' -f1)
-    Repo=$(echo $Dependency | cut -d'/' -f2)
 
     if [ ! -f "/$Org/$Repo/Database.json" ]; then
         Warning "Did not found Database.json for $Org/$Repo";
@@ -63,9 +79,17 @@ dotnet run Drop $Repository
 dotnet run Create $Repository
 
 while read Dependency; do  
+    Repo=${Dependency}Api
+    if [ -d /$Organization/$Repository/$Dependency ]; then
+        Org=$Organization
+    else
+        Org=PaydarCore
+    fi
+    if [ ! -f /$Org/$Repo/Database.json ]; then
+        Warning "Wrong dependency: $Dependency. No /$Org/$Repo/Database.json"
+        continue;
+    fi
     Info "${Org}/${Repo}"
-    Org=$(echo $Dependency | cut -d'/' -f1)
-    Repo=$(echo $Dependency | cut -d'/' -f2)
 
     if [ ! -f "/$Org/$Repo/Database.json" ]; then
         Warning "Did not found Database.json for $Org/$Repo";
