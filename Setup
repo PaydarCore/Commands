@@ -2,6 +2,8 @@
 
 . Load
 
+ForBuild=$1
+
 sudo echo ""
 
 Info "Paydar Setup"
@@ -28,6 +30,9 @@ CopyGitIgnore
 
 sudo chmod -R 777 /$Organization/$Repository
 
+export ComposePath=/Temp/$Organization/$Repository/$Project/DockerCompose.yml
+sudo mkdir -p $(dirname $ComposePath)
+
 if IsNext $1; then
     SetupNext;
 elif IsReact $1; then
@@ -36,4 +41,10 @@ elif IsDotNet $1; then
     SetupDotNet
 else
     Warning "Unknown project"
+fi
+
+if [[ $ForBuild == "" ]]; then
+    docker-compose -p "${Repository}_${Project}" -f $ComposePath up --remove-orphans
+else
+    docker-compose -p "${Repository}_${Project}" -f $ComposePath up --remove-orphans -d
 fi

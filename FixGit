@@ -1,3 +1,5 @@
+. Load
+
 FindGits | 
 while read GitDirectory;
 do
