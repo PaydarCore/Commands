@@ -1,6 +1,35 @@
 #!/bin/bash
 . Load
 
+function GetJson()
+{
+    export Program=Wget
+    export accessToken=$(cat /LocalSecrets/GitHubAccessToken)
+    if [[ $Program == Curl ]]; then
+        export Response=$(curl --silent -H "Authorization: token $accessToken" "https://api.github.com/orgs/$Organization/repos?per_page=100&page=$1")
+    else
+        wget -q -d -S --header="Authorization: token $accessToken" https://api.github.com/orgs/$Organization/repos?per_page=100&page=$1 -O /Temp/RepositoriesJson
+        Divide
+        Error "Got the response"
+        Divide
+        export Response=$(cat /Temp/RepositoriesJson)
+    fi
+}
+
+function LoopAndClone()
+{
+    echo $Response | jq -r ".[].name" | 
+    {
+        while read -r name ; do
+            (git clone git@github.com:$Organization/$name) &
+            # if [[ "$name" == *Api ]] || [[ "$name" == *Panel ]] || [[ "$name" == Site ]] || [[ "$name" == Common ]] || [[ "$name" == Blog ]]; then
+            #     git clone git@github.com:$Organization/$name
+            # fi
+        done
+        wait
+    }
+}
+
 Organization=$1
 
 if [[ $Organization == "" ]]; then 
@@ -18,12 +47,10 @@ fi
 
 cd /$Organization
 
-export accessToken=$(cat /LocalSecrets/GitHubAccessToken)
-
-Response=$(curl --silent -H "Authorization: token $accessToken" "https://api.github.com/orgs/$Organization/repos?per_page=100")
+GetJson 1
 
 if [[ $Response == *"Not Found"* ]]; then
-    Response=$(curl --silent -H "Authorization: token $accessToken" "https://api.github.com/repos/PaydarNode/$Organization")
+    # Response=$(curl --silent -H "Authorization: token $accessToken" "https://api.github.com/repos/PaydarNode/$Organization")
     if [[ $Response == *"Not Found"* ]]; then
         Error $Response
     else
@@ -31,28 +58,9 @@ if [[ $Response == *"Not Found"* ]]; then
         git clone git@github.com:PaydarNode/$Organization
     fi
 else
-    echo $Response | jq -r ".[].name" | 
-    {
-        while read -r name ; do
-            (git clone git@github.com:$Organization/$name) &
-            # if [[ "$name" == *Api ]] || [[ "$name" == *Panel ]] || [[ "$name" == Site ]] || [[ "$name" == Common ]] || [[ "$name" == Blog ]]; then
-            #     git clone git@github.com:$Organization/$name
-            # fi
-        done
-        wait
-    }
-
-    ResponseNextPage=$(curl --silent -H "Authorization: token $accessToken" "https://api.github.com/orgs/$Organization/repos?per_page=100&page=2")
-    echo $ResponseNextPage | jq -r ".[].name" | 
-    {
-        while read -r name ; do
-            (git clone git@github.com:$Organization/$name) &
-            # if [[ "$name" == *Api ]] || [[ "$name" == *Panel ]] || [[ "$name" == Site ]] || [[ "$name" == Common ]] || [[ "$name" == Blog ]]; then
-            #     git clone git@github.com:$Organization/$name
-            # fi
-        done
-        wait
-    }
+    LoopAndClone
+    GetJson 2
+    LoopAndClone
 fi
 
 find /PaydarCore /PaydarNode -maxdepth 2  -type d -name ".git" 2>/dev/null | xargs sudo chmod -R 777
