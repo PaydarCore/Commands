@@ -11,19 +11,24 @@ FindGits |
     while read gitFolder; do
         parent=$(dirname $gitFolder);
         (
-            if [[ `git -C $parent status --porcelain` ]]; then
-                Info $parent;
-                git -C $parent status --porcelain
-                if [ -d /PaydarCore/Policies ]; then
-                    /PaydarCore/Policies/Run.sh $parent
+            git -C $parent status 1>/dev/null 2>/dev/null
+            if [[ $? == 128 ]]; then
+                Error "Git is broken in $parent"
+            else
+                if [[ `git -C $parent status --porcelain` ]]; then
+                    Info $parent;
+                    git -C $parent status --porcelain
+                    if [ -d /PaydarCore/Policies ]; then
+                        /PaydarCore/Policies/Run.sh $parent
+                    fi
+                    Divide
+                elif [[ $(git -C $parent status | grep ahead) ]]; then
+                    Warning "Push $parent";
+                    Divide
+                elif [[ $(git -C $parent status | grep diverged) ]]; then
+                    Warning "Sync $parent";
+                    Divide
                 fi
-                Divide
-            elif [[ $(git -C $parent status | grep ahead) ]]; then
-                Warning "Push $parent";
-                Divide
-            elif [[ $(git -C $parent status | grep diverged) ]]; then
-                Warning "Sync $parent";
-                Divide
             fi
         ) &
     done
