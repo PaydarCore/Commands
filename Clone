@@ -23,7 +23,13 @@ export accessToken=$(cat /LocalSecrets/GitHubAccessToken)
 Response=$(curl --silent -H "Authorization: token $accessToken" "https://api.github.com/orgs/$Organization/repos?per_page=100")
 
 if [[ $Response == *"Not Found"* ]]; then
-    Error $Response
+    Response=$(curl --silent -H "Authorization: token $accessToken" "https://api.github.com/repos/PaydarNode/$Organization")
+    if [[ $Response == *"Not Found"* ]]; then
+        Error $Response
+    else
+        cd /PaydarNode
+        git clone git@github.com:PaydarNode/$Organization
+    fi
 else
     echo $Response | jq -r ".[].name" | 
     {
