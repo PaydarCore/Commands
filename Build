@@ -1,3 +1,7 @@
 #!/bin/bash
 
-Setup ForBuild
+. Setup ForBuild
+
+docker exec $Repository$Project bash -c "cd /$Repository/$Project && npm run build"
+
+echo 'saeed'
