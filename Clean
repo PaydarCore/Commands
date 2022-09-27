@@ -1,0 +1,17 @@
+#!/bin/bash
+
+. Load
+
+FindGits |
+{
+    while read gitFolder; do
+        parent=$(dirname $gitFolder);
+        echo "";
+        Info $parent;
+        (git -C $parent gc --aggressive --prune; Success "Cleaned $parent") &
+    done 
+    wait
+}
+Divide
+Success "Cleaned all"
+Divide

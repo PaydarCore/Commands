@@ -1,0 +1,12 @@
+#!/bin/bash
+
+. Load
+
+Extract
+
+sudo rm -rf .git
+git init
+git add .
+git commit -m "m"
+git remote add origin git@github.com:$Organization/$Repository
+git push -u --force origin main
