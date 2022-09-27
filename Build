@@ -1,9 +1,15 @@
 #!/bin/bash
 
+Stop
+
 . Setup ForBuild
 
-sleep 1
+sleep 2
 
 docker exec $Repository$Project bash -c "cd /$Repository/$Project && npm run build"
 
-echo 'saeed'
+docker cp $Repository$Project:/$Repository/$Project/next.config.js /Build
+docker cp $Repository$Project:/$Repository/$Project/next.js /Build
+docker cp $Repository$Project:/$Repository/$Project/public  /Build
+docker cp $Repository$Project:/$Repository/$Project/.next  /Build
+docker cp $Repository$Project:/$Repository/$Project/package.json  /Build
