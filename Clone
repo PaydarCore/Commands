@@ -3,7 +3,7 @@
 
 function GetJson()
 {
-    export Program=Curl
+    export Program=Wget
     export accessToken=$(cat /LocalSecrets/GitHubAccessToken)
     if [[ $Program == Curl ]]; then
         export Response=$(curl --silent -H "Authorization: token $accessToken" "https://api.github.com/orgs/$Organization/repos?per_page=100&page=$1")
