@@ -5,7 +5,8 @@ Kill
 Build
 
 Divide
-Info "Running /$Repository/$Project/bin/Api.dll ...";
+Info "Running /$Repository/$Project ...";
 Divide
 
-dotnet /$Repository/$Project/bin/Api.dll &
+cd /$Repository/$Project
+npm run dev
