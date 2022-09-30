@@ -1,0 +1,12 @@
+. Load
+
+Kill
+
+Build
+
+Divide
+Info "Running /$Repository/$Project ...";
+Divide
+
+cd /$Repository/$Project
+npm run dev
