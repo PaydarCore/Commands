@@ -19,6 +19,7 @@ if ! (IsNext || IsReact || IsDotNet); then
 fi
 
 Extract
+SetPaths
 CreateTempDirectories &
 GetRandomPort
 GetHost
