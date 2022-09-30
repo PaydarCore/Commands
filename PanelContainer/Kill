@@ -1,0 +1,7 @@
+. Load
+
+Divide
+Info "Killing /$Repository/$Project ..."
+Divide
+
+ps -ef | grep 'npm' | grep -v grep | awk '{print $2}' | xargs -r kill -9
