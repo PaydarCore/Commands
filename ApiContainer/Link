@@ -5,3 +5,6 @@ ln -s -f /PaydarCore/DotNet/Models /PaydarCore/$1/InfraModels
 ln -s -f /PaydarCore/DotNet/DataAccess /PaydarCore/$1/InfraDataAccess
 ln -s -f /PaydarCore/DotNet/Business /PaydarCore/$1/Business
 ln -s -f /PaydarCore/DotNet/Api /PaydarCore/$1/Api
+ln -s -f /PaydarCore/AccountsApi /PaydarCore/$1/AccountsApi
+ln -s -f /PaydarCore/LanguagesApi /PaydarCore/$1/LanguagesApi
+ln -s -f /PaydarCore/EntitiesApi /PaydarCore/$1/EntitiesApi
