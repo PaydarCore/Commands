@@ -18,10 +18,11 @@ function GetJson()
     else
         wget -q -d -S --show-progress --header="Authorization: token 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" "https://api.github.com/orgs/$Organization/repos?per_page=100&page=$1" -O /Temp/RepositoriesJson
         Divide
-        Error "Got the response"
+        Info "Got the response"
         Divide
         Response=$(cat /Temp/RepositoriesJson)
     fi
+    
 }
 
 function LoopAndClone()
@@ -29,7 +30,7 @@ function LoopAndClone()
     echo $Response | jq -r ".[].name" | 
     {
         while read -r name ; do
-            (git clone git@github.com:$Organization/$name) &
+            (git -C /$Organization clone git@github.com:$Organization/$name) &
             # if [[ "$name" == *Api ]] || [[ "$name" == *Panel ]] || [[ "$name" == Site ]] || [[ "$name" == Common ]] || [[ "$name" == Blog ]]; then
             #     git clone git@github.com:$Organization/$name
             # fi
@@ -47,31 +48,31 @@ fi
 
 Info "Organization: $Organization"
 
-sudo mkdir -p /$Organization
-if [[ $(ls -lah /$Organization | wc -l) == 3 ]]; then
-    Info "Giving full permission to /$Organization"
-    sudo chmod 777 /$Organization
-fi
-
 cd /$Organization
 
 ValidateGitHubAccessTokenFile
 
 GetJson 1
 
+if [[ $Response == *"Bad credentials"* ]]; then
+    Error $Response
+    exit
+fi
+
 if [[ $Response == *"Not Found"* ]]; then
     # Response=$(curl --silent -H "Authorization: token $accessToken" "https://api.github.com/repos/PaydarNode/$Organization")
     if [[ $Response == *"Not Found"* ]]; then
         Error $Response
     else
-        cd /PaydarNode
-        git clone git@github.com:PaydarNode/$Organization
+        git -C /PaydarNode clone git@github.com:PaydarNode/$Organization
     fi
 else
     LoopAndClone
     GetJson 2
     LoopAndClone
 fi
+
+rm -rf /Temp/RepositoriesJson
 
 find /PaydarCore /PaydarNode -maxdepth 2  -type d -name ".git" 2>/dev/null | xargs sudo chmod -R 777
 
@@ -82,3 +83,5 @@ FixGit
 Divide
 Success "Cloned all"
 Divide
+
+
