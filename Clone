@@ -1,24 +1,31 @@
 #!/bin/bash
 . Load
 
+function ValidateGitHubAccessTokenFile()
+{
+    if [[ $(cat /LocalSecrets/GitHubAccessToken | wc -c) < 40 ]]; then
+        Error "Invalid content in GitHubAccessToken, make sure save your GitHub Personal Access Token to /LocalSecrets/GitHubAccessToken"
+        exit;
+    fi
+}
+
 function GetJson()
 {
     export Program=Curl
     export accessToken=$(cat /LocalSecrets/GitHubAccessToken)
     if [[ $Program == Curl ]]; then
-        export Response=$(curl --silent -H "Authorization: token $accessToken" "https://api.github.com/orgs/$Organization/repos?per_page=100&page=$1")
+        Response=$(curl --silent -H "Authorization: token $accessToken" "https://api.github.com/orgs/$Organization/repos?per_page=100&page=$1")
     else
-        wget -q -d -S --header="Authorization: token $accessToken" https://api.github.com/orgs/$Organization/repos?per_page=100&page=$1 -O /Temp/RepositoriesJson
+        wget -q -d -S --show-progress --header="Authorization: token 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" "https://api.github.com/orgs/$Organization/repos?per_page=100&page=$1" -O /Temp/RepositoriesJson
         Divide
         Error "Got the response"
         Divide
-        export Response=$(cat /Temp/RepositoriesJson)
+        Response=$(cat /Temp/RepositoriesJson)
     fi
 }
 
 function LoopAndClone()
 {
-    echo $Response
     echo $Response | jq -r ".[].name" | 
     {
         while read -r name ; do
@@ -47,6 +54,8 @@ if [[ $(ls -lah /$Organization | wc -l) == 3 ]]; then
 fi
 
 cd /$Organization
+
+ValidateGitHubAccessTokenFile
 
 GetJson 1
 
