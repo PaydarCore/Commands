@@ -1,10 +1,15 @@
-ln -s -f /PaydarCore/DotNet/Infra /PaydarCore/$1/Infra
-ln -s -f /PaydarCore/DotNet/Normalization /PaydarCore/$1/Normalization
-ln -s -f /PaydarCore/DotNet/Validation /PaydarCore/$1/Validation
-ln -s -f /PaydarCore/DotNet/Models /PaydarCore/$1/InfraModels
-ln -s -f /PaydarCore/DotNet/DataAccess /PaydarCore/$1/InfraDataAccess
-ln -s -f /PaydarCore/DotNet/Business /PaydarCore/$1/Business
-ln -s -f /PaydarCore/DotNet/Api /PaydarCore/$1/Api
-ln -s -f /PaydarCore/AccountsApi /PaydarCore/$1/AccountsApi
-ln -s -f /PaydarCore/LanguagesApi /PaydarCore/$1/LanguagesApi
-ln -s -f /PaydarCore/EntitiesApi /PaydarCore/$1/EntitiesApi
+if [[ $1 == /* ]]; then
+    export TargetProject=$1
+else
+    export TargetProject=/PaydarCore/$1
+fi
+ln -s -f /PaydarCore/DotNet/Infra $TargetProject/Infra
+ln -s -f /PaydarCore/DotNet/Normalization $TargetProject/Normalization
+ln -s -f /PaydarCore/DotNet/Validation $TargetProject/Validation
+ln -s -f /PaydarCore/DotNet/Models $TargetProject/InfraModels
+ln -s -f /PaydarCore/DotNet/DataAccess $TargetProject/InfraDataAccess
+ln -s -f /PaydarCore/DotNet/Business $TargetProject/Business
+ln -s -f /PaydarCore/DotNet/Api $TargetProject/Api
+ln -s -f /PaydarCore/AccountsApi $TargetProject/AccountsApi
+ln -s -f /PaydarCore/LanguagesApi $TargetProject/LanguagesApi
+ln -s -f /PaydarCore/EntitiesApi $TargetProject/EntitiesApi
