@@ -5,26 +5,13 @@ if [ ! -f /$Repository/Common/Dependencies ]; then
     exit;
 fi
 
-# if [ -z ${IsBuilt+x} ] && [ ! -d /PaydarCore/Generation/bin ]; then
+if [ -z ${IsBuilt+x} ] && [ ! -d /PaydarCore/Generation/bin ]; then
     dotnet build /PaydarCore/Generation
     chmod -R 777 /PaydarCore/Generation
-# fi
+fi
 
 export IsBuilt=1;
-# export RunMigration=False;
 
-# while read Dependency; do  
-#     Info "${Org}/${Repo}"
-#     Org=$(echo $Dependency | cut -d'/' -f1)
-#     Repo=$(echo $Dependency | cut -d'/' -f2)
-
-#     if [ ! -f "/$Org/$Repo/Database.json" ]; then
-#         Warning "Did not found Database.json for $Org/$Repo";
-#     else 
-#         cd /$Org/$Repo
-#         Generate
-#     fi
-# done <<< "$({ cat "/$Repository/Common/Dependencies"; echo; })"
 
 cd /PaydarCore/Generation
 
@@ -47,28 +34,7 @@ while read Dependency; do
         cd /$Org/$Repo
         Generate
     fi
-done <<< "$({ cat "/$Repository/Common/Dependencies"; echo; })"
-
-while read Dependency; do  
-    Repo=${Dependency}Api
-    if [ -d /$Organization/$Repository/$Dependency ]; then
-        Org=$Organization
-    else
-        Org=PaydarCore
-    fi
-    if [ ! -f /$Org/$Repo/Database.json ]; then
-        Warning "Wrong dependency: $Dependency. No /$Org/$Repo/Database.json"
-        continue;
-    fi
-    Info "${Org}/${Repo}"
-
-    if [ ! -f "/$Org/$Repo/Database.json" ]; then
-        Warning "Did not found Database.json for $Org/$Repo";
-    else 
-        cd /$Org/$Repo
-        Generate
-    fi
-done <<< "$({ cat "/$Repository/Common/Dependencies"; echo; })"
+done <<< "$(grep -xFf /$Repository/Common/Dependencies /PaydarCore/Generation/Order; grep -vxFf /PaydarCore/Generation/Order /$Repository/Common/Dependencies)"
 
 export Runnable=$Repository
 
