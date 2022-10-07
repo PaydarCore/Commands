@@ -44,8 +44,8 @@ else
     Warning "Unknown project"
 fi
 
-if [[ $ForBuild == "" ]]; then
-    docker-compose -p "${Repository}_${Project}" -f $ComposePath up --remove-orphans
-else
-    docker-compose -p "${Repository}_${Project}" -f $ComposePath up --remove-orphans -d
-fi
+# if [[ $ForBuild == "" ]]; then
+#     docker-compose -p "${Repository}_${Project}" -f $ComposePath up --remove-orphans
+# else
+#     docker-compose -p "${Repository}_${Project}" -f $ComposePath up --remove-orphans -d
+# fi
