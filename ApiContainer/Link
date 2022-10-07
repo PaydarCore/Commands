@@ -1,6 +1,6 @@
-if [[ $1 == /* ]]; then
-    export TargetProject=$1
-else
+echo "Linking: $1"
+export TargetProject=$1
+if [[ $TargetProject != /* ]]; then
     export TargetProject=/PaydarCore/$1
 fi
 ln -s -f /PaydarCore/DotNet/Infra $TargetProject/Infra
