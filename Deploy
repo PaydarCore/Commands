@@ -1,0 +1,38 @@
+#!/bin/bash
+
+. Load
+
+Divide
+Info Enter your target domain:
+read TargetDomain
+
+if [[ ! `ssh root@server7.paydardata.com test -f /etc/nginx/conf.d/$TargetDomain.conf && echo exists` ]] ; then
+    Error 'Domain not hosted';
+    exit
+fi
+Divide
+Info Enter directory location on server:
+read TargetDirectory
+
+if [[ ! `ssh root@server7.paydardata.com test -d $TargetDirectory && echo exists` ]] ; then
+    Error "Target directory not exist"
+    exit
+fi
+
+Info Publishing start
+
+Build
+
+cd /Build
+
+zip -r publish.zip .next/ public/ next.config.js next.js package.json
+
+export TargetDomain=$TargetDomain
+export TargetDirectory=$TargetDirectory
+envsubst < /PaydarCore/ServerLinux/Scripts/DeployerTemplate > /Build/Deployer
+
+scp /Build/publish.zip root@server7.paydardata.com:$TargetDirectory
+scp /Build/Deployer root@server7.paydardata.com:$TargetDirectory
+
+ssh root@server7.paydardata.com `cd ${TargetDirectory}`
+
