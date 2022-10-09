@@ -15,3 +15,9 @@ FindGits |
 Divide
 Success "Got all"
 Divide
+
+# Tempurary commands
+sudo chmod 777 ~/.gitconfig
+git config --global core.filemode false
+Safe
+FixGit
