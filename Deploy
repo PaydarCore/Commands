@@ -47,4 +47,3 @@ ssh root@server7.paydardata.com "chmod 777 ${TargetDirectory}/Deployer"
 ssh root@server7.paydardata.com "${TargetDirectory}/Deployer"
 
 # ssh -t root@server7.paydardata.com "cd ${TargetDirectory}"
-
