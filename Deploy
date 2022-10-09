@@ -31,8 +31,11 @@ export TargetDomain=$TargetDomain
 export TargetDirectory=$TargetDirectory
 envsubst < /PaydarCore/ServerLinux/Scripts/DeployerTemplate > /Build/Deployer
 
+ssh root@server7.paydardata.com 'rm -rf ${TargetDirectory}/Deployer'
+ssh root@server7.paydardata.com 'rm -rf ${TargetDirectory}/publish.zip'
+
 scp /Build/publish.zip root@server7.paydardata.com:$TargetDirectory
 scp /Build/Deployer root@server7.paydardata.com:$TargetDirectory
 
-ssh root@server7.paydardata.com `cd ${TargetDirectory}`
+ssh root@server7.paydardata.com 'cd ${TargetDirectory}'
 
