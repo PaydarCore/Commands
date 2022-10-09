@@ -44,5 +44,7 @@ scp /Build/Deployer root@server7.paydardata.com:$TargetDirectory
 
 ssh root@server7.paydardata.com "chmod 777 ${TargetDirectory}/Deployer"
 
-ssh -t root@server7.paydardata.com "cd ${TargetDirectory}"
+ssh root@server7.paydardata.com "${TargetDirectory}/Deployer"
+
+# ssh -t root@server7.paydardata.com "cd ${TargetDirectory}"
 

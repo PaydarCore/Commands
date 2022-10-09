@@ -9,6 +9,7 @@ FindGits |
     while read gitFolder; do
         parent=$(dirname $gitFolder);
         git config --global --add safe.directory $parent
+        git -C $parent config core.filemode false
     done
     wait
 }
