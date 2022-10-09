@@ -16,3 +16,11 @@ FindGits |
 Divide
 Success "All git repositories are set to be safe"
 Divide
+
+# Tempurary commands
+Info 'Ignoring file mode for all git repositories...'
+Divide
+sudo chmod 777 ~/.gitconfig
+git config --global core.filemode false
+Success 'file mode of all git repositories falsed'
+Divide
