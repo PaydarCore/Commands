@@ -3,19 +3,24 @@
 . Load
 
 Divide
+
 Info Enter your target domain:
 read TargetDomain
 
-if [[ ! `ssh root@server7.paydardata.com test -f /etc/nginx/conf.d/$TargetDomain.conf && echo exists` ]] ; then
-    Error 'Domain not hosted';
-    exit
-fi
 Divide
+
 Info Enter directory location on server:
 read TargetDirectory
 
+Divide
+
+if [[ ! `ssh root@server7.paydardata.com test -f /etc/nginx/conf.d/$TargetDomain.conf && echo exists` ]] ; then
+    Error "$TargetDomain not hosted in server"
+    exit
+fi
+
 if [[ ! `ssh root@server7.paydardata.com test -d $TargetDirectory && echo exists` ]] ; then
-    Error "Target directory not exist"
+    Error "$TargetDirectory directory not exist in server"
     exit
 fi
 
@@ -31,11 +36,13 @@ export TargetDomain=$TargetDomain
 export TargetDirectory=$TargetDirectory
 envsubst < /PaydarCore/ServerLinux/Scripts/DeployerTemplate > /Build/Deployer
 
-ssh root@server7.paydardata.com 'rm -rf ${TargetDirectory}/Deployer'
-ssh root@server7.paydardata.com 'rm -rf ${TargetDirectory}/publish.zip'
+ssh root@server7.paydardata.com "rm -rf ${TargetDirectory}/Deployer"
+ssh root@server7.paydardata.com "rm -rf ${TargetDirectory}/publish.zip"
 
 scp /Build/publish.zip root@server7.paydardata.com:$TargetDirectory
 scp /Build/Deployer root@server7.paydardata.com:$TargetDirectory
 
-ssh root@server7.paydardata.com 'cd ${TargetDirectory}'
+ssh root@server7.paydardata.com "chmod 777 ${TargetDirectory}/Deployer"
+
+ssh -t root@server7.paydardata.com "cd ${TargetDirectory}"
 
