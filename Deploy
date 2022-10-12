@@ -16,25 +16,25 @@ if [[ $ServerPath == "" ]]; then
     exit;
 fi
 
-# Divide
-# Info Enter your target domain:
-# read TargetDomain
-
-# Divide
-# Info Enter directory location on server:
-# read ServerPath
-# Divide
-
+Info Validating nginx config on server...
 
 if [[ ! `ssh root@server7.paydardata.com test -f /etc/nginx/conf.d/$TargetDomain.conf && echo exists` ]] ; then
     Error "$TargetDomain not hosted in server"
     exit
 fi
 
+Success "$TargetDomain.conf exist."
+Divide
+
+Info Validating server path...
+
 if [[ ! `ssh root@server7.paydardata.com test -d $ServerPath && echo exists` ]] ; then
     Error "$ServerPath directory not exist in server"
     exit
 fi
+
+Success "$ServerPath exist."
+Divide
 
 Info Building the project...
 Divide
