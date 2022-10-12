@@ -36,25 +36,21 @@ if [[ ! `ssh root@server7.paydardata.com test -d $ServerPath && echo exists` ]] 
     exit
 fi
 
-Divide
 Info Building the project...
 Divide
 
 Build
 
-Divide
 Info Project build finished.
 Divide
 
 cd /Build
 
-Divide
 Info Compressing the build version...
 Divide
 
 zip -r publish.zip .next/ public/ next.config.js next.js package.json
 
-Divide
 Info Build Compressed.
 Divide
 
@@ -65,28 +61,24 @@ envsubst < /PaydarCore/ServerLinux/Scripts/DeployerTemplate > /Build/Deployer
 ssh root@server7.paydardata.com "rm -rf ${ServerPath}/Deployer"
 ssh root@server7.paydardata.com "rm -rf ${ServerPath}/publish.zip"
 
-Divide
 Info Publishing the project...
+Info Uploading started...
 Divide
 
 scp /Build/publish.zip root@server7.paydardata.com:$ServerPath
 scp /Build/Deployer root@server7.paydardata.com:$ServerPath
 
-
-Divide
 Info Project uploaded.
 Divide
 
-Divide
 Info Deploying the project...
 Divide
 
+sleep 2
 ssh root@server7.paydardata.com "chmod 777 ${ServerPath}/Deployer"
-
+sleep 1
 ssh root@server7.paydardata.com "${ServerPath}/Deployer"
 
-Divide
 Info Deployment finished.
-Divide
 
 # ssh -t root@server7.paydardata.com "cd ${ServerPath}"
