@@ -51,6 +51,7 @@ Divide
 
 zip -r publish.zip .next/ public/ next.config.js next.js package.json
 
+Info
 Info Build Compressed.
 Divide
 
@@ -58,10 +59,9 @@ export TargetDomain=$TargetDomain
 export ServerPath=$ServerPath
 envsubst < /PaydarCore/ServerLinux/Scripts/DeployerTemplate > /Build/Deployer
 
-ssh root@server7.paydardata.com "rm -rf ${ServerPath}/Deployer"
-ssh root@server7.paydardata.com "rm -rf ${ServerPath}/publish.zip"
+ssh root@server7.paydardata.com "rm -rf $ServerPath/Deployer"
+ssh root@server7.paydardata.com "rm -rf $ServerPath/publish.zip"
 
-Info Publishing the project...
 Info Uploading started...
 Divide
 
@@ -74,11 +74,10 @@ Divide
 Info Deploying the project...
 Divide
 
-sleep 2
-ssh root@server7.paydardata.com "chmod 777 ${ServerPath}/Deployer"
-sleep 1
-ssh root@server7.paydardata.com "${ServerPath}/Deployer"
+ssh root@server7.paydardata.com "chmod 777 $ServerPath/Deployer"
+ssh root@server7.paydardata.com "$ServerPath/Deployer"
 
+Info
 Info Deployment finished.
 
-# ssh -t root@server7.paydardata.com "cd ${ServerPath}"
+# ssh -t root@server7.paydardata.com "cd $ServerPath"
