@@ -45,7 +45,15 @@ else
 fi
 
 if [[ $ForBuild == "" ]]; then
-    docker-compose -p "${Repository}_${Project}" -f $ComposePath up --remove-orphans
+    if [ IsDotNet $1 ] && [[ $Repository != "Storage" ]]; then
+        cd /PaydarNode/Storage/Api
+        Setup
+    fi
+    if [[ $Repository == "Storage" ]]; then
+        docker-compose -p "${Repository}_${Project}" -f $ComposePath up --remove-orphans -d
+    else
+        docker-compose -p "${Repository}_${Project}" -f $ComposePath up --remove-orphans
+    fi
 else
     docker-compose -p "${Repository}_${Project}" -f $ComposePath up --remove-orphans -d
 fi
