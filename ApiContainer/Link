@@ -11,5 +11,5 @@ ln -s -f /PaydarCore/DotNet/DataAccess $TargetProject/InfraDataAccess
 ln -s -f /PaydarCore/DotNet/Business $TargetProject/Business
 ln -s -f /PaydarCore/DotNet/Api $TargetProject/Api
 ln -s -f /PaydarCore/AccountsApi $TargetProject/AccountsApi
-ln -s -f /PaydarCore/LanguagesApi $TargetProject/LanguagesApi
+ln -s -f /PaydarCore/GlobalizationApi $TargetProject/GlobalizationApi
 ln -s -f /PaydarCore/EntitiesApi $TargetProject/EntitiesApi
