@@ -34,7 +34,7 @@ while read Dependency; do
         cd /$Org/$Repo
         Generate
     fi
-done <<< "$(grep -xFf /$Repository/Common/Dependencies /PaydarCore/Generation/Order; grep -vxFf /PaydarCore/Generation/Order /$Repository/Common/Dependencies)"
+done <<< "$(echo Entities; echo Globalization; echo Accounts; grep -xFf /$Repository/Common/Dependencies /PaydarCore/Generation/Order; grep -vxFf /PaydarCore/Generation/Order /$Repository/Common/Dependencies)"
 
 export Runnable=$Repository
 
@@ -63,6 +63,6 @@ while read Dependency; do
         cd /$Org/$Repo
         Generate
     fi
-done <<< "$({ cat "/$Repository/Common/Dependencies"; echo; })"
+done <<< "$(echo Entities; echo Globalization; echo Accounts; grep -xFf /$Repository/Common/Dependencies /PaydarCore/Generation/Order; grep -vxFf /PaydarCore/Generation/Order /$Repository/Common/Dependencies)"
 
 FixSynonyms
