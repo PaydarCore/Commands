@@ -50,7 +50,11 @@ if [[ $ForBuild == "" ]]; then
         Setup
     fi
     if [[ $Repository == "Storage" ]]; then
-        docker-compose -p "${Repository}_${Project}" -f $ComposePath up --remove-orphans -d
+        if [[ $(docker container ls | grep StorageApi ) ]]; then
+            Info "Storage container is running"
+        else
+            docker-compose -p "${Repository}_${Project}" -f $ComposePath up --remove-orphans -d
+        fi
     else
         docker-compose -p "${Repository}_${Project}" -f $ComposePath up --remove-orphans
     fi
