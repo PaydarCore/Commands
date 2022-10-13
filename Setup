@@ -45,7 +45,7 @@ else
 fi
 
 if [[ $ForBuild == "" ]]; then
-    if [ IsDotNet $1 ] && [[ $Repository != "Storage" ]]; then
+    if IsDotNet $1 && [[ $Repository != "Storage" ]]; then
         cd /PaydarNode/Storage/Api
         Setup
     fi
