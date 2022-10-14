@@ -9,10 +9,17 @@ if [[ $TargetDomain == "" ]]; then
     exit;
 fi
 
-ServerPath=$(cat /LocalSecrets/Deployment/$1 2>/dev/null | grep path: | cut -d ' ' -f2)
+ServerPath=$(cat /LocalSecrets/Deployment/$1 2>/dev/null | grep ServerPath: | cut -d ' ' -f2)
 
 if [[ $ServerPath == "" ]]; then 
-    Error 'Path is not available in the LocalSecrets';
+    Error 'ServerPath is not available in the LocalSecrets';
+    exit;
+fi
+
+ProjectPath=$(cat /LocalSecrets/Deployment/$1 2>/dev/null | grep ProjectPath: | cut -d ' ' -f2)
+
+if [[ $ProjectPath == "" ]]; then 
+    Error 'ProjectPath is not available in the LocalSecrets';
     exit;
 fi
 
@@ -35,6 +42,8 @@ fi
 
 Success "$ServerPath exists"
 Divide
+
+cd $ProjectPath
 
 Info Building the project...
 Divide
