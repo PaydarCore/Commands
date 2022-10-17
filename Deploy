@@ -66,7 +66,7 @@ Divide
 
 export TargetDomain=$TargetDomain
 export ServerPath=$ServerPath
-envsubst < /PaydarCore/ServerLinux/Scripts/DeployerTemplate > /Build/Deployer
+envsubst < /PaydarCore/ServerLinux/Commands/DeployerTemplate > /Build/Deployer
 
 ssh root@server7.paydardata.com "rm -rf $ServerPath/Deployer"
 ssh root@server7.paydardata.com "rm -rf $ServerPath/publish.zip"
