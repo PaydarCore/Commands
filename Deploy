@@ -67,18 +67,18 @@ Divide
 export TargetDomain=$TargetDomain
 export ServerPath=$ServerPath
 export ProjectPath=$ProjectPath
-envsubst < /PaydarCore/ServerLinux/Commands/DeployerTemplate > /Build/Deployer
+envsubst < /PaydarCore/ServerLinux/Commands/DeployerTemplate > /Build/$TargetDomain.deployer
 envsubst < /PaydarCore/ServerLinux/Commands/TelemetryTemplate > /Build/$TargetDomain.telemetry
 
 Info Removing old deployment...
-ssh root@server7.paydardata.com "rm -rf $ServerPath/Deployer $ServerPath/publish.zip $ServerPath/$TargetDomain.telemetry"
+ssh root@server7.paydardata.com "rm -rf $ServerPath/$TargetDomain.telemetry $ServerPath/publish.zip $ServerPath/$TargetDomain.telemetry"
 Info Old deployment files deleted
 
 Info Uploading started...
 Divide
 
 scp /Build/publish.zip root@server7.paydardata.com:$ServerPath
-scp /Build/Deployer root@server7.paydardata.com:$ServerPath
+scp /Build/$TargetDomain.deployer root@server7.paydardata.com:$ServerPath
 scp /Build/$TargetDomain.telemetry root@server7.paydardata.com:$ServerPath
 
 Info Project uploaded.
@@ -88,5 +88,5 @@ Info Deploying the project...
 Divide
 
 ssh root@server7.paydardata.com "chmod 777 $ServerPath/$TargetDomain.telemetry"
-ssh root@server7.paydardata.com "chmod 777 $ServerPath/Deployer"
-ssh root@server7.paydardata.com "$ServerPath/Deployer"
+ssh root@server7.paydardata.com "chmod 777 $ServerPath/$TargetDomain.deployer"
+ssh root@server7.paydardata.com "$ServerPath/$TargetDomain.deployer"
