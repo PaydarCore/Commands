@@ -58,8 +58,7 @@ cd /Build
 Info Compressing the built output
 Divide
 
-zip -r publish.zip .next/ public/ next.config.js next.js package.json 2>&1 | 
-pv -lep -s $(ls -Rl1 [folder_to_zip] | egrep -c '^[-/]') > /dev/null
+zip -r publish.zip .next/ public/ next.config.js next.js package.json
 
 Info
 Info Built output is compressed
