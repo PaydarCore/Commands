@@ -58,7 +58,8 @@ cd /Build
 Info Compressing the built output
 Divide
 
-zip -r publish.zip .next/ public/ next.config.js next.js package.json
+zip -r publish.zip .next/ public/ next.config.js next.js package.json 2>&1 | 
+pv -lep -s $(ls -Rl1 [folder_to_zip] | egrep -c '^[-/]') > /dev/null
 
 Info
 Info Built output is compressed
@@ -66,16 +67,20 @@ Divide
 
 export TargetDomain=$TargetDomain
 export ServerPath=$ServerPath
+export ProjectPath=$ProjectPath
 envsubst < /PaydarCore/ServerLinux/Commands/DeployerTemplate > /Build/Deployer
+envsubst < /PaydarCore/ServerLinux/Commands/TelemetryTemplate > /Build/$TargetDomain.telemetry
 
-ssh root@server7.paydardata.com "rm -rf $ServerPath/Deployer"
-ssh root@server7.paydardata.com "rm -rf $ServerPath/publish.zip"
+Info Removing old deployment...
+ssh root@server7.paydardata.com "rm -rf $ServerPath/Deployer $ServerPath/publish.zip $ServerPath/$TargetDomain.telemetry"
+Info Old deployment files deleted
 
 Info Uploading started...
 Divide
 
 scp /Build/publish.zip root@server7.paydardata.com:$ServerPath
 scp /Build/Deployer root@server7.paydardata.com:$ServerPath
+scp /Build/$TargetDomain.telemetry root@server7.paydardata.com:$ServerPath
 
 Info Project uploaded.
 Divide
@@ -83,10 +88,6 @@ Divide
 Info Deploying the project...
 Divide
 
+ssh root@server7.paydardata.com "chmod 777 $ServerPath/$TargetDomain.telemetry"
 ssh root@server7.paydardata.com "chmod 777 $ServerPath/Deployer"
 ssh root@server7.paydardata.com "$ServerPath/Deployer"
-
-Info
-Info Deployment finished.
-
-# ssh -t root@server7.paydardata.com "cd $ServerPath"
