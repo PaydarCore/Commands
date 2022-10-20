@@ -2,6 +2,10 @@
 
 StoragePath=$(sudo lsblk -l | grep '/media/' | awk '{print $7}')
 
+echo $StoragePath
+
+exit
+
 for DockerImageFile in `find $StoragePath/DockerImages -type f -print`; do
   docker load < $DockerImageFile
 done
