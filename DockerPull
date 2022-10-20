@@ -1,0 +1,4 @@
+docker pull paydar/dotnet
+docker pull paydar/sql
+docker pull paydar/react
+docker pull paydar/next
