@@ -3,43 +3,36 @@
 . Load
 
 TargetDomain=$1
-
 if [[ $TargetDomain == "" ]]; then 
     Error 'Domain is not provided';
     exit;
 fi
 
 ServerPath=$(cat /LocalSecrets/Deployment/$1 2>/dev/null | grep ServerPath: | cut -d ' ' -f2)
-
 if [[ $ServerPath == "" ]]; then 
     Error 'ServerPath is not available in the LocalSecrets';
     exit;
 fi
 
 ProjectPath=$(cat /LocalSecrets/Deployment/$1 2>/dev/null | grep ProjectPath: | cut -d ' ' -f2)
-
 if [[ $ProjectPath == "" ]]; then 
     Error 'ProjectPath is not available in the LocalSecrets';
     exit;
 fi
 
 Info Validating nginx config on server...
-
 if [[ ! `ssh root@server7.paydardata.com test -f /etc/nginx/conf.d/$TargetDomain.conf && echo exists` ]] ; then
     Error "$TargetDomain is not hosted on server"
     exit
 fi
-
 Success "$TargetDomain.conf exists"
 Divide
 
 Info Validating server path...
-
 if [[ ! `ssh root@server7.paydardata.com test -d $ServerPath && echo exists` ]] ; then
     Error "$ServerPath directory not exist on server"
     exit
 fi
-
 Success "$ServerPath exists"
 Divide
 
