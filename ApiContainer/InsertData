@@ -1,11 +1,22 @@
 . Load
 
-. PrepareQuery
+cd /PaydarCore/Database
 
-Files=$(find / -name "*.sql" -not -path "*/Migration/*" -not -name "*Migration*.sql" -not -path "*/Maria/*" -printf '%p ' 2>/dev/null)
+if [ ! -d /PaydarCore/Database/bin ]; then
+    dotnet build /PaydarCore/Database
+    chmod -R 777 /PaydarCore/Database
+fi
+
+Divide
+Info "Inserting entity types ..."
+Divide
+
+dotnet run "InsertEntityTypes" /$Repository/$Project $Repository
+
+Divide
+Success "Inserted entity types"
+Divide
+
+Files=$(find /PaydarCore /PaydarNode -name "Initial.sql" -not -path "*/Database/*" -not -path "*/Generation/*" -not -path "*/SqlServer/*" -printf '%p ' 2>/dev/null)
 
 dotnet run $Files
-
-Warning "If data is not inserted, make sure to run GenerateDependencies first to insert Enum values"
-
-Warning "Also make sure first insert all entity types from administration panel, and then rerun the data insertion."
