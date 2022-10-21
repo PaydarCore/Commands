@@ -6,11 +6,12 @@ Stop
 
 sleep 2
 
-docker exec $Repository$Project bash -c "cd /$Repository/$Project && npm run build"
-
-docker cp $Repository$Project:/$Repository/$Project/next.config.js /Build
-docker cp $Repository$Project:/$Repository/$Project/next.js /Build
-docker cp $Repository$Project:/$Repository/$Project/public  /Build
-docker cp $Repository$Project:/$Repository/$Project/.next  /Build
-docker cp $Repository$Project:/next/package.json  /Build
-docker cp $Repository$Project:/next/node_modules  /Build
+if IsNext $1; then
+    BuildNext;
+elif IsReact $1; then
+    BuildReact;
+elif IsDotNet $1; then
+    BuildDotNet
+else
+    Warning "Unknown project"
+fi
