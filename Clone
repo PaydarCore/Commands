@@ -12,11 +12,11 @@ function ValidateGitHubAccessTokenFile()
 function GetJson()
 {
     export Program=Curl
-    export accessToken=$(cat /LocalSecrets/GitHubAccessToken)
+    export accessToken=$(cat /LocalSecrets/GitHubAccessToken | xargs)
     if [[ $Program == Curl ]]; then
         Response=$(curl --silent -H "Authorization: token $accessToken" "https://api.github.com/orgs/$Organization/repos?per_page=100&page=$1")
     else
-        wget -q -d -S --show-progress --header="Authorization: token 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" "https://api.github.com/orgs/$Organization/repos?per_page=100&page=$1" -O /Temp/RepositoriesJson
+        wget -q -d -S --show-progress --header="Authorization: token $accessToken" "https://api.github.com/orgs/$Organization/repos?per_page=100&page=$1" -O /Temp/RepositoriesJson
         Divide
         Info "Got the response"
         Divide
