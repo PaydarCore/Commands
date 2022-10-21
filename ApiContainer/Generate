@@ -8,7 +8,7 @@ if [[ $Name == "" ]]; then
     Extract
 else
     Name=${Name/\//}
-    find /PaydarCore -type d -not -path "*/Generation/*" -name $Name 2>/dev/null |
+    find /PaydarCore -type d -not -path "*/Generation/*" -not -path "*/Database/*" -name $Name 2>/dev/null |
     while read dir;
     do
         if [ -f $dir/Database.json ]; then
@@ -32,8 +32,7 @@ if [ -z ${IsBuilt+x} ] && [ ! -d /PaydarCore/Generation/bin ]; then
     dotnet build /PaydarCore/Generation
     chmod -R 777 /PaydarCore/Generation
 fi
-
-dotnet run $Directory $Organization $Repository $Runnable $Mode
+dotnet run Directory=$Directory Organization=$Organization Repository=$Repository Runnable=$Runnable Mode=$Mode
 
 prompt=$(sudo -nv 2>&1)
 if [ $? -eq 0 ]; then
