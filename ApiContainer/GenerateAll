@@ -12,6 +12,7 @@ fi
 
 export IsBuilt=1;
 
+export Mode=GenerateAll
 
 cd /PaydarCore/Generation
 

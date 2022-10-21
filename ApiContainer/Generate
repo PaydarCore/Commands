@@ -33,7 +33,7 @@ if [ -z ${IsBuilt+x} ] && [ ! -d /PaydarCore/Generation/bin ]; then
     chmod -R 777 /PaydarCore/Generation
 fi
 
-dotnet run $Directory $Organization $Repository $Runnable
+dotnet run $Directory $Organization $Repository $Runnable $Mode
 
 prompt=$(sudo -nv 2>&1)
 if [ $? -eq 0 ]; then
