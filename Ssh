@@ -1,1 +1,1 @@
-ssh root@server7.paydardata.com
+ssh -A root@server7.paydardata.com
