@@ -1,5 +1,7 @@
 . Load
 
+Build
+
 cd /PaydarCore/Database
 
 if [ ! -d /PaydarCore/Database/bin ]; then

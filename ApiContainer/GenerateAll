@@ -67,3 +67,5 @@ while read Dependency; do
 done <<< "$(echo Entities; echo Globalization; echo Accounts; grep -xFf /$Repository/Common/Dependencies /PaydarCore/Generation/Order; grep -vxFf /PaydarCore/Generation/Order /$Repository/Common/Dependencies)"
 
 FixSynonyms
+
+InsertData
