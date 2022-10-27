@@ -48,8 +48,6 @@ fi
 
 Info "Organization: $Organization"
 
-cd /$Organization
-
 ValidateGitHubAccessTokenFile
 
 GetJson 1
@@ -63,19 +61,23 @@ if [[ $Response == *"Not Found"* ]]; then
     # Response=$(curl --silent -H "Authorization: token $accessToken" "https://api.github.com/repos/PaydarNode/$Organization")
     if [[ $Response == *"Not Found"* ]]; then
         Error $Response
+        exit
     else
         git -C /PaydarNode clone git@github.com:PaydarNode/$Organization
+        exit
     fi
-else
-
-    if [ ! -d /$Organization ]; then
-        sudo mkdir /$Organization
-        sudo chmod 777 /$Organization
-    fi
-    LoopAndClone
-    GetJson 2
-    LoopAndClone
 fi
+
+if [ ! -d /$Organization ]; then
+    sudo mkdir /$Organization
+    sudo chmod 777 /$Organization
+fi
+
+cd /$Organization
+
+LoopAndClone
+GetJson 2
+LoopAndClone
 
 rm -rf /Temp/RepositoriesJson
 
