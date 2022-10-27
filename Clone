@@ -67,6 +67,11 @@ if [[ $Response == *"Not Found"* ]]; then
         git -C /PaydarNode clone git@github.com:PaydarNode/$Organization
     fi
 else
+
+    if [ ! -d /$Organization ]; then
+        sudo mkdir /$Organization
+        sudo chmod 777 /$Organization
+    fi
     LoopAndClone
     GetJson 2
     LoopAndClone
