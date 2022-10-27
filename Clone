@@ -59,13 +59,8 @@ fi
 
 if [[ $Response == *"Not Found"* ]]; then
     # Response=$(curl --silent -H "Authorization: token $accessToken" "https://api.github.com/repos/PaydarNode/$Organization")
-    if [[ $Response == *"Not Found"* ]]; then
-        Error $Response
-        exit
-    else
-        git -C /PaydarNode clone git@github.com:PaydarNode/$Organization
-        exit
-    fi
+    git -C /PaydarNode clone git@github.com:PaydarNode/$Organization
+    exit
 fi
 
 if [ ! -d /$Organization ]; then
