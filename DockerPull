@@ -1,14 +1,5 @@
 #!/bin/bash
 
-StoragePath=$(sudo lsblk -l | grep '/media/' | awk '{print $7}')
-
-for DockerImageFile in `find $StoragePath/DockerImages -type f -print`; do
+for DockerImageFile in `find /media/$USER/Repository/Docker -type f -print`; do
   docker load < $DockerImageFile
 done
-
-exit
-
-docker pull paydar/dotnet
-docker pull paydar/sql
-docker pull paydar/react
-docker pull paydar/next
