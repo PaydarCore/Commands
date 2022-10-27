@@ -46,9 +46,10 @@ if [[ $Organization == "" ]]; then
     exit;
 fi
 
-Info "Organization: $Organization"
-
 ValidateGitHubAccessTokenFile
+
+cd /$Organization
+Info "Organization: $Organization"
 
 GetJson 1
 
@@ -62,13 +63,6 @@ if [[ $Response == *"Not Found"* ]]; then
     git -C /PaydarNode clone git@github.com:PaydarNode/$Organization
     exit
 fi
-
-if [ ! -d /$Organization ]; then
-    sudo mkdir /$Organization
-    sudo chmod 777 /$Organization
-fi
-
-cd /$Organization
 
 LoopAndClone
 GetJson 2
