@@ -5,21 +5,24 @@ sudo apt-get update
 sudo apt-get -u upgrade
 
 echo "Create archive folder on usb stick"
-mkdir /media/alireza/19044_1466/archives
-sudo chmod -R 777 /media/alireza/19044_1466/archives
+mkdir /media/alireza/Repository
+sudo chmod -R 777 /media/alireza/Repository
 
 echo "Copy files from cache to repository"
-cp /var/cache/apt/archives/*.deb /media/alireza/19044_1466/archives
+cp /var/cache/apt/archives/*.deb /media/alireza/Repository
 
 echo "Change to Repository Directory"
-cd /media/alireza/19044_1466/archives
+cd /media/alireza/Repository
+sudo mkdir binary
+sudo chmod -R 777 binary
 
 echo "Make Packages.gz file for synaptic"
 sudo apt-get install build-essential
-sudo dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz
+sudo dpkg-scanpackages binary /dev/null | gzip -9c > Packages.gz
+
 echo "Repository is up to date"
 
 # Edit your /etc/apt/sources.list file.
 # sudo gedit /etc/apt/sources.list
 # And insert this on a new line (preferably the first):
-# deb file:/media/alireza/19044_1466/archives/ /
+# deb file:/media/alireza/Repository/ /
