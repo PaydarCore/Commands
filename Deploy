@@ -86,4 +86,4 @@ Info Deploying the project...
 
 ssh root@server7.paydardata.com "chmod 777 $ServerPath/$TargetDomain.telemetry"
 ssh root@server7.paydardata.com "chmod 777 $ServerPath/$TargetDomain.deployer"
-ssh root@server7.paydardata.com "$ServerPath/$TargetDomain.deployer"
+# ssh root@server7.paydardata.com "$ServerPath/$TargetDomain.deployer"
