@@ -7,6 +7,8 @@ function SetJsConfig()
     declare -A Aliases
     Aliases[Pages]=pages/Exports
     Aliases[Base]=Base/Exports
+    Aliases[Hooks]=Hooks/Exports
+    Aliases[Contexts]=Contexts/Exports
     # Aliases[Branding]=public/Branding/Exports
     while IFS=$'\t' read Dir
     do
