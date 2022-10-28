@@ -26,3 +26,15 @@ echo "Repository is up to date"
 # sudo gedit /etc/apt/sources.list
 # And insert this on a new line (preferably the first):
 # deb [trusted=yes] file:/media/$USER/Repository/ ./
+
+
+# # second method:
+# # download packages:
+
+# mkdir -p /Temp/Packages/anydesk
+# cd /Temp/Packages/anydesk
+# for i in $(apt-cache depends anydesk | grep -E 'Depends|Recommends|Suggests' | cut -d ':' -f 2,3 | sed -e s/'<'/''/ -e s/'>'/''/); do sudo apt-get download $i 2>>errors.txt; done
+
+# # or 
+
+# apt-get download $(apt-rdepends <package>|grep -v "^ " |grep -v "^libc-dev$")
