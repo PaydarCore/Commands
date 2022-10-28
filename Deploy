@@ -58,32 +58,31 @@ Info Built output is compressed
 export TargetDomain=$TargetDomain
 export ServerPath=$ServerPath
 export ProjectPath=$ProjectPath
+export ServerPort=$(ssh root@server7.paydardata.com "/PaydarCore/ServerLinux/Commands/Port $TargetDomain")
 envsubst < /PaydarCore/ServerLinux/Commands/DeployerTemplate > /Build/$TargetDomain.deployer
 envsubst < /PaydarCore/ServerLinux/Commands/TelemetryTemplate > /Build/$TargetDomain.telemetry
 
 Divide
 Info Removing old deployment...
 
-ssh root@server7.paydardata.com "rm -rf $ServerPath/$TargetDomain.deployer $ServerPath/publish.zip"
+# ssh root@server7.paydardata.com "rm -rf $ServerPath/$TargetDomain.deployer $ServerPath/publish.zip"
 
-Success '100% Done'
-Info Old deployment files deleted
-Divide
+# Success '100% Done'
+# Info Old deployment files deleted
 
-Info Uploading started...
+# Divide
+# Info Uploading started...
 
-chmod 777 /Build/$TargetDomain.deployer
-chmod 777 /Build/$TargetDomain.telemetry
-scp /Build/$TargetDomain.deployer root@server7.paydardata.com:$ServerPath
-scp /Build/$TargetDomain.telemetry root@server7.paydardata.com:$ServerPath
-scp /Build/publish.zip root@server7.paydardata.com:$ServerPath
+# scp /Build/$TargetDomain.deployer root@server7.paydardata.com:$ServerPath
+# scp /Build/$TargetDomain.telemetry root@server7.paydardata.com:$ServerPath
+# scp /Build/publish.zip root@server7.paydardata.com:$ServerPath
 
-Success '100% Done'
-Info Project uploaded.
-Divide
+# Success '100% Done'
+# Info Project uploaded.
 
-Info Deploying the project...
+# Divide
+# Info Deploying the project...
 
-ssh root@server7.paydardata.com "chmod 777 $ServerPath/$TargetDomain.telemetry"
-ssh root@server7.paydardata.com "chmod 777 $ServerPath/$TargetDomain.deployer"
+# ssh root@server7.paydardata.com "chmod 777 $ServerPath/$TargetDomain.telemetry"
+# ssh root@server7.paydardata.com "chmod 777 $ServerPath/$TargetDomain.deployer"
 # ssh root@server7.paydardata.com "$ServerPath/$TargetDomain.deployer"
