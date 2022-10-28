@@ -58,7 +58,7 @@ Info Built output is compressed
 export TargetDomain=$TargetDomain
 export ServerPath=$ServerPath
 export ProjectPath=$ProjectPath
-export ServerPort=$ServerPort
+export ServerPort=$(ssh root@server7.paydardata.com "/PaydarCore/ServerLinux/Commands/Port $TargetDomain")
 envsubst < /PaydarCore/ServerLinux/Commands/DeployerTemplate > /Build/$TargetDomain.deployer
 envsubst < /PaydarCore/ServerLinux/Commands/TelemetryTemplate > /Build/$TargetDomain.telemetry
 
