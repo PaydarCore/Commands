@@ -1,5 +1,12 @@
 #!/bin/bash
 
-for DockerImageFile in `find /media/$USER/Repository/Docker -type f -print`; do
-  docker load < $DockerImageFile
-done
+if [ -d /media/$USER/Repository/Docker ]; then
+  for DockerImageFile in `find /media/$USER/Repository/Docker -type f -print`; do
+    docker load < $DockerImageFile;
+  done
+else
+  docker pull paydar/dotnet
+  docker pull paydar/sql
+  docker pull paydar/react
+  docker pull paydar/next
+fi
