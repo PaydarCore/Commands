@@ -2,10 +2,8 @@
 
 Extract
 
+sudo rm -rf /$Organization/$Repository
+
 cd /$Organization
 
-sudo rm -rf $Repository
-
 git clone git@github.com:$Organization/$Repository
-
-cd $Repository
