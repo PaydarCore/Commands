@@ -35,8 +35,8 @@ export ComposePath=/Temp/$Organization/$Repository/$Project/DockerCompose.yml
 sudo mkdir -p $(dirname $ComposePath)
 
 
-if IsRazorPages $1; then
-    SetupRazorPages;
+if IsRazor $1; then
+    SetupRazor;
 elif IsNext $1; then
     SetupNext;
 elif IsReact $1; then
