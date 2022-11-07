@@ -13,7 +13,7 @@ if [ $PWD = '/' ]; then
     exit;
 fi
 
-if ! (IsNext || IsReact || IsDotNet); then
+if ! (IsRazor || IsNext || IsReact || IsDotNet); then
     Error "Unknown project";
     exit;
 fi
