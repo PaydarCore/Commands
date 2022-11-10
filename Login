@@ -48,6 +48,26 @@ function CreateFilesAndFolders()
     sudo chmod -R 777 /LocalSecrets
 }
 
+function VpnAccount()
+{
+    if [[ $(cat /LocalSecrets/Vpn | wc -c) < 2 ]]; then
+        Divide
+        Info 'Please give me the VPN server address, for example: yourserver:443'
+        read Server
+        Divide
+        Info 'Please enter your VPN username, for example: paydar'
+        read Username
+        Divide
+        Info 'Please enter your VPN password, for example: p@yd@r'
+        read Password
+        echo "Server=$Server" > /LocalSecrets/Vpn
+        echo "Username=$Username" >> /LocalSecrets/Vpn
+        echo "Password=$Password" >> /LocalSecrets/Vpn
+        echo 'printf "$Username\n$Password" | sudo openconnect $Server' >> /LocalSecrets/Vpn
+        sudo chmod 777 /LocalSecrets/Vpn
+    fi
+}
+
 function GitHubAccessToken()
 {
     if [[ $(cat /LocalSecrets/GitHubAccessToken | wc -c) < 2 ]]; then
@@ -91,10 +111,11 @@ function GitHubUserEmail()
 }
 
 Divide
-Info "Paydar Holding Athentications"
+Info "Paydar Holding Infra Authentication"
 Divide
 
 CreateFilesAndFolders
+VpnAccount
 GitHubAccessToken
 GitHubUserName
 GitHubUserEmail
