@@ -20,6 +20,11 @@ if [[ $ProjectPath == "" ]]; then
     exit;
 fi
 
+IsSecure=$(cat /LocalSecrets/Deployment/$1 2>/dev/null | grep IsSecure: | cut -d ' ' -f2)
+if [[ $IsSecure == "" ]]; then 
+    IsSecure=0
+fi
+
 Info Validating nginx config on server...
 if [[ ! `ssh root@server7.paydardata.com test -f /etc/nginx/conf.d/$TargetDomain.conf && echo exists` ]] ; then
     Error "$TargetDomain is not hosted on server"
@@ -58,6 +63,7 @@ Info Built output is compressed
 export TargetDomain=$TargetDomain
 export ServerPath=$ServerPath
 export ProjectPath=$ProjectPath
+export IsSecure=$IsSecure
 export ServerPort=$(ssh root@server7.paydardata.com "/PaydarCore/ServerLinux/Commands/Port $TargetDomain")
 envsubst < /PaydarCore/ServerLinux/Commands/DeployerTemplate > /Build/$TargetDomain.deployer
 envsubst < /PaydarCore/ServerLinux/Commands/TelemetryTemplate > /Build/$TargetDomain.telemetry
