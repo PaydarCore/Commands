@@ -53,6 +53,8 @@ Divide
 
 cd /Build
 
+export Hash=$(cat /Build/hash)
+
 Info Compressing the built output...
 
 zip -rq publish.zip .next public next.config.js next.js package.json
