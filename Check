@@ -25,8 +25,8 @@ else
     Target=$PWD/$Target
 fi
 
-if [ -f $Target ]; then
-    /PaydarCore/Policies/Run.py $Target
+if [ -f "$Target" ]; then
+    /PaydarCore/Policies/Run.py "$Target"
 else
     find -H $Target \
     -mindepth 1 \
@@ -38,6 +38,6 @@ else
     -not -path "*/Migration/*" 2>/dev/null |
     while read File;
     do
-        /PaydarCore/Policies/Run.py $File
+        /PaydarCore/Policies/Run.py "$File"
     done
 fi
