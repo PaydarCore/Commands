@@ -13,6 +13,9 @@ function SetJsConfig()
     # Aliases[Branding]=public/Branding/Exports
     while IFS=$'\t' read Dir
     do
+        if [[ $Dir == "" ]]; then
+            continue;
+        fi
         Alias=$(basename $Dir)
         Path="$Dir/Exports"
         ReplacedPath="${Path/\/$Repository\/$Project\//}"
@@ -21,7 +24,7 @@ function SetJsConfig()
         IFS=$'\n' SortedAliases=($(sort <<<"${Aliases[@]}"))
         unset IFS
 
-    done <<< "$(find /$Repository/$Project/Components -mindepth 1 -type f -name 'Exports.js' | sort | xargs dirname)"
+    done <<< "$(find /$Repository/$Project/Components -mindepth 1 -type f -name 'Exports.js' | sort | xargs -r dirname)"
 
     jq -n --argjson n "${#Aliases[@]}" '
         { compilerOptions: {
