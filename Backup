@@ -9,9 +9,14 @@ if [[ $Organization == "" ]]; then
     exit;
 fi
 
-sudo mkdir -p /Backup$PWD
-sudo chmod -R 777 /Backup
-
 Target=$PWD
+Parent=$(dirname $PWD);
+BackupFilename=basename $PWD
+BackupPath
 
-rsync -r --progress $Target /Backup$Target --exclude .git --exclude bin --exclude obj --exclude node_modules
+
+sudo mkdir -p /Backup$Parent
+sudo chmod -R 777 /Backup$Parent
+
+# rsync -r --progress $Target /Backup$Target --exclude .git --exclude bin --exclude obj --exclude node_modules
+zip -r $Filename.zip

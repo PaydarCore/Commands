@@ -72,7 +72,8 @@ rm -rf /Temp/RepositoriesJson
 
 find /PaydarCore /PaydarNode -maxdepth 2  -type d -name ".git" 2>/dev/null | xargs sudo chmod -R 777
 
-Safe
+sudo chmod -R 777 /PaydarCore
+sudo chmod -R 777 /PaydarNode
 
 FixGit
 

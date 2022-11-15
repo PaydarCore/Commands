@@ -1,8 +1,18 @@
 . Load
 
+Info 'Fixing git ...'
+
 FindGits | 
-while read GitDirectory;
-do
-    export Parent=$(dirname $GitDirectory)
-    git -C $Parent config pull.rebase false
-done
+{
+    while read gitFolder; do
+        parent=$(dirname $gitFolder);
+        git config --global --add safe.directory $parent
+        git -C $parent config pull.rebase false
+        git -C $parent config core.filemode false
+    done
+    wait
+}
+
+Divide
+Success "Fiexd git"
+Divide

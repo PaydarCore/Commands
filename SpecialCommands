@@ -2,4 +2,6 @@
 
 . Load
 
+sudo rm -rf /PaydarNode/BartekNext
+
 Success Completed
