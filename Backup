@@ -1,3 +1,17 @@
 #!/bin/bash
 
 . Load
+
+Extract
+
+if [[ $Organization == "" ]]; then 
+    Error 'Its not an organization path';
+    exit;
+fi
+
+sudo mkdir -p /Backup$PWD
+sudo chmod -R 777 /Backup
+
+Target=$PWD
+
+rsync -r --progress $Target /Backup$Target --exclude .git --exclude bin --exclude obj --exclude node_modules
