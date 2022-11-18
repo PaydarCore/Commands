@@ -46,7 +46,6 @@ elif IsDotNet $1; then
 else
     Warning "Unknown project"
 fi
-
 if [[ $ForBuild == "" ]]; then
     if IsDotNet $1 && [[ $Repository != "Storage" ]]; then
         cd /PaydarNode/Storage/Api
