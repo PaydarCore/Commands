@@ -11,6 +11,11 @@ function SetJsConfig()
     Aliases[Hooks]=Hooks/Exports
     Aliases[Contexts]=Contexts/Exports
     # Aliases[Branding]=public/Branding/Exports
+    while read ModulePath
+    do
+        ModuleName=$(echo $ModulePath | cut -d'/' -f5)
+        Aliases[$ModuleName]="Modules/$ModuleName/Exports.js"
+    done <<< "$(find /$Repository/$Project/Modules -name Exports.js)"
     while IFS=$'\t' read Dir
     do
         if [[ $Dir == "" ]]; then
