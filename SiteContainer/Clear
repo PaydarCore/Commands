@@ -1,0 +1,1 @@
+find /$Repository/$Project/cache | xargs rm -rf
