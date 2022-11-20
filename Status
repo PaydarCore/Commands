@@ -41,7 +41,7 @@ Divide
 Start
 function Check() 
 {
-    . /HolismHolding/Scripts/Message
+    . /PaydarCore/Scripts/Message
     gitFolder="$1"
     parent=$(dirname $gitFolder);
     Status=$(git -C $parent status)
