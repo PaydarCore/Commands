@@ -14,6 +14,8 @@ function GetJson()
     export Program=Curl
     export accessToken=$(cat /LocalSecrets/GitHubAccessToken | xargs)
     if [[ $Program == Curl ]]; then
+        Success curl --silent -H "Authorization: token $accessToken" "https://api.github.com/orgs/$Organization/repos?per_page=100&page=$1"
+        exit
         Response=$(curl --silent -H "Authorization: token $accessToken" "https://api.github.com/orgs/$Organization/repos?per_page=100&page=$1")
     else
         wget -q -d -S --show-progress --header="Authorization: token $accessToken" "https://api.github.com/orgs/$Organization/repos?per_page=100&page=$1" -O /Temp/RepositoriesJson
