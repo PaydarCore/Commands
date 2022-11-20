@@ -48,6 +48,9 @@ function Check()
     if [[ $Status == *Changes* ]] || [[ $Status == *Untracked* ]]; then
         Info $parent;
         git -C $parent status --porcelain
+        if [ -d /PaydarCore/Policies ]; then
+            /PaydarCore/Policies/Run.sh $parent
+        fi
         Divide
     elif [[ $Status == *ahead* ]]; then
         Warning "Push $parent";
