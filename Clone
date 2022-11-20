@@ -41,6 +41,9 @@ function LoopAndClone()
 
 Organization=$1
 
+sudo mkdir -p /$Organization
+sudo chmod -R 777 /$Organization
+
 if [[ $Organization == "" ]]; then 
     Error 'Organization name is not provided';
     exit;
