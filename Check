@@ -1,3 +1,13 @@
+# To Check one policy
+# First comment all other policies in the main Run.py
+# Then comment all other policies in the corresponding Run.py (React, or Site, or Common, et.)
+# cd /PaydarNode
+# Check 1>/Temp/CheckResults 2>/Temp/CheckErrors
+# In another terminal tab
+# tail -f /Temp/CheckResults
+# In another terminal tab
+# tail -f /Temp/CheckErrors
+
 . Load
 
 sudo echo ""
@@ -36,6 +46,7 @@ else
     -not -path "*/.github/*" \
     -not -path "*/Favicons/*" \
     -not -path "*/Migration/*" 2>/dev/null |
+    sort |
     while read File;
     do
         /PaydarCore/Policies/Run.py "$File"
