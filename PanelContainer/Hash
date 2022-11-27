@@ -1,0 +1,2 @@
+export Hash=$(sha1sum package.json | awk '{print $1}')
+echo $Hash
