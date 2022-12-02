@@ -6,4 +6,4 @@ sudo ""
 
 clear
 
-http --follow --verbose POST https://$1 Content-Type:application/json $2
+http --follow --verbose POST https://$1 Content-Type:application/json "$@"
