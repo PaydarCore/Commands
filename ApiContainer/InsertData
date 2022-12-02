@@ -21,4 +21,4 @@ Divide
 
 Files=$(find /PaydarCore /PaydarNode -name "Initial.sql" -not -path "*/Database/*" -not -path "*/Generation/*" -not -path "*/SqlServer/*" -printf '%p ' 2>/dev/null)
 
-dotnet run $Files
+dotnet run $Repository $Files
