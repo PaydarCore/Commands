@@ -4,4 +4,4 @@ if [[ $Count == "" ]]; then
     Count=20
 fi
 
-ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem | head -$Count
+ps -eo pid,ppid,cmd:50,%mem,%cpu --sort=-%mem | head -$Count
