@@ -8,19 +8,19 @@ if [[ $TargetDomain == "" ]]; then
     exit;
 fi
 
-ServerPath=$(cat /LocalSecrets/Deployment/$1 2>/dev/null | grep ServerPath: | cut -d ' ' -f2)
+ServerPath=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep ServerPath: | cut -d ' ' -f2)
 if [[ $ServerPath == "" ]]; then 
-    Error 'ServerPath is not available in the LocalSecrets';
+    Error 'ServerPath is not available in the Deployment Data';
     exit;
 fi
 
-ProjectPath=$(cat /LocalSecrets/Deployment/$1 2>/dev/null | grep ProjectPath: | cut -d ' ' -f2)
+ProjectPath=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep ProjectPath: | cut -d ' ' -f2)
 if [[ $ProjectPath == "" ]]; then 
-    Error 'ProjectPath is not available in the LocalSecrets';
+    Error 'ProjectPath is not available in the Deployment Data';
     exit;
 fi
 
-IsSecure=$(cat /LocalSecrets/Deployment/$1 2>/dev/null | grep IsSecure: | cut -d ' ' -f2)
+IsSecure=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep IsSecure: | cut -d ' ' -f2)
 if [[ $IsSecure == "" ]]; then 
     IsSecure=0
 fi

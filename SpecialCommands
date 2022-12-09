@@ -2,6 +2,8 @@
 
 . Load
 
-sudo rm -rf /PaydarNode/BartekNext
+if [ -d /PaydarCore/Deployment ]; then
+    Success /PaydarCore/Deployment exist
+fi
 
 Success Completed
