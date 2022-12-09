@@ -2,8 +2,8 @@
 
 . Load
 
-if [ -d /PaydarCore/Deployment ]; then
-    Success /PaydarCore/Deployment exist
+if [ ! -d /PaydarCore/Deployment ]; then
+    git -C /PaydarCore clone git@github.com:PaydarCore/Deployment
 fi
 
 Success Completed
