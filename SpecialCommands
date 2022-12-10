@@ -3,7 +3,7 @@
 . Load
 
 if [ ! -d /PaydarCore/Deployment ]; then
-    git -C /PaydarCore clone git@github.com:PaydarCore/Deployment
+    Clone PaydarCore
 fi
 
 Success Completed
