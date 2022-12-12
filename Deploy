@@ -10,19 +10,19 @@ fi
 
 Hostname=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep Hostname: | cut -d ' ' -f2)
 if [[ $Hostname == "" ]]; then 
-    Error 'ServerPath is not available in the Deployment Data';
+    Error 'Hostname is not available in the Local Hosts';
     exit;
 fi
 
 ServerPath=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep ServerPath: | cut -d ' ' -f2)
 if [[ $ServerPath == "" ]]; then 
-    Error 'ServerPath is not available in the Deployment Data';
+    Error 'ServerPath is not available in the Local Hosts';
     exit;
 fi
 
 ProjectPath=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep ProjectPath: | cut -d ' ' -f2)
 if [[ $ProjectPath == "" ]]; then 
-    Error 'ProjectPath is not available in the Deployment Data';
+    Error 'ProjectPath is not available in the Local Hosts';
     exit;
 fi
 
@@ -69,6 +69,7 @@ Success '100% Done'
 Info Built output is compressed
 
 export TargetDomain=$TargetDomain
+export Hostname=$Hostname
 export ServerPath=$ServerPath
 export ProjectPath=$ProjectPath
 export IsSecure=$IsSecure
