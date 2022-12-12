@@ -1,4 +1,6 @@
 #!/bin/bash
 . Load
 
+sudo chmod -R 777 /PaydarCore/Commands
+
 Success Completed
