@@ -1,9 +1,4 @@
 #!/bin/bash
-
 . Load
-
-if [ ! -d /PaydarCore/Deployment ]; then
-    Clone PaydarCore
-fi
 
 Success Completed
