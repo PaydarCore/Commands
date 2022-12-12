@@ -8,6 +8,12 @@ if [[ $TargetDomain == "" ]]; then
     exit;
 fi
 
+Hostname=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep Hostname: | cut -d ' ' -f2)
+if [[ $Hostname == "" ]]; then 
+    Error 'ServerPath is not available in the Deployment Data';
+    exit;
+fi
+
 ServerPath=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep ServerPath: | cut -d ' ' -f2)
 if [[ $ServerPath == "" ]]; then 
     Error 'ServerPath is not available in the Deployment Data';
@@ -26,7 +32,7 @@ if [[ $IsSecure == "" ]]; then
 fi
 
 Info Validating nginx config on server...
-if [[ ! `ssh root@server7.paydardata.com test -f /etc/nginx/conf.d/$TargetDomain.conf && echo exists` ]] ; then
+if [[ ! `ssh root@$Hostname test -f /etc/nginx/conf.d/$TargetDomain.conf && echo exists` ]] ; then
     Error "$TargetDomain is not hosted on server"
     exit
 fi
@@ -34,7 +40,7 @@ Success "$TargetDomain.conf exists"
 Divide
 
 Info Validating server path...
-if [[ ! `ssh root@server7.paydardata.com test -d $ServerPath && echo exists` ]] ; then
+if [[ ! `ssh root@$Hostname test -d $ServerPath && echo exists` ]] ; then
     Error "$ServerPath directory not exist on server"
     exit
 fi
@@ -66,14 +72,14 @@ export TargetDomain=$TargetDomain
 export ServerPath=$ServerPath
 export ProjectPath=$ProjectPath
 export IsSecure=$IsSecure
-export ServerPort=$(ssh root@server7.paydardata.com "/PaydarCore/ServerLinux/Commands/Port $TargetDomain")
+export ServerPort=$(ssh root@$Hostname "/PaydarCore/ServerLinux/Commands/Port $TargetDomain")
 envsubst < /PaydarCore/ServerLinux/Commands/DeployerTemplate > /Build/$TargetDomain.deployer
 envsubst < /PaydarCore/ServerLinux/Commands/TelemetryTemplate > /Build/$TargetDomain.telemetry
 
 Divide
 Info Removing old deployment...
 
-ssh root@server7.paydardata.com "rm -rf $ServerPath/$TargetDomain.deployer $ServerPath/publish.zip"
+ssh root@$Hostname "rm -rf $ServerPath/$TargetDomain.deployer $ServerPath/publish.zip"
 
 Success '100% Done'
 Info Old deployment files deleted
@@ -81,9 +87,9 @@ Info Old deployment files deleted
 Divide
 Info Uploading started...
 
-scp /Build/$TargetDomain.deployer root@server7.paydardata.com:$ServerPath
-scp /Build/$TargetDomain.telemetry root@server7.paydardata.com:$ServerPath
-scp /Build/publish.zip root@server7.paydardata.com:$ServerPath
+scp /Build/$TargetDomain.deployer root@$Hostname:$ServerPath
+scp /Build/$TargetDomain.telemetry root@$Hostname:$ServerPath
+scp /Build/publish.zip root@$Hostname:$ServerPath
 
 Success '100% Done'
 Info Project uploaded.
@@ -91,6 +97,6 @@ Info Project uploaded.
 Divide
 Info Deploying the project...
 
-ssh root@server7.paydardata.com "chmod 777 $ServerPath/$TargetDomain.telemetry"
-ssh root@server7.paydardata.com "chmod 777 $ServerPath/$TargetDomain.deployer"
-ssh root@server7.paydardata.com "$ServerPath/$TargetDomain.deployer" &
+ssh root@$Hostname "chmod 777 $ServerPath/$TargetDomain.telemetry"
+ssh root@$Hostname "chmod 777 $ServerPath/$TargetDomain.deployer"
+ssh root@$Hostname "$ServerPath/$TargetDomain.deployer" &
