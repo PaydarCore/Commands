@@ -36,7 +36,6 @@ sudo chmod -R 777 /$Organization/$Repository
 export ComposePath=/Temp/$Organization/$Repository/$Project/DockerCompose.yml
 sudo mkdir -p $(dirname $ComposePath)
 
-
 if IsRazor $1; then
     SetupRazor;
 elif IsNext $1; then
