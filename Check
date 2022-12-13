@@ -45,10 +45,11 @@ else
     -not -path "*/.git/*" \
     -not -path "*/.github/*" \
     -not -path "*/Favicons/*" \
-    -not -path "*/Migration/*" 2>/dev/null |
+    2>/dev/null |
     sort |
     while read File;
     do
         /PaydarCore/Policies/Run.py "$File"
     done
 fi
+Divide

@@ -76,6 +76,7 @@ inotifywait -m /$Repository/$Project/Components -r \
 -e move \
 -e create \
 -e delete \
+-q \
 --exclude "Exports.js" |
 while IFS=' ' read Directory Event File
 do

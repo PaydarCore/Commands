@@ -2,11 +2,11 @@
 
 . Load
 
-clear
-
 ForBuild=$1
 
 sudo echo ""
+
+clear
 
 Info "Paydar Setup"
 

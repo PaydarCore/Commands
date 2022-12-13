@@ -5,3 +5,4 @@ Info "Killing /$Repository/$Project ..."
 Divide
 
 ps -ef | grep 'next' | grep -v grep | awk '{print $2}' | xargs -r kill -9
+ps -ef | grep 'vite' | grep -v grep | awk '{print $2}' | xargs -r kill -9

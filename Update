@@ -1,6 +1,8 @@
 . Load
 
+Divide
 Warning "Test with/without VPN"
+Divide
 
 sudo apt update
 sudo apt upgrade -y

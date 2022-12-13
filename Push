@@ -14,7 +14,7 @@ if [ $Consent != 'y' ]; then
     exit;
 fi
 
-FindGits | 
+FindGits |
 {
     while read gitFolder; do
         parent=$(dirname $gitFolder);

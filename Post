@@ -6,4 +6,11 @@ sudo ""
 
 clear
 
-http --follow --verbose POST https://$1 Content-Type:application/json "$@"
+Url=$1
+
+shift
+for i in "$@"; do
+    Previous=$i
+done
+
+http --follow --verbose POST https://$Url Content-Type:application/json "$@"

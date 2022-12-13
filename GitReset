@@ -11,13 +11,13 @@ if [ $Consent != 'y' ]; then
     exit;
 fi
 
-FindGits | 
+FindGits |
 {
     while read gitFolder; do
         parent=$(dirname $gitFolder);
         echo "";
         echo $parent;
-        git -C $parent reset --hard && git -C $parent clean -fxd && echo "Reset $parent is done" &
+        (git -C $parent reset --hard && git -C $parent clean -fxd && echo "Reset $parent is done") &
     done 
     wait
 }
