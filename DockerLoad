@@ -44,13 +44,13 @@ function LoadPanel()
 
 function LoadSite()
 {
-    Info "Copying paydar/next from USB ..."
+    Info "Copying paydar/site from USB ..."
     cp $UsbRoot/PaydarSite.zip $Temp
-    Info "Unzipping paydar/next ..."
+    Info "Unzipping paydar/site ..."
     unzip PaydarSite.zip 1>/dev/null
-    Info "Loading paydar/next ..."
+    Info "Loading paydar/site ..."
     docker load < $Temp/PaydarSite
-    Success paydar/next
+    Success paydar/site
 }
 
 function LoadSql()
@@ -90,7 +90,7 @@ else
     if [[ $ImageName == "paydar/react" ]]; then
         LoadPanel
     fi
-    if [[ $ImageName == "paydar/next" ]]; then
+    if [[ $ImageName == "paydar/site" ]]; then
         LoadSite
     fi
     if [[ $ImageName == "paydar/sql" ]]; then

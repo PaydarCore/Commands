@@ -45,13 +45,13 @@ function SavePanel()
 
 function SaveSite()
 {
-    Info "Saving paydar/next ..."
-    docker save paydar/next > $Temp/PaydarSite
-    Info "Zipping paydar/next ..."
+    Info "Saving paydar/site ..."
+    docker save paydar/site > $Temp/PaydarSite
+    Info "Zipping paydar/site ..."
     zip PaydarSite.zip PaydarSite 1>/dev/null
-    Info "Copying paydar/next to USB ..."
+    Info "Copying paydar/site to USB ..."
     cp $Temp/PaydarSite.zip $UsbRoot
-    Success paydar/next
+    Success paydar/site
 }
 
 function SaveSql()
@@ -91,7 +91,7 @@ else
     if [[ $ImageName == "paydar/react" ]]; then
         SavePanel
     fi
-    if [[ $ImageName == "paydar/next" ]]; then
+    if [[ $ImageName == "paydar/site" ]]; then
         SaveSite
     fi
     if [[ $ImageName == "paydar/sql" ]]; then
