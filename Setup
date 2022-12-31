@@ -15,7 +15,7 @@ if [ $PWD = '/' ]; then
     exit;
 fi
 
-if ! (IsRazor || IsNext || IsReact || IsDotNet); then
+if ! (IsRazor || IsSite || IsReact || IsDotNet); then
     Error "Unknown project";
     exit;
 fi
@@ -38,8 +38,8 @@ sudo mkdir -p $(dirname $ComposePath)
 
 if IsRazor $1; then
     SetupRazor;
-elif IsNext $1; then
-    SetupNext;
+elif IsSite $1; then
+    SetupSite;
 elif IsReact $1; then
     SetupReact;
 elif IsDotNet $1; then

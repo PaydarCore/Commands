@@ -6,7 +6,7 @@ Stop
 
 sleep 2
 
-if IsNext $1; then
+if IsSite $1; then
     BuildNext;
 elif IsReact $1; then
     BuildReact;
