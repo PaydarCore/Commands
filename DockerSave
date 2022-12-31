@@ -1,0 +1,102 @@
+#!/bin/bash
+
+. Load
+
+sudo echo ""
+
+ImageName=$1
+
+export UsbRoot=/media/$USER/Docker
+export Temp=/Temp/Docker
+
+if [ ! -d $UsbRoot ]; then
+    Error "No USB memory is found"
+    exit
+fi
+
+sudo mkdir -p $Temp
+sudo chmod -R 777 $Temp
+
+# Warning "Use 'progress' command to see the progress!"
+
+cd $Temp
+
+function SaveApi()
+{
+    Info "Saving paydar/dotnet ..."
+    docker save paydar/dotnet > $Temp/PaydarApi
+    Info "Zipping paydar/dotnet ..."
+    zip PaydarApi.zip PaydarApi 1>/dev/null
+    Info "Copying paydar/dotnet to USB ..."
+    cp $Temp/PaydarApi.zip $UsbRoot
+    Success paydar/dotnet
+}
+
+function SavePanel()
+{
+    Info "Saving paydar/react ..."
+    docker save paydar/react > $Temp/PaydarPanel
+    Info "Zipping paydar/react ..."
+    zip PaydarPanel.zip PaydarPanel 1>/dev/null
+    Info "Copying paydar/react to USB ..."
+    cp $Temp/PaydarPanel.zip $UsbRoot
+    Success paydar/react
+}
+
+function SaveSite()
+{
+    Info "Saving paydar/next ..."
+    docker save paydar/next > $Temp/PaydarSite
+    Info "Zipping paydar/next ..."
+    zip PaydarSite.zip PaydarSite 1>/dev/null
+    Info "Copying paydar/next to USB ..."
+    cp $Temp/PaydarSite.zip $UsbRoot
+    Success paydar/next
+}
+
+function SaveSql()
+{
+    Info "Saving paydar/sql ..."
+    docker save paydar/sql > $Temp/PaydarSql
+    Info "Zipping paydar/sql ..."
+    zip PaydarSql.zip PaydarSql 1>/dev/null
+    Info "Copying paydar/sql to USB ..."
+    cp $Temp/PaydarSql.zip $UsbRoot
+    Success paydar/sql
+}
+
+Start
+
+if [[ $ImageName == "" ]]; then
+
+    SaveApi
+
+    Divide
+
+    SavePanel
+
+    Divide
+
+    SaveSite
+
+    Divide
+
+    SaveSql
+
+else
+
+    if [[ $ImageName == "paydar/dotnet" ]]; then
+        SaveApi
+    fi
+    if [[ $ImageName == "paydar/react" ]]; then
+        SavePanel
+    fi
+    if [[ $ImageName == "paydar/next" ]]; then
+        SaveSite
+    fi
+    if [[ $ImageName == "paydar/sql" ]]; then
+        SaveSql
+    fi
+fi
+
+Stop
