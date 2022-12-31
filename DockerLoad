@@ -1,0 +1,101 @@
+#!/bin/bash
+
+. Load
+
+sudo echo ""
+
+ImageName=$1
+
+export UsbRoot=/media/$USER/Docker
+export Temp=/Temp/Docker
+
+if [ ! -d $UsbRoot ]; then
+    Error "No USB memory is found"
+    exit
+fi
+
+sudo rm -rf $Temp
+sudo mkdir -p $Temp
+sudo chmod -R 777 $Temp
+
+cd $Temp
+
+function LoadApi()
+{
+    Info "Copying paydar/dotnet from USB ..."
+    cp $UsbRoot/PaydarApi.zip $Temp
+    Info "Unzipping paydar/dotnet ..."
+    unzip PaydarApi.zip 1>/dev/null
+    Info "Loading paydar/dotnet ..."
+    docker load < $Temp/PaydarApi
+    Success paydar/dotnet
+}
+
+function LoadPanel()
+{
+    Info "Copying paydar/react from USB ..."
+    cp $UsbRoot/PaydarPanel.zip $Temp
+    Info "Unzipping paydar/react ..."
+    unzip PaydarPanel.zip 1>/dev/null
+    Info "Loading paydar/react ..."
+    docker load < $Temp/PaydarPanel
+    Success paydar/react
+}
+
+function LoadSite()
+{
+    Info "Copying paydar/next from USB ..."
+    cp $UsbRoot/PaydarSite.zip $Temp
+    Info "Unzipping paydar/next ..."
+    unzip PaydarSite.zip 1>/dev/null
+    Info "Loading paydar/next ..."
+    docker load < $Temp/PaydarSite
+    Success paydar/next
+}
+
+function LoadSql()
+{
+    Info "Copying paydar/sql from USB ..."
+    cp $UsbRoot/PaydarSql.zip $Temp
+    Info "Unzipping paydar/sql ..."
+    unzip PaydarSql.zip 1>/dev/null
+    Info "Loading paydar/sql ..."
+    docker load < $Temp/PaydarSql
+    Success paydar/sql
+}
+
+Start
+
+if [[ $ImageName == "" ]]; then
+
+    LoadApi
+
+    Divide
+
+    LoadPanel
+
+    Divide
+
+    LoadSite
+
+    Divide
+
+    LoadSql
+
+else
+
+    if [[ $ImageName == "paydar/dotnet" ]]; then
+        LoadApi
+    fi
+    if [[ $ImageName == "paydar/react" ]]; then
+        LoadPanel
+    fi
+    if [[ $ImageName == "paydar/next" ]]; then
+        LoadSite
+    fi
+    if [[ $ImageName == "paydar/sql" ]]; then
+        LoadSql
+    fi
+fi
+
+Stop
