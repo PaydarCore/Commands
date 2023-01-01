@@ -8,8 +8,8 @@ sleep 2
 
 if IsSite $1; then
     BuildNext;
-elif IsReact $1; then
-    BuildReact;
+elif IsPanel $1; then
+    BuildPanel;
 elif IsDotNet $1; then
     BuildDotNet
 else

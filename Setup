@@ -15,7 +15,7 @@ if [ $PWD = '/' ]; then
     exit;
 fi
 
-if ! (IsRazor || IsSite || IsReact || IsDotNet); then
+if ! (IsRazor || IsSite || IsPanel || IsDotNet); then
     Error "Unknown project";
     exit;
 fi
@@ -40,8 +40,8 @@ if IsRazor $1; then
     SetupRazor;
 elif IsSite $1; then
     SetupSite;
-elif IsReact $1; then
-    SetupReact;
+elif IsPanel $1; then
+    SetupPanel;
 elif IsDotNet $1; then
     SetupDotNet
 else
