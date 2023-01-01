@@ -11,7 +11,7 @@ if IsSite $1; then
 elif IsPanel $1; then
     BuildPanel;
 elif IsDotNet $1; then
-    BuildDotNet
+    BuildApi
 else
     Warning "Unknown project"
 fi
