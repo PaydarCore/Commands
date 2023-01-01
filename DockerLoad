@@ -22,24 +22,24 @@ cd $Temp
 
 function LoadApi()
 {
-    Info "Copying paydar/dotnet from USB ..."
+    Info "Copying paydar/api from USB ..."
     cp $UsbRoot/PaydarApi.zip $Temp
-    Info "Unzipping paydar/dotnet ..."
+    Info "Unzipping paydar/api ..."
     unzip PaydarApi.zip 1>/dev/null
-    Info "Loading paydar/dotnet ..."
+    Info "Loading paydar/api ..."
     docker load < $Temp/PaydarApi
-    Success paydar/dotnet
+    Success paydar/api
 }
 
 function LoadPanel()
 {
-    Info "Copying paydar/react from USB ..."
+    Info "Copying paydar/panel from USB ..."
     cp $UsbRoot/PaydarPanel.zip $Temp
-    Info "Unzipping paydar/react ..."
+    Info "Unzipping paydar/panel ..."
     unzip PaydarPanel.zip 1>/dev/null
-    Info "Loading paydar/react ..."
+    Info "Loading paydar/panel ..."
     docker load < $Temp/PaydarPanel
-    Success paydar/react
+    Success paydar/panel
 }
 
 function LoadSite()
@@ -84,10 +84,10 @@ if [[ $ImageName == "" ]]; then
 
 else
 
-    if [[ $ImageName == "paydar/dotnet" ]]; then
+    if [[ $ImageName == "paydar/api" ]]; then
         LoadApi
     fi
-    if [[ $ImageName == "paydar/react" ]]; then
+    if [[ $ImageName == "paydar/panel" ]]; then
         LoadPanel
     fi
     if [[ $ImageName == "paydar/site" ]]; then

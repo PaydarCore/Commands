@@ -23,24 +23,24 @@ cd $Temp
 
 function SaveApi()
 {
-    Info "Saving paydar/dotnet ..."
-    docker save paydar/dotnet > $Temp/PaydarApi
-    Info "Zipping paydar/dotnet ..."
+    Info "Saving paydar/api ..."
+    docker save paydar/api > $Temp/PaydarApi
+    Info "Zipping paydar/api ..."
     zip PaydarApi.zip PaydarApi 1>/dev/null
-    Info "Copying paydar/dotnet to USB ..."
+    Info "Copying paydar/api to USB ..."
     cp $Temp/PaydarApi.zip $UsbRoot
-    Success paydar/dotnet
+    Success paydar/api
 }
 
 function SavePanel()
 {
-    Info "Saving paydar/react ..."
-    docker save paydar/react > $Temp/PaydarPanel
-    Info "Zipping paydar/react ..."
+    Info "Saving paydar/panel ..."
+    docker save paydar/panel > $Temp/PaydarPanel
+    Info "Zipping paydar/panel ..."
     zip PaydarPanel.zip PaydarPanel 1>/dev/null
-    Info "Copying paydar/react to USB ..."
+    Info "Copying paydar/panel to USB ..."
     cp $Temp/PaydarPanel.zip $UsbRoot
-    Success paydar/react
+    Success paydar/panel
 }
 
 function SaveSite()
@@ -85,10 +85,10 @@ if [[ $ImageName == "" ]]; then
 
 else
 
-    if [[ $ImageName == "paydar/dotnet" ]]; then
+    if [[ $ImageName == "paydar/api" ]]; then
         SaveApi
     fi
-    if [[ $ImageName == "paydar/react" ]]; then
+    if [[ $ImageName == "paydar/panel" ]]; then
         SavePanel
     fi
     if [[ $ImageName == "paydar/site" ]]; then
