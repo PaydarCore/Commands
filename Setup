@@ -43,7 +43,7 @@ elif IsSite $1; then
 elif IsPanel $1; then
     SetupPanel;
 elif IsDotNet $1; then
-    SetupDotNet
+    SetupApi
 else
     Warning "Unknown project"
 fi
