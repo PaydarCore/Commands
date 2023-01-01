@@ -53,15 +53,15 @@ function LoadSite()
     Success paydar/site
 }
 
-function LoadSql()
+function LoadDatabase()
 {
-    Info "Copying paydar/sql from USB ..."
-    cp $UsbRoot/PaydarSql.zip $Temp
-    Info "Unzipping paydar/sql ..."
-    unzip PaydarSql.zip 1>/dev/null
-    Info "Loading paydar/sql ..."
-    docker load < $Temp/PaydarSql
-    Success paydar/sql
+    Info "Copying paydar/database from USB ..."
+    cp $UsbRoot/PaydarDatabase.zip $Temp
+    Info "Unzipping paydar/database ..."
+    unzip PaydarDatabase.zip 1>/dev/null
+    Info "Loading paydar/database ..."
+    docker load < $Temp/PaydarDatabase
+    Success paydar/database
 }
 
 Start
@@ -80,7 +80,7 @@ if [[ $ImageName == "" ]]; then
 
     Divide
 
-    LoadSql
+    LoadDatabase
 
 else
 
@@ -93,8 +93,8 @@ else
     if [[ $ImageName == "paydar/site" ]]; then
         LoadSite
     fi
-    if [[ $ImageName == "paydar/sql" ]]; then
-        LoadSql
+    if [[ $ImageName == "paydar/database" ]]; then
+        LoadDatabase
     fi
 fi
 

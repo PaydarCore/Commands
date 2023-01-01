@@ -54,15 +54,15 @@ function SaveSite()
     Success paydar/site
 }
 
-function SaveSql()
+function SaveDatabase()
 {
-    Info "Saving paydar/sql ..."
-    docker save paydar/sql > $Temp/PaydarSql
-    Info "Zipping paydar/sql ..."
-    zip PaydarSql.zip PaydarSql 1>/dev/null
-    Info "Copying paydar/sql to USB ..."
-    cp $Temp/PaydarSql.zip $UsbRoot
-    Success paydar/sql
+    Info "Saving paydar/database ..."
+    docker save paydar/database > $Temp/PaydarDatabase
+    Info "Zipping paydar/database ..."
+    zip PaydarDatabase.zip PaydarDatabase 1>/dev/null
+    Info "Copying paydar/database to USB ..."
+    cp $Temp/PaydarDatabase.zip $UsbRoot
+    Success paydar/database
 }
 
 Start
@@ -81,7 +81,7 @@ if [[ $ImageName == "" ]]; then
 
     Divide
 
-    SaveSql
+    SaveDatabase
 
 else
 
@@ -94,8 +94,8 @@ else
     if [[ $ImageName == "paydar/site" ]]; then
         SaveSite
     fi
-    if [[ $ImageName == "paydar/sql" ]]; then
-        SaveSql
+    if [[ $ImageName == "paydar/database" ]]; then
+        SaveDatabase
     fi
 fi
 
