@@ -5,8 +5,8 @@ if [ -d /media/$USER/Repository/Docker ]; then
     docker load < $DockerImageFile;
   done
 else
-  docker pull paydar/dotnet
-  docker pull paydar/sql
-  docker pull paydar/react
+  docker pull paydar/api
+  docker pull paydar/database
+  docker pull paydar/panel
   docker pull paydar/site
 fi
