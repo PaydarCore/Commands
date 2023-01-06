@@ -3,4 +3,9 @@
 
 sudo chmod -R 777 /PaydarCore/Commands
 
+sudo rm -rf /PaydarCore/LanguagesApi
+sudo rm -rf /PaydarCore/SlideshowsApi
+sudo rm -rf /PaydarCore/StaticsApi
+sudo rm -rf /PaydraCore/PagesApi
+
 Success Completed
