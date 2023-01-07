@@ -32,9 +32,9 @@ function Error()
 
 function Divide()
 {
-    echo ""
+    echo
     echo "${magenta}----------${reset}"
-    echo ""
+    echo
 }
 
 function CreateFilesAndFolders()

@@ -19,7 +19,7 @@ FindGits |
     while read gitFolder; do
         parent=$(dirname $gitFolder);
         if [[ `git -C $parent status --porcelain` ]]; then
-            echo "";
+            echo;
             (
                 Info $parent;
                 git -C $parent status --porcelain

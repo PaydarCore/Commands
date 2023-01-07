@@ -2,7 +2,7 @@
 
 . Load
 
-sudo echo ""
+sudo echo
 
 ImageName=$1
 
@@ -63,6 +63,16 @@ function SaveDatabase()
     Info "Copying paydar/database to USB ..."
     cp $Temp/PaydarDatabase.zip $UsbRoot
     Success paydar/database
+function SaveImage()
+{
+    FileName=${ImageName/\//-}
+    Info "Saving $ImageName ..."
+    docker save $ImageName > $Temp/$FileName
+    Info "Zipping $ImageName ..."
+    zip $FileName.zip $FileName 1>/dev/null
+    Info "Copying $ImageName to USB ..."
+    cp $Temp/$FileName.zip $UsbRoot
+    Success $ImageName
 }
 
 Start
@@ -87,15 +97,14 @@ else
 
     if [[ $ImageName == "paydar/api" ]]; then
         SaveApi
-    fi
-    if [[ $ImageName == "paydar/panel" ]]; then
+    elif [[ $ImageName == "paydar/panel" ]]; then
         SavePanel
-    fi
-    if [[ $ImageName == "paydar/site" ]]; then
+    elif [[ $ImageName == "paydar/site" ]]; then
         SaveSite
-    fi
-    if [[ $ImageName == "paydar/database" ]]; then
+    elif [[ $ImageName == "paydar/database" ]]; then
         SaveDatabase
+    else
+        SaveImage
     fi
 fi
 

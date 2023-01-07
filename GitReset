@@ -15,7 +15,7 @@ FindGits |
 {
     while read gitFolder; do
         parent=$(dirname $gitFolder);
-        echo "";
+        echo;
         echo $parent;
         (git -C $parent reset --hard && git -C $parent clean -fxd && echo "Reset $parent is done") &
     done 

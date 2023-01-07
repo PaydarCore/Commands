@@ -6,7 +6,7 @@ FindGits |
 {
     while read gitFolder; do
         parent=$(dirname $gitFolder);
-        echo "";
+        echo;
         Info $parent;
         (git -C $parent gc --aggressive --prune; Success "Cleaned $parent") &
     done 

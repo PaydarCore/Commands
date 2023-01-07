@@ -10,7 +10,7 @@
 
 . Load
 
-sudo echo ""
+sudo echo
 
 Target=$1
 

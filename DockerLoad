@@ -2,7 +2,7 @@
 
 . Load
 
-sudo echo ""
+sudo echo
 
 ImageName=$1
 
@@ -64,6 +64,18 @@ function LoadDatabase()
     Success paydar/database
 }
 
+function LoadImage()
+{
+    FileName=${ImageName/\//-}
+    Info "Copying $ImageName from USB ..."
+    cp $UsbRoot/$FileName.zip $Temp
+    Info "Unzipping $ImageName ..."
+    unzip $FileName.zip 1>/dev/null
+    Info "Loading $ImageName ..."
+    docker load < $Temp/$FileName
+    Success $FileName
+}
+
 Start
 
 if [[ $ImageName == "" ]]; then
@@ -86,15 +98,14 @@ else
 
     if [[ $ImageName == "paydar/api" ]]; then
         LoadApi
-    fi
-    if [[ $ImageName == "paydar/panel" ]]; then
+    elif [[ $ImageName == "paydar/panel" ]]; then
         LoadPanel
-    fi
-    if [[ $ImageName == "paydar/site" ]]; then
+    elif [[ $ImageName == "paydar/site" ]]; then
         LoadSite
-    fi
-    if [[ $ImageName == "paydar/database" ]]; then
+    elif [[ $ImageName == "paydar/database" ]]; then
         LoadDatabase
+    else
+        LoadImage
     fi
 fi
 
