@@ -1,0 +1,20 @@
+#!/bin/bash
+
+. Load
+
+sudo ""
+
+clear
+
+Url=$1
+
+shift
+for i in "$@"; do
+    Previous=$i
+done
+
+for i in "$@"; do
+    set -- "${@/=/==}"
+done
+
+http --follow --verbose GET https://$Url "$@"
