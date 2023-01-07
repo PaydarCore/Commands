@@ -12,8 +12,8 @@ function SetJsConfig()
     while read ModulePath
     do
         ModuleName=$(echo $ModulePath | cut -d'/' -f5)
-        Aliases[$ModuleName]="Modules/$ModuleName/Exports.js"
-    done <<< "$(find /$Repository/$Project/Modules -name Exports.js)"
+        Aliases[$ModuleName]="Modules/$ModuleName/Exports"
+    done <<< "$(find /$Repository/$Project/Modules -name Exports.jsx)"
     while IFS=$'\t' read Dir
     do
         if [[ $Dir == "" ]]; then
@@ -27,7 +27,7 @@ function SetJsConfig()
         IFS=$'\n' SortedAliases=($(sort <<<"${Aliases[@]}"))
         unset IFS
 
-    done <<< "$(find /$Repository/$Project/Components -mindepth 1 -type f -name 'Exports.js' | sort | xargs -r dirname)"
+    done <<< "$(find /$Repository/$Project/Components -mindepth 1 -type f -name 'Exports.jsx' | sort | xargs -r dirname)"
 
     jq -n --argjson n "${#Aliases[@]}" '
         { compilerOptions: {
@@ -46,26 +46,26 @@ function SetExports()
     Content=""
     while read FileName
     do
-        FileNameWithoutExtension="${FileName/.js/}"
+        FileNameWithoutExtension="${FileName/.jsx/}"
         Content="${Content}import $FileNameWithoutExtension from './$FileNameWithoutExtension'\n"
-    done <<< "$(find $Directory -mindepth 1 -maxdepth 1 -type f -name "*.js" -not -name 'Exports.js' -printf '%f\n' | sort)"
+    done <<< "$(find $Directory -mindepth 1 -maxdepth 1 -type f -name "*.jsx" -not -name 'Exports.jsx' -printf '%f\n' | sort)"
     Content="${Content}\n"
     while read FileName
     do
-        FileNameWithoutExtension="${FileName/.js/}"
+        FileNameWithoutExtension="${FileName/.jsx/}"
         Content="${Content}export { $FileNameWithoutExtension }\n"
-    done <<< "$(find $Directory -mindepth 1 -maxdepth 1 -type f -name "*.js" -not -name 'Exports.js' -printf '%f\n' | sort)"
-    if [ -f $Directory/Exports.js ]; then
-        CurrentContent=$(cat $Directory/Exports.js)
+    done <<< "$(find $Directory -mindepth 1 -maxdepth 1 -type f -name "*.jsx" -not -name 'Exports.jsx' -printf '%f\n' | sort)"
+    if [ -f $Directory/Exports.jsx ]; then
+        CurrentContent=$(cat $Directory/Exports.jsx)
         if [[ $(echo $CurrentContent | xargs) != $(echo $Content | xargs) ]]; then
-            Info "Updating Exports.js of $Directory"
-            echo -e -n $Content > $Directory/Exports.js
+            Info "Updating Exports.jsx of $Directory"
+            echo -e -n $Content > $Directory/Exports.jsx
         else
             Success 'equal'
         fi
     else
-        Info "Creating Exports.js for the first time in $Directory"
-        echo -e -n $Content > $Directory/Exports.js
+        Info "Creating Exports.jsx for the first time in $Directory"
+        echo -e -n $Content > $Directory/Exports.jsx
     fi
 }
 
@@ -77,7 +77,7 @@ inotifywait -m /$Repository/$Project/Components -r \
 -e create \
 -e delete \
 -q \
---exclude "Exports.js" |
+--exclude "Exports.jsx" |
 while IFS=' ' read Directory Event File
 do
     export Directory
