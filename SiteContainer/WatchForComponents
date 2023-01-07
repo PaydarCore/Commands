@@ -6,11 +6,11 @@ function SetJsConfig()
 {
     declare -A Aliases
     Aliases[Base]=Base/Exports
-    Aliases[AppBase]=Base/AppExports
     Aliases[Hooks]=Hooks/Exports
     Aliases[Contexts]=Contexts/Exports
     while read ModulePath
     do
+        if [[ $ModulePath == "" ]]; then continue; fi
         ModuleName=$(echo $ModulePath | cut -d'/' -f5)
         Aliases[$ModuleName]="Modules/$ModuleName/Exports"
     done <<< "$(find /$Repository/$Project/Modules -name Exports.jsx)"
