@@ -8,43 +8,37 @@ if [[ $TargetDomain == "" ]]; then
     exit;
 fi
 
-Hostname=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep Hostname: | cut -d ' ' -f2)
-if [[ $Hostname == "" ]]; then 
-    Error 'Hostname is not available in the Local Hosts';
-    exit;
-fi
-
-ServerPath=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep ServerPath: | cut -d ' ' -f2)
+ServerPath=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep ServerPath | cut -d ' ' -f2)
 if [[ $ServerPath == "" ]]; then 
     Error 'ServerPath is not available in the Local Hosts';
     exit;
 fi
 
-ProjectPath=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep ProjectPath: | cut -d ' ' -f2)
+ProjectPath=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep ProjectPath | cut -d ' ' -f2)
 if [[ $ProjectPath == "" ]]; then 
     Error 'ProjectPath is not available in the Local Hosts';
     exit;
 fi
 
-IsSecure=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep IsSecure: | cut -d ' ' -f2)
-if [[ $IsSecure == "" ]]; then 
-    IsSecure=0
+Protocol=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep Protocol | cut -d ' ' -f2)
+if [[ $Protocol == "" ]]; then 
+    Protocol='http'
 fi
-
-Info Validating nginx config on server...
-if [[ ! `ssh root@$Hostname test -f /etc/nginx/conf.d/$TargetDomain.conf && echo exists` ]] ; then
-    Error "$TargetDomain is not hosted on server"
-    exit
-fi
-Success "$TargetDomain.conf exists"
-Divide
 
 Info Validating server path...
-if [[ ! `ssh root@$Hostname test -d $ServerPath && echo exists` ]] ; then
-    Error "$ServerPath directory not exist on server"
+if [[ ! `ssh root@$TargetDomain test -f $ServerPath/$TargetDomain.conf && echo exists` ]] ; then
+    Error "Nginx configuration is not created for $TargetDomain"
     exit
 fi
 Success "$ServerPath exists"
+Divide
+
+Info Validating nginx config on server...
+if [[ ! `ssh root@$TargetDomain test -f /etc/nginx/conf.d/$TargetDomain.conf && echo exists` ]] ; then
+    Error "Nginx is not configured for $TargetDomain"
+    exit
+fi
+Success "$TargetDomain.conf exists"
 Divide
 
 cd $ProjectPath
@@ -69,18 +63,18 @@ Success '100% Done'
 Info Built output is compressed
 
 export TargetDomain=$TargetDomain
-export Hostname=$Hostname
+export TargetDomain=$TargetDomain
 export ServerPath=$ServerPath
 export ProjectPath=$ProjectPath
-export IsSecure=$IsSecure
-export ServerPort=$(ssh root@$Hostname "/PaydarCore/ServerLinux/Commands/Port $TargetDomain")
+export Protocol=$Protocol
+export ServerPort=$(ssh root@$TargetDomain "/PaydarCore/ServerLinux/Commands/Port $TargetDomain")
 envsubst < /PaydarCore/ServerLinux/Commands/DeployerTemplate > /Build/$TargetDomain.deployer
 envsubst < /PaydarCore/ServerLinux/Commands/TelemetryTemplate > /Build/$TargetDomain.telemetry
 
 Divide
 Info Removing old deployment...
 
-ssh root@$Hostname "rm -rf $ServerPath/$TargetDomain.deployer $ServerPath/publish.zip"
+ssh root@$TargetDomain "rm -rf $ServerPath/$TargetDomain.deployer $ServerPath/publish.zip"
 
 Success '100% Done'
 Info Old deployment files deleted
@@ -88,9 +82,9 @@ Info Old deployment files deleted
 Divide
 Info Uploading started...
 
-scp /Build/$TargetDomain.deployer root@$Hostname:$ServerPath
-scp /Build/$TargetDomain.telemetry root@$Hostname:$ServerPath
-scp /Build/publish.zip root@$Hostname:$ServerPath
+scp /Build/$TargetDomain.deployer root@$TargetDomain:$ServerPath
+scp /Build/$TargetDomain.telemetry root@$TargetDomain:$ServerPath
+scp /Build/publish.zip root@$TargetDomain:$ServerPath
 
 Success '100% Done'
 Info Project uploaded.
@@ -98,6 +92,6 @@ Info Project uploaded.
 Divide
 Info Deploying the project...
 
-ssh root@$Hostname "chmod 777 $ServerPath/$TargetDomain.telemetry"
-ssh root@$Hostname "chmod 777 $ServerPath/$TargetDomain.deployer"
-ssh root@$Hostname "$ServerPath/$TargetDomain.deployer" &
+ssh root@$TargetDomain "chmod 777 $ServerPath/$TargetDomain.telemetry"
+ssh root@$TargetDomain "chmod 777 $ServerPath/$TargetDomain.deployer"
+ssh root@$TargetDomain "$ServerPath/$TargetDomain.deployer" &
