@@ -19,6 +19,6 @@ Divide
 Success "Inserted entity types"
 Divide
 
-Files=$(find /PaydarCore /PaydarNode -name "Initial.sql" -not -path "*/Database/*" -not -path "*/Generation/*" -not -path "*/SqlServer/*" -printf '%p ' 2>/dev/null)
+Files=$(find /PaydarCore /PaydarNode -name "*.sql" -not -path "*/Database/*" -not -path "*/Generation/*" -not -path "*/SqlServer/*" -printf '%p ' 2>/dev/null)
 
 dotnet run $Repository $Files
