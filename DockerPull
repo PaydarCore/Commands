@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [ -d /media/$USER/Repository/Docker ]; then
-  for DockerImageFile in `find /media/$USER/Repository/Docker -type f -print`; do
+if [ -d /media/$USER/Docker ]; then
+  for DockerImageFile in `find /media/$USER/Docker -type f -print`; do
     docker load < $DockerImageFile;
   done
 else
