@@ -10,7 +10,7 @@ if IsSite $1; then
     BuildSite;
 elif IsPanel $1; then
     BuildPanel;
-elif IsDotNet $1; then
+elif IsApi $1; then
     BuildApi
 else
     Warning "Unknown project"

@@ -60,13 +60,13 @@ Info "Compressing the built output... for $ProjectPath"
 cd /$ProjectPath
 if IsSite; then
     cd /Build
-    zip -rq publish.zip .next public next.config.js next.js package.json
+    sudo zip -rq publish.zip .next public next.config.js next.js package.json
 elif IsPanel; then
     cd /Build
-    zip -r publish.zip assets hash images index.html
-elif IsDotNet; then
+    sudo zip -r publish.zip assets hash images index.html
+elif IsApi; then
     cd /Build
-    zip -rq publish.zip
+    sudo zip publish.zip ./**
 fi
 
 Success '100% Done'
@@ -80,14 +80,14 @@ export ServerPort=$(ssh root@$TargetDomain "/PaydarCore/ServerLinux/Commands/Por
 
 cd /$ProjectPath
 if IsSite; then
-    envsubst < /PaydarCore/ServerLinux/DeployerTemplates/Site > /Build/$TargetDomain.deployer
+    sudo envsubst < /PaydarCore/ServerLinux/DeployerTemplates/Site > /Build/$TargetDomain.deployer
 elif IsPanel; then
-    envsubst < /PaydarCore/ServerLinux/DeployerTemplates/Panel > /Build/$TargetDomain.deployer
-elif IsDotNet; then
-    envsubst < /PaydarCore/ServerLinux/DeployerTemplates/Api > /Build/$TargetDomain.deployer
+    sudo envsubst < /PaydarCore/ServerLinux/DeployerTemplates/Panel > /Build/$TargetDomain.deployer
+elif IsApi; then
+    sudo envsubst < /PaydarCore/ServerLinux/DeployerTemplates/Api > /Build/$TargetDomain.deployer
 fi
 
-envsubst < /PaydarCore/ServerLinux/Commands/TelemetryTemplate > /Build/$TargetDomain.telemetry
+sudo envsubst < /PaydarCore/ServerLinux/Commands/TelemetryTemplate > /Build/$TargetDomain.telemetry
 
 Divide
 Info "Removing old deployment..."
