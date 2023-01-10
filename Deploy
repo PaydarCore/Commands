@@ -43,30 +43,34 @@ Divide
 
 cd $ProjectPath
 
-Info Building the project...
+Info "Building the project..."
 Divide
 
 Build
 
-Info Project build finished
+Info "Project build finished"
 Divide
 
 cd /Build
 
 export Hash=$(cat /Build/hash)
 
-Info Compressing the built output...
+Info "Compressing the built output... for $ProjectPath"
 
-if IsSite $1; then
+cd /$ProjectPath
+if IsSite; then
+    cd /Build
     zip -rq publish.zip .next public next.config.js next.js package.json
-elif IsPanel $1; then
-    zip -rq publish.zip assets images index.html
-elif IsDotNet $1; then
+elif IsPanel; then
+    cd /Build
+    zip -r publish.zip assets hash images index.html
+elif IsDotNet; then
+    cd /Build
     zip -rq publish.zip
 fi
 
 Success '100% Done'
-Info Built output is compressed
+Info "Built output is compressed"
 
 export TargetDomain=$TargetDomain
 export ServerPath=$ServerPath
@@ -85,25 +89,25 @@ fi
 envsubst < /PaydarCore/ServerLinux/Commands/TelemetryTemplate > /Build/$TargetDomain.telemetry
 
 Divide
-Info Removing old deployment...
+Info "Removing old deployment..."
 
 ssh root@$TargetDomain "rm -rf $ServerPath/$TargetDomain.deployer $ServerPath/publish.zip"
 
 Success '100% Done'
-Info Old deployment files deleted
+Info "Old deployment files deleted"
 
 Divide
-Info Uploading started...
+Info "Uploading started..."
 
 scp /Build/$TargetDomain.deployer root@$TargetDomain:$ServerPath
 scp /Build/$TargetDomain.telemetry root@$TargetDomain:$ServerPath
 scp /Build/publish.zip root@$TargetDomain:$ServerPath
 
 Success '100% Done'
-Info Project uploaded.
+Info "Project uploaded."
 
 Divide
-Info Deploying the project...
+Info "Deploying the project..."
 
 ssh root@$TargetDomain "chmod 777 $ServerPath/$TargetDomain.telemetry"
 ssh root@$TargetDomain "chmod 777 $ServerPath/$TargetDomain.deployer"
