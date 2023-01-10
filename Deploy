@@ -78,12 +78,13 @@ export ProjectPath=$ProjectPath
 export Protocol=$Protocol
 export ServerPort=$(ssh root@$TargetDomain "/PaydarCore/ServerLinux/Commands/Port $TargetDomain")
 
-if IsSite $1; then
-    envsubst < /PaydarCore/ServerLinux/Commands/DeployerTemplateSite > /Build/$TargetDomain.deployer
-elif IsPanel $1; then
-    envsubst < /PaydarCore/ServerLinux/Commands/DeployerTemplatePanel > /Build/$TargetDomain.deployer
-elif IsDotNet $1; then
-    envsubst < /PaydarCore/ServerLinux/Commands/DeployerTemplateApi > /Build/$TargetDomain.deployer
+cd /$ProjectPath
+if IsSite; then
+    envsubst < /PaydarCore/ServerLinux/DeployerTemplates/Site > /Build/$TargetDomain.deployer
+elif IsPanel; then
+    envsubst < /PaydarCore/ServerLinux/DeployerTemplates/Panel > /Build/$TargetDomain.deployer
+elif IsDotNet; then
+    envsubst < /PaydarCore/ServerLinux/DeployerTemplates/Api > /Build/$TargetDomain.deployer
 fi
 
 envsubst < /PaydarCore/ServerLinux/Commands/TelemetryTemplate > /Build/$TargetDomain.telemetry
