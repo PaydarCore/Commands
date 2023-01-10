@@ -51,6 +51,7 @@ Build
 Info "Project build finished"
 Divide
 
+sudo chmod 777 /Build
 cd /Build
 
 export Hash=$(cat /Build/hash)
