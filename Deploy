@@ -79,16 +79,24 @@ export ProjectPath=$ProjectPath
 export Protocol=$Protocol
 export ServerPort=$(ssh root@$TargetDomain "/PaydarCore/ServerLinux/Commands/Port $TargetDomain")
 
+Divide
+Success "Telemetry info"
+Info TargetDomain: $TargetDomain
+Info ProjectPath: $ProjectPath
+Info ServerPath: $ServerPath
+Info Protocol: $Protocol
+Info ServerPort: $ServerPort
+
 cd /$ProjectPath
 if IsSite; then
-    sudo envsubst < /PaydarCore/ServerLinux/DeployerTemplates/Site > /Build/$TargetDomain.deployer
+    envsubst < /PaydarCore/ServerLinux/DeployerTemplates/Site > /Build/$TargetDomain.deployer
 elif IsPanel; then
-    sudo envsubst < /PaydarCore/ServerLinux/DeployerTemplates/Panel > /Build/$TargetDomain.deployer
+    envsubst < /PaydarCore/ServerLinux/DeployerTemplates/Panel > /Build/$TargetDomain.deployer
 elif IsApi; then
-    sudo envsubst < /PaydarCore/ServerLinux/DeployerTemplates/Api > /Build/$TargetDomain.deployer
+    envsubst < /PaydarCore/ServerLinux/DeployerTemplates/Api > /Build/$TargetDomain.deployer
 fi
 
-sudo envsubst < /PaydarCore/ServerLinux/Commands/TelemetryTemplate > /Build/$TargetDomain.telemetry
+envsubst < /PaydarCore/ServerLinux/Commands/TelemetryTemplate > /Build/$TargetDomain.telemetry
 
 Divide
 Info "Removing old deployment..."
