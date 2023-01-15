@@ -1,0 +1,5 @@
+#!/bin/bash
+
+From=$(date -d "$(stat / | grep "Birth" | sed 's/Birth: //g')" +%s)
+Now=$(date +%s)
+date --date=@$(($Now - $From)) +'%m months, %d days, %H hours'
