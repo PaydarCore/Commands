@@ -56,7 +56,7 @@ cd /Build
 
 export Hash=$(cat /Build/hash)
 
-Info "Compressing the built output... for $ProjectPath"
+Info "Compressing the built output..."
 
 cd /$ProjectPath
 if IsSite; then
@@ -70,8 +70,10 @@ elif IsApi; then
     zip publish.zip ./**
 fi
 
-Success '100% Done'
 Info "Built output is compressed"
+Divide
+Success "Compressing Done"
+Divide
 
 export TargetDomain=$TargetDomain
 export ServerPath=$ServerPath
@@ -80,7 +82,7 @@ export Protocol=$Protocol
 export ServerPort=$(ssh root@$TargetDomain "/PaydarCore/ServerLinux/Commands/Port $TargetDomain")
 
 Divide
-Success "Telemetry info"
+Success "Telemetry Info"
 Info TargetDomain: $TargetDomain
 Info ProjectPath: $ProjectPath
 Info ServerPath: $ServerPath
@@ -103,8 +105,6 @@ Divide
 Info "Removing old deployment..."
 
 ssh root@$TargetDomain "rm -rf $ServerPath/$TargetDomain.deployer $ServerPath/publish.zip $ServerPath/$TargetDomain.telemetry"
-
-Success '100% Done'
 Info "Old deployment files deleted"
 
 Divide
@@ -114,8 +114,9 @@ scp /Build/$TargetDomain.deployer root@$TargetDomain:$ServerPath
 scp /Build/$TargetDomain.telemetry root@$TargetDomain:$ServerPath
 scp /Build/publish.zip root@$TargetDomain:$ServerPath
 
-Success '100% Done'
 Info "Project uploaded."
+Divide
+Success "Uploading Done"
 
 Divide
 Info "Deploying the project..."
