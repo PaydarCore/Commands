@@ -67,7 +67,7 @@ elif IsPanel; then
     zip -r publish.zip assets hash images index.html
 elif IsApi; then
     cd /Build
-    zip publish.zip ./**
+    zip -r publish.zip ./**
 fi
 
 Info "Built output is compressed"
