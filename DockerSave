@@ -63,6 +63,8 @@ function SaveDatabase()
     Info "Copying paydar/database to USB ..."
     cp $Temp/PaydarDatabase.zip $UsbRoot
     Success paydar/database
+}
+
 function SaveImage()
 {
     FileName=${ImageName/\//-}
