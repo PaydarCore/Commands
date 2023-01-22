@@ -1,5 +1,20 @@
 #!/bin/bash
 
-for i in $(docker ps -a -q --filter name=$1); do docker rm $i --force; done
+sudo echo
 
-docker system prune --force
+. Load
+
+clear
+
+for i in $(docker ps -a -q --filter name=$1); 
+do 
+    export Name=$(docker container inspect $i | grep "Name.*/" | cut -d'/' -f2 | cut -d'"' -f1)
+    docker rm $i --force 1>/dev/null
+    Check $Name
+done
+
+docker system prune --force 1>/dev/null
+
+Divide
+Success "Stopped all"
+Divide

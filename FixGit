@@ -2,7 +2,7 @@
 
 Info 'Fixing git ...'
 
-FindGits | 
+FindGits $1 | 
 {
     while read gitFolder; do
         parent=$(dirname $gitFolder);

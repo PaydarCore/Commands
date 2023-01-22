@@ -1,5 +1,25 @@
 #!/bin/bash
 
+. Load
+echo
+
 From=$(date -d "$(stat / | grep "Birth" | sed 's/Birth: //g')" +%s)
 Now=$(date +%s)
-date --date=@$(($Now - $From)) +'%m months, %d days, %H hours'
+export Months=$(date --date=@$(($Now - $From)) +'%m')
+export Days=$(date --date=@$(($Now - $From)) +'%d')
+if [[ $Months < "02" ]]; then
+    Info "$Months months & $Days days"
+    Divide
+    Success "Everything is good. Happy coding!"
+    Divide
+elif [[ $Months > "01" ]] && [[ $Months < "03" ]]; then
+    Info "$Months months & $Days days"
+    Divide
+    Warning "It's better to install everything again. But it's not a force. Do it in your free time."
+    Divide
+else [[ $Months > "02" ]];
+    Info "$Months months & $Days days"
+    Divide
+    Error "It's absolutely necessary to install everything again. It's a force. Do it ASAP."
+    Divide
+fi

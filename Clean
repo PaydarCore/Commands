@@ -2,16 +2,30 @@
 
 . Load
 
-FindGits |
-{
-    while read gitFolder; do
-        parent=$(dirname $gitFolder);
-        echo;
-        Info $parent;
-        (git -C $parent gc --aggressive --prune; Success "Cleaned $parent") &
-    done 
-    wait
-}
-Divide
-Success "Cleaned all"
-Divide
+clear
+
+echo
+
+Repo=$1
+
+if [[ $Repo == "" ]]; then
+
+    FindGits |
+    {
+        while read gitFolder; do
+            parent=$(dirname $gitFolder);
+            # echo;
+            #Info $parent;
+            (git -C $parent gc --aggressive --prune --quiet; Check "$parent") &
+        done 
+        wait
+    }
+    Divide
+    Success "Cleaned all"
+    Divide
+
+else
+
+    git -C $Repo gc --aggressive --prune --quiet; Success "Cleaned $parent"
+
+fi

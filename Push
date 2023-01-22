@@ -2,6 +2,8 @@
 
 . Load
 
+sudo echo
+
 Info 'Getting the current status ...'
 Status
 
