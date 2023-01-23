@@ -5,8 +5,11 @@ echo
 
 From=$(date -d "$(stat / | grep "Birth" | sed 's/Birth: //g')" +%s)
 Now=$(date +%s)
-export Months=$(date --date=@$(($Now - $From)) +'%m')
-export Days=$(date --date=@$(($Now - $From)) +'%d')
+Seconds=$(($Now-$From))
+export SecondsInDay=$((60*60*24))
+export SecondsInMonth=$(($SecondsInDay*30))
+export Months=$(($Seconds/$SecondsInMonth))
+export Days=$(( MonthSeconds=$Months*$SecondsInMonth, RemainingSeconds=$Seconds-MonthSeconds, RemainingSeconds/$SecondsInDay ))
 if [[ $Months < "02" ]]; then
     Info "$Months months & $Days days"
     Divide
