@@ -8,6 +8,11 @@ if [[ $TargetDomain == "" ]]; then
     exit;
 fi
 
+HostServer=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep HostServer | cut -d ' ' -f2)
+if [[ $HostServer == "" ]]; then 
+    HostServer=$TargetDomain
+fi
+
 ServerPath=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep ServerPath | cut -d ' ' -f2)
 if [[ $ServerPath == "" ]]; then 
     Error 'ServerPath is not available in the Local Hosts';
@@ -26,7 +31,7 @@ if [[ $Protocol == "" ]]; then
 fi
 
 Info Validating server path...
-if [[ ! `ssh root@$TargetDomain test -f $ServerPath/$TargetDomain.conf && echo exists` ]] ; then
+if [[ ! `ssh root@$HostServer test -f $ServerPath/$TargetDomain.conf && echo exists` ]] ; then
     Error "Nginx configuration is not created for $TargetDomain"
     exit
 fi
@@ -34,7 +39,7 @@ Success "$ServerPath exists"
 Divide
 
 Info Validating nginx config on server...
-if [[ ! `ssh root@$TargetDomain test -f /etc/nginx/conf.d/$TargetDomain.conf && echo exists` ]] ; then
+if [[ ! `ssh root@$HostServer test -f /etc/nginx/conf.d/$TargetDomain.conf && echo exists` ]] ; then
     Error "Nginx is not configured for $TargetDomain"
     exit
 fi
@@ -75,14 +80,16 @@ Divide
 Success "Compressing Done"
 Divide
 
+export HostServer=$HostServer
 export TargetDomain=$TargetDomain
 export ServerPath=$ServerPath
 export ProjectPath=$ProjectPath
 export Protocol=$Protocol
-export ServerPort=$(ssh root@$TargetDomain "/PaydarCore/ServerLinux/Commands/Port $TargetDomain")
+export ServerPort=$(ssh root@$HostServer "/PaydarCore/ServerLinux/Commands/Port $TargetDomain")
 
 Divide
 Success "Telemetry Info"
+Info HostServer: $HostServer
 Info TargetDomain: $TargetDomain
 Info ProjectPath: $ProjectPath
 Info ServerPath: $ServerPath
@@ -104,15 +111,15 @@ envsubst < /PaydarCore/ServerLinux/Commands/TelemetryTemplate > /Build/$TargetDo
 Divide
 Info "Removing old deployment..."
 
-ssh root@$TargetDomain "rm -rf $ServerPath/$TargetDomain.deployer $ServerPath/publish.zip $ServerPath/$TargetDomain.telemetry"
+ssh root@$HostServer "rm -rf $ServerPath/$TargetDomain.deployer $ServerPath/publish.zip $ServerPath/$TargetDomain.telemetry"
 Info "Old deployment files deleted"
 
 Divide
 Info "Uploading started..."
 
-scp /Build/$TargetDomain.deployer root@$TargetDomain:$ServerPath
-scp /Build/$TargetDomain.telemetry root@$TargetDomain:$ServerPath
-scp /Build/publish.zip root@$TargetDomain:$ServerPath
+scp /Build/$TargetDomain.deployer root@$HostServer:$ServerPath
+scp /Build/$TargetDomain.telemetry root@$HostServer:$ServerPath
+scp /Build/publish.zip root@$HostServer:$ServerPath
 
 Info "Project uploaded."
 Divide
@@ -121,6 +128,6 @@ Success "Uploading Done"
 Divide
 Info "Deploying the project..."
 
-ssh root@$TargetDomain "chmod 777 $ServerPath/$TargetDomain.telemetry"
-ssh root@$TargetDomain "chmod 777 $ServerPath/$TargetDomain.deployer"
-ssh root@$TargetDomain "$ServerPath/$TargetDomain.deployer" &
+ssh root@$HostServer "chmod 777 $ServerPath/$TargetDomain.telemetry"
+ssh root@$HostServer "chmod 777 $ServerPath/$TargetDomain.deployer"
+ssh root@$HostServer "$ServerPath/$TargetDomain.deployer" &
