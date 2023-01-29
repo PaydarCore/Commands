@@ -61,6 +61,8 @@ cd /Build
 
 export Hash=$(cat /Build/hash)
 
+Info "Hash node_$Hash"
+
 Info "Compressing the built output..."
 
 cd /$ProjectPath
