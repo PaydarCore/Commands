@@ -107,8 +107,7 @@ Info ServerPort: $ServerPort
 cd /$ProjectPath
 
 if IsSite; then
-    Warning Site works without containers
-    # envsubst < /PaydarCore/ServerLinux/DockerCompose/Site > /Build/docker-compose.yml
+    envsubst < /PaydarCore/ServerLinux/DockerCompose/Site > /Build/docker-compose.yml
 elif IsPanel; then
     envsubst < /PaydarCore/ServerLinux/DockerCompose/Panel > /Build/docker-compose.yml
 elif IsApi; then
