@@ -88,6 +88,9 @@ export ServerPath=$ServerPath
 export ProjectPath=$ProjectPath
 export Protocol=$Protocol
 export ServerPort=$(ssh root@$HostServer "/PaydarCore/ServerLinux/Commands/Port $TargetDomain")
+export Organization=$Organization
+export Repository=$Repository
+export Project=$Project
 
 Divide
 Success "Telemetry Info"
@@ -99,6 +102,14 @@ Info Protocol: $Protocol
 Info ServerPort: $ServerPort
 
 cd /$ProjectPath
+
+if IsSite; then
+    # envsubst < /PaydarCore/ServerLinux/DockerComposeTemplates/Site > /Build/docker-compose.yml
+elif IsPanel; then
+    envsubst < /PaydarCore/ServerLinux/DockerComposeTemplates/Panel > /Build/docker-compose.yml
+elif IsApi; then
+    envsubst < /PaydarCore/ServerLinux/DockerComposeTemplates/Api > /Build/docker-compose.yml
+fi
 
 if IsSite; then
     envsubst < /PaydarCore/ServerLinux/DeployerTemplates/Site > /Build/$TargetDomain.deployer
@@ -119,6 +130,7 @@ Info "Old deployment files deleted"
 Divide
 Info "Uploading started..."
 
+scp /Build/docker-compose.yml root@$HostServer:$ServerPath
 scp /Build/$TargetDomain.deployer root@$HostServer:$ServerPath
 scp /Build/$TargetDomain.telemetry root@$HostServer:$ServerPath
 scp /Build/publish.zip root@$HostServer:$ServerPath
