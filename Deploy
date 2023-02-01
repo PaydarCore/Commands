@@ -48,6 +48,8 @@ Divide
 
 cd $ProjectPath
 
+Extract
+
 Info "Building the project..."
 Divide
 
@@ -91,6 +93,7 @@ export ServerPort=$(ssh root@$HostServer "/PaydarCore/ServerLinux/Commands/Port 
 export Organization=$Organization
 export Repository=$Repository
 export Project=$Project
+export Brand=$(echo $ServerPath | cut -d'/' -f3)
 
 Divide
 Success "Telemetry Info"
@@ -104,11 +107,12 @@ Info ServerPort: $ServerPort
 cd /$ProjectPath
 
 if IsSite; then
-    # envsubst < /PaydarCore/ServerLinux/DockerComposeTemplates/Site > /Build/docker-compose.yml
+    Warning Site works without containers
+    # envsubst < /PaydarCore/ServerLinux/DockerCompose/Site > /Build/docker-compose.yml
 elif IsPanel; then
-    envsubst < /PaydarCore/ServerLinux/DockerComposeTemplates/Panel > /Build/docker-compose.yml
+    envsubst < /PaydarCore/ServerLinux/DockerCompose/Panel > /Build/docker-compose.yml
 elif IsApi; then
-    envsubst < /PaydarCore/ServerLinux/DockerComposeTemplates/Api > /Build/docker-compose.yml
+    envsubst < /PaydarCore/ServerLinux/DockerCompose/Api > /Build/docker-compose.yml
 fi
 
 if IsSite; then
