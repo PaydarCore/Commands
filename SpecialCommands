@@ -1,6 +1,10 @@
 #!/bin/bash
 . Load
 
+Info "Getting git status..."
+Status
+
 # Your code here
 
 Success Completed
+echo

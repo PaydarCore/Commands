@@ -16,7 +16,4 @@ Divide
 Success "Got all"
 Divide
 
-Info "Getting git status..."
-Status
-
 SpecialCommands
