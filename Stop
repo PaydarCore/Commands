@@ -6,6 +6,10 @@ sudo echo
 
 clear
 
+Divide
+Info "Stopping all ..."
+Divide
+
 for i in $(docker ps -a -q --filter name=$1); 
 do 
     export Name=$(docker container inspect $i | grep "Name.*/" | cut -d'/' -f2 | cut -d'"' -f1)

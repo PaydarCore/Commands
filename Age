@@ -10,17 +10,17 @@ export SecondsInDay=$((60*60*24))
 export SecondsInMonth=$(($SecondsInDay*30))
 export Months=$(($Seconds/$SecondsInMonth))
 export Days=$(( MonthSeconds=$Months*$SecondsInMonth, RemainingSeconds=$Seconds-MonthSeconds, RemainingSeconds/$SecondsInDay ))
-if [[ $Months < "02" ]]; then
+if [[ $Months < 2 ]]; then
     Info "$Months months & $Days days"
     Divide
     Success "Everything is good. Happy coding!"
     Divide
-elif [[ $Months > "01" ]] && [[ $Months < "03" ]]; then
+elif [[ $Months > 1 ]] && [[ $Months < 3 ]]; then
     Info "$Months months & $Days days"
     Divide
     Warning "It's better to install everything again. But it's not a force. Do it in your free time."
     Divide
-else [[ $Months > "02" ]];
+else [[ $Months > 2 ]];
     Info "$Months months & $Days days"
     Divide
     Error "It's absolutely necessary to install everything again. It's a force. Do it ASAP."
