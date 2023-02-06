@@ -7,10 +7,19 @@ sudo ""
 clear
 
 Url=$1
+HasFile=false
 
 shift
 for i in "$@"; do
     Previous=$i
+    if [[ $i == *@* ]]; then
+        HasFile=true
+    fi
 done
 
-http --follow --verbose POST https://$Url Content-Type:application/json "$@"
+if [[ $HasFile == true ]]; then
+    http -f --follow --verbose POST https://$Url "$@"
+else
+    http --follow --verbose POST https://$Url "$@"
+fi
+
