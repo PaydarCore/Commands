@@ -93,6 +93,7 @@ export ServerPort=$(ssh root@$HostServer "/PaydarCore/ServerLinux/Commands/Port 
 export Organization=$Organization
 export Repository=$Repository
 export Project=$Project
+export ServerProject=$(echo $ServerPath | cut -d'/' -f4)
 export Brand=$(echo $ServerPath | cut -d'/' -f3)
 
 Divide
@@ -103,6 +104,11 @@ Info ProjectPath: $ProjectPath
 Info ServerPath: $ServerPath
 Info Protocol: $Protocol
 Info ServerPort: $ServerPort
+Info Organization $Organization
+Info Repository $Repository
+Info Project $Project
+Info Brand $Brand
+Info ServerProject $ServerProject
 
 cd /$ProjectPath
 
