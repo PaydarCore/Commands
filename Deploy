@@ -33,6 +33,7 @@ fi
 Info Validating server path...
 if [[ ! `ssh root@$HostServer test -f $ServerPath/$TargetDomain.conf && echo exists` ]] ; then
     Error "Nginx configuration is not created for $TargetDomain"
+    Warning "Make sure nginx conf exist on $ServerPath/$TargetDomain.conf"
     exit
 fi
 Success "$ServerPath exists"
@@ -41,6 +42,7 @@ Divide
 Info Validating nginx config on server...
 if [[ ! `ssh root@$HostServer test -f /etc/nginx/conf.d/$TargetDomain.conf && echo exists` ]] ; then
     Error "Nginx is not configured for $TargetDomain"
+    Warning "Make sure nginx conf linked to /etc/nginx/conf.d/$TargetDomain.conf"
     exit
 fi
 Success "$TargetDomain.conf exists"
