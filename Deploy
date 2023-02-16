@@ -75,10 +75,10 @@ if IsSite; then
     zip -rq publish.zip .next public next.config.js next.js package.json
 elif IsPanel; then
     cd /Build
-    zip -r publish.zip assets hash images index.html
+    zip -rq publish.zip assets hash images index.html
 elif IsApi; then
     cd /Build
-    zip -r publish.zip ./**
+    zip -rq publish.zip ./**
 fi
 
 Info "Built output is compressed"
