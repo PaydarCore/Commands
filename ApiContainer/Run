@@ -2,6 +2,9 @@
 
 Kill
 
+rm -rf bin
+rm -rf obj
+
 Build
 
 Divide
