@@ -114,6 +114,10 @@ Info ServerProject $ServerProject
 
 cd /$ProjectPath
 
+if [[ $Repository == "Storage" ]]; then
+    export Project="Storage"
+fi
+
 if IsSite; then
     envsubst < /PaydarCore/ServerLinux/DockerCompose/Site > /Build/docker-compose.yml
 elif IsPanel; then
