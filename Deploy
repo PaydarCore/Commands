@@ -63,9 +63,10 @@ Divide
 sudo chmod 777 /Build
 cd /Build
 
+if IsSite; then
+Info "Hash folder is node_$Hash"
 export Hash=$(cat /Build/hash)
-
-Info "Hash node_$Hash"
+fi
 
 Info "Compressing the built output..."
 
