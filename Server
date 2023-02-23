@@ -1,0 +1,31 @@
+#!/bin/bash
+
+. Load
+
+TargetDomain=$1
+if [[ $TargetDomain == "" ]]; then 
+    Error 'Domain is not provided'
+    exit
+fi
+
+Ip=$(getent hosts $TargetDomain | awk '{ print $1 }')
+if [[ $Ip == "" ]]; then 
+    Error 'Cannot find IP Address'
+    echo
+    exit
+fi
+
+HostServer=$(grep $Ip /PaydarCore/Deployment/Servers/* | cut -d: -f1  | cut -d/ -f5)
+if [[ $HostServer == "" ]]; then 
+    Error 'Cannot find server'
+    Warning 'make sure this domain hosted by Paydar and exist in Deployment/Servers'
+    echo
+    exit
+fi
+
+Info Ip:
+Success $Ip
+Divide
+Info HostServer:
+Success $HostServer
+echo
