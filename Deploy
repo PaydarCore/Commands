@@ -63,7 +63,7 @@ Divide
 sudo chmod 777 /Build
 cd /Build
 
-export Hash=$(cat /Build/hash)
+export Hash=$(cat /Build/hash 2>/dev/null)
 if IsSite; then
     Info "Hash node_$Hash"
 fi
