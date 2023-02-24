@@ -8,26 +8,21 @@ if [[ $TargetDomain == "" ]]; then
     exit;
 fi
 
-HostServer=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep HostServer | cut -d ' ' -f2)
+HostServer=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep HostServer | awk '{print $2}')
 if [[ $HostServer == "" ]]; then 
     HostServer=$TargetDomain
 fi
 
-ServerPath=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep ServerPath | cut -d ' ' -f2)
+ServerPath=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep ServerPath | awk '{print $2}')
 if [[ $ServerPath == "" ]]; then 
     Error 'ServerPath is not available in the Local Hosts';
     exit;
 fi
 
-ProjectPath=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep ProjectPath | cut -d ' ' -f2)
+ProjectPath=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep ProjectPath | awk '{print $2}')
 if [[ $ProjectPath == "" ]]; then 
     Error 'ProjectPath is not available in the Local Hosts';
     exit;
-fi
-
-Protocol=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep Protocol | cut -d ' ' -f2)
-if [[ $Protocol == "" ]]; then 
-    Protocol='http'
 fi
 
 Info Validating server path...
@@ -91,7 +86,6 @@ export HostServer=$HostServer
 export TargetDomain=$TargetDomain
 export ServerPath=$ServerPath
 export ProjectPath=$ProjectPath
-export Protocol=$Protocol
 export ServerPort=$(ssh root@$HostServer "/PaydarCore/ServerLinux/Commands/Port $TargetDomain")
 export Organization=$Organization
 export Repository=$Repository
@@ -105,7 +99,6 @@ Info HostServer: $HostServer
 Info TargetDomain: $TargetDomain
 Info ProjectPath: $ProjectPath
 Info ServerPath: $ServerPath
-Info Protocol: $Protocol
 Info ServerPort: $ServerPort
 Info Organization $Organization
 Info Repository $Repository
