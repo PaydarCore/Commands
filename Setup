@@ -49,12 +49,16 @@ else
 fi
 if [[ $ForBuild == "" ]]; then
     if IsApi $1 && [[ $Repository != "Storage" ]]; then
-        if [ -d /PaydarNode/Storage/Api ]; then
-            cd /PaydarNode/Storage/Api
-            Setup
+        if [[ $(docker container ls | grep StorageApi ) ]]; then
+            Info "Storage container is running"
         else
-            Error "You do not have /PaydarNode/Storage. Please clone it first"
-            exit
+            if [ -d /PaydarNode/Storage/Api ]; then
+                cd /PaydarNode/Storage/Api
+                Setup
+            else
+                Error "You do not have /PaydarNode/Storage. Please clone it first"
+                exit
+            fi
         fi
     fi
     if [[ $Repository == "Storage" ]]; then
