@@ -16,7 +16,21 @@ fi
 #     echo "Connection not succesful"
 # fi
 
-ssh -A root@$Domain
+Server $Domain
+Divide
+Ip=$(getent hosts $Domain | awk '{ print $1 }')
+HostServer=$(grep $Ip /PaydarCore/Deployment/Servers/* | cut -d: -f1  | cut -d/ -f5)
+FirstNumber=$(echo $HostServer | cut -c 7)
+
+if [[ $FirstNumber == 1 ]]; then
+    Info Linux Server
+    ssh -A root@$Domain
+elif [[ $FirstNumber == 2 ]]; then
+    Info Windows Server
+    ssh -A administrator@$Domain
+else
+    Error Unknown OS
+fi
 
 function HowTo()
 {
