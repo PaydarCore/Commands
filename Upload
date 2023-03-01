@@ -1,0 +1,21 @@
+#!/bin/bash
+. Load
+
+sudo ""
+
+clear
+
+FilePath=$1
+Url=$2
+
+if [[ FilePath == "" ]]; then
+    Error "You did not not enter a file path"
+fi
+if [[ Url == "" ]]; then
+    Error "You did not enter a url"
+fi
+
+FileName=$(basename $FilePath)
+
+curl -F "file=@$FilePath;filename=$FileName" $Url
+
