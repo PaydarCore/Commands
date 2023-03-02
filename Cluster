@@ -1,0 +1,14 @@
+#!/bin/bash
+. Load
+
+Command=$1
+if [[ $Command == "" ]]; then 
+    Error 'Command not found, please enter a single and valid command'
+    exit
+fi
+
+find /PaydarCore/Deployment/Servers/ | grep "server1.*$" | awk -F'/' '{ print "root@", $5 }' | awk {'print $1$2'} > /Temp/Hosts
+
+parallel-ssh -i -h /Temp/Hosts "$Command"
+
+rm -rf /Temp/Hosts
