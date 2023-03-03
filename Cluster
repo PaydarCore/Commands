@@ -8,7 +8,8 @@ if [[ $Command == "" ]]; then
 fi
 
 find /PaydarCore/Deployment/Servers/ | grep "server1.*$" | awk -F'/' '{ print "root@", $5 }' | awk {'print $1$2'} > /Temp/Hosts
+sudo chmod 777 /Temp/Hosts
 
-parallel-ssh -i -h /Temp/Hosts "$Command"
+parallel-ssh -i -h /Temp/Hosts -t 0 "$Command"
 
 rm -rf /Temp/Hosts
