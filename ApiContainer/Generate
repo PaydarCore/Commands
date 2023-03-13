@@ -32,7 +32,8 @@ if [ -z ${IsBuilt+x} ] && [ ! -d /PaydarCore/Generation/bin ]; then
     dotnet build /PaydarCore/Generation
     chmod -R 777 /PaydarCore/Generation
 fi
-dotnet run Directory=$Directory Organization=$Organization Repository=$Repository Runnable=$Runnable Mode=$Mode
+
+dotnet run Directory=$Directory Organization=$Organization Repository=$Repository Project=$Project Runnable=$Runnable Mode=$Mode
 
 prompt=$(sudo -nv 2>&1)
 if [ $? -eq 0 ]; then

@@ -18,21 +18,23 @@ cd /PaydarCore/Generation
 
 while read Dependency; do  
     Repo=${Dependency}Api
-    if [ -d /$Organization/$Repository/$Dependency ]; then
+    ExtraPath=""
+    if [ -d /$Organization/$Repository/$Repo ]; then
         Org=$Organization
+        ExtraPath="/$Repository"
     else
         Org=PaydarCore
     fi
-    if [ ! -f /$Org/$Repo/Database.json ]; then
-        Warning "Wrong dependency: $Dependency. No /$Org/$Repo/Database.json"
+    if [ ! -f /$Org${ExtraPath}/$Repo/Database.json ]; then
+        Warning "Wrong dependency: $Dependency. No /$Org${ExtraPath}/$Repo/Database.json"
         continue;
     fi
-    Info "${Org}/${Repo}"
+    Info "${Org}${ExtraPath}/${Repo}"
 
-    if [ ! -f "/$Org/$Repo/Database.json" ]; then
-        Warning "Did not found Database.json for $Org/$Repo";
+    if [ ! -f "/$Org${ExtraPath}/$Repo/Database.json" ]; then
+        Warning "Did not found Database.json for $Org${ExtraPath}/$Repo";
     else 
-        cd /$Org/$Repo
+        cd /$Org${ExtraPath}/$Repo
         Generate
     fi
 done <<< "$(echo Entities; echo Globalization; echo Accounts; grep -xFf /$Repository/Common/Dependencies /PaydarCore/Generation/Order; grep -vxFf /PaydarCore/Generation/Order /$Repository/Common/Dependencies)"
