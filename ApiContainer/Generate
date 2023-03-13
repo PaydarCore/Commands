@@ -8,7 +8,7 @@ if [[ $Name == "" ]]; then
     Extract
 else
     Name=${Name/\//}
-    find /PaydarCore -type d -not -path "*/Generation/*" -not -path "*/Database/*" -name $Name 2>/dev/null |
+    find /PaydarCore /PaydarNode -type d -not -path "*/Generation/*" -not -path "*/Database/*" -name $Name 2>/dev/null |
     while read dir;
     do
         if [ -f $dir/Database.json ]; then
