@@ -1,3 +1,29 @@
+function LoopAndGenerate()
+{
+    while read Dependency; do  
+        Repo=${Dependency}Api
+        ExtraPath=""
+        if [ -d /$Organization/$Repository/$Repo ]; then
+            Org=$Organization
+            ExtraPath="/$Repository"
+        else
+            Org=PaydarCore
+        fi
+        if [ ! -f /$Org${ExtraPath}/$Repo/Database.json ]; then
+            Warning "Wrong dependency: $Dependency. No /$Org${ExtraPath}/$Repo/Database.json"
+            continue;
+        fi
+        Info "${Org}${ExtraPath}/${Repo}"
+
+        if [ ! -f "/$Org${ExtraPath}/$Repo/Database.json" ]; then
+            Warning "Did not found Database.json for $Org${ExtraPath}/$Repo";
+        else 
+            cd /$Org${ExtraPath}/$Repo
+            Generate
+        fi
+    done <<< "$(echo Entities; echo Globalization; echo Accounts; grep -xFf /$Repository/Common/Dependencies /PaydarCore/Generation/Order; grep -vxFf /PaydarCore/Generation/Order /$Repository/Common/Dependencies)"
+}
+
 . Load
 
 if [ ! -f /$Repository/Common/Dependencies ]; then
@@ -16,28 +42,7 @@ export Mode=GenerateAll
 
 cd /PaydarCore/Generation
 
-while read Dependency; do  
-    Repo=${Dependency}Api
-    ExtraPath=""
-    if [ -d /$Organization/$Repository/$Repo ]; then
-        Org=$Organization
-        ExtraPath="/$Repository"
-    else
-        Org=PaydarCore
-    fi
-    if [ ! -f /$Org${ExtraPath}/$Repo/Database.json ]; then
-        Warning "Wrong dependency: $Dependency. No /$Org${ExtraPath}/$Repo/Database.json"
-        continue;
-    fi
-    Info "${Org}${ExtraPath}/${Repo}"
-
-    if [ ! -f "/$Org${ExtraPath}/$Repo/Database.json" ]; then
-        Warning "Did not found Database.json for $Org${ExtraPath}/$Repo";
-    else 
-        cd /$Org${ExtraPath}/$Repo
-        Generate
-    fi
-done <<< "$(echo Entities; echo Globalization; echo Accounts; grep -xFf /$Repository/Common/Dependencies /PaydarCore/Generation/Order; grep -vxFf /PaydarCore/Generation/Order /$Repository/Common/Dependencies)"
+LoopAndGenerate
 
 export Runnable=$Repository
 
@@ -47,26 +52,7 @@ dotnet run Drop $Repository
 
 dotnet run Create $Repository
 
-while read Dependency; do  
-    Repo=${Dependency}Api
-    if [ -d /$Organization/$Repository/$Dependency ]; then
-        Org=$Organization
-    else
-        Org=PaydarCore
-    fi
-    if [ ! -f /$Org/$Repo/Database.json ]; then
-        Warning "Wrong dependency: $Dependency. No /$Org/$Repo/Database.json"
-        continue;
-    fi
-    Info "${Org}/${Repo}"
-
-    if [ ! -f "/$Org/$Repo/Database.json" ]; then
-        Warning "Did not found Database.json for $Org/$Repo";
-    else 
-        cd /$Org/$Repo
-        Generate
-    fi
-done <<< "$(echo Entities; echo Globalization; echo Accounts; grep -xFf /$Repository/Common/Dependencies /PaydarCore/Generation/Order; grep -vxFf /PaydarCore/Generation/Order /$Repository/Common/Dependencies)"
+LoopAndGenerate
 
 FixSynonyms
 
