@@ -7,7 +7,7 @@ Extract
 sudo rm -rf .git
 git init
 git add .
-git commit -m "m"
+git commit -m "Remove commit history"
 git remote add origin git@github.com:$Organization/$Repository
     Error $Response
 git push -u --force origin main
