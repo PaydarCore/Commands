@@ -1,9 +1,15 @@
 #!/bin/bash
 . Load
 
-Command=$1
+if [[ $@ == "" ]]; then 
+    Info "type the Commands in one line:"
+    read -e Command
+else
+    Command=$@
+fi
+
 if [[ $Command == "" ]]; then 
-    Error 'Command not found, please enter a single and valid command'
+    Error 'Command not found'
     exit
 fi
 
