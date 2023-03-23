@@ -17,7 +17,7 @@ sed -i 's/\/>//' Old New
 
 if cmp -s Old New ; then
     Divide
-    Success Your packages look amazing. Keep up the great work.
+    echo -e "❤️  Your packages look amazing. Keep up the great work. ❤️"
     echo
     exit;
 fi
