@@ -17,7 +17,7 @@ sed -i 's/\/>//' Old New
 
 if cmp -s Old New ; then
     Divide
-    echo -e "❤️  Your packages look amazing. Keep up the great work. ❤️"
+    echo "❤️  Your packages look amazing. Keep up the great work. ❤️"
     echo
     exit;
 fi
@@ -43,5 +43,6 @@ echo $'\n  </ItemGroup>\n\n</Project>' >> Nuget.targets
 cp Nuget.targets /PaydarCore/DotNet
 echo
 echo
-Success Updating saved, push and run GitHub action
+Success Update complete!
+Success You should push and re-run paydar/api action
 echo
