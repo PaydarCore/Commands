@@ -1,3 +1,5 @@
+. Load
+
 rm -rf /Temp
 mkdir /Temp
 cd /Temp
@@ -13,10 +15,20 @@ cat Temp.csproj | grep PackageReference > New
 sed -i 's/^.*Include=//' Old New
 sed -i 's/\/>//' Old New
 
+if cmp -s Old New ; then
+    Divide
+    Success Your packages look amazing. Keep up the great work.
+    echo
+    exit;
+fi
+
+Divide
+Info Packages changes
+Divide
+
 diff -a --suppress-common-lines -y Old New
 
-echo
-echo
+Divide
 Warning 'Save updates? (y,n)'
 read Consent
 
@@ -29,3 +41,7 @@ cat Temp.csproj | grep PackageReference >> Nuget.targets
 echo $'\n  </ItemGroup>\n\n<Project>' >> Nuget.targets
 
 cp Nuget.targets /PaydarCore/DotNet
+echo
+echo
+Success Updating saved, push and run GitHub action
+echo
