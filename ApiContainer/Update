@@ -1,0 +1,31 @@
+rm -rf /Temp
+mkdir /Temp
+cd /Temp
+
+dotnet new console
+
+cp /PaydarCore/DotNet/Nuget.sh .
+./Nuget.sh
+
+cat /PaydarCore/DotNet/Nuget.targets | grep PackageReference > Old
+cat Temp.csproj | grep PackageReference > New
+
+sed -i 's/^.*Include=//' Old New
+sed -i 's/\/>//' Old New
+
+diff -a --suppress-common-lines -y Old New
+
+echo
+echo
+Warning 'Save updates? (y,n)'
+read Consent
+
+if [ $Consent != 'y' ]; then
+    exit;
+fi
+
+echo $'<Project>\n\n  <ItemGroup>\n' > Nuget.targets
+cat Temp.csproj | grep PackageReference | sort >> Nuget.targets
+echo $'\n  </ItemGroup>\n\n<Project>' >> Nuget.targets
+
+cp Nuget.targets /PaydarCore/DotNet
