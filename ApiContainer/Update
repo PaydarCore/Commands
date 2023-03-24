@@ -17,16 +17,18 @@ sed -i 's/\/>//' Current New
 
 if [ "$(wc -l < Current)" != "$(wc -l < New)" ]; then 
     Divide
-    Info Current packages
-    Divide
+    Warning "Current packages (Before update):"
+    echo
     cat Current
     Divide
-    Info New packages
-    Divide
+    Warning "New packages (After update):"
+    echo
     cat New
     Divide
     Error Something is wrong, some packages could not be installed
-    Error Try again, or compare and update manually
+    echo
+    Warning Try again, maybe the problem is with the internet
+    Warning Or compare the difference and update manually
     echo
     exit;
 fi
