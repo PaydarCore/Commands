@@ -9,13 +9,29 @@ dotnet new console
 cp /PaydarCore/DotNet/Nuget.sh .
 ./Nuget.sh
 
-cat /PaydarCore/DotNet/Nuget.targets | grep PackageReference > Old
+cat /PaydarCore/DotNet/Nuget.targets | grep PackageReference > Current
 cat Temp.csproj | grep PackageReference > New
 
-sed -i 's/^.*Include=//' Old New
-sed -i 's/\/>//' Old New
+sed -i 's/^.*Include=//' Current New
+sed -i 's/\/>//' Current New
 
-if cmp -s Old New ; then
+if [ "$(wc -l < Current)" != "$(wc -l < New)" ]; then 
+    Divide
+    Info Current packages
+    Divide
+    cat Current
+    Divide
+    Info New packages
+    Divide
+    cat New
+    Divide
+    Error Something is wrong, some packages could not be installed
+    Error Try again, or compare and update manually
+    echo
+    exit;
+fi
+
+if cmp -s Current New ; then
     Divide
     echo "❤️  Your packages look amazing. Keep up the great work. ❤️"
     echo
@@ -26,7 +42,7 @@ Divide
 Info Packages changes
 Divide
 
-diff -a --suppress-common-lines -y Old New
+diff -a --suppress-common-lines -y Current New
 
 Divide
 Warning 'Save updates? (y,n)'
