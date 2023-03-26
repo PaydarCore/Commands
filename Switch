@@ -1,0 +1,14 @@
+#!/bin/bash
+. Load
+
+Org=$1
+
+if [[ ! -f /$Org/Commands/Switch ]]; then
+    Error 'Cannot find organization'
+    exit;
+fi
+
+sudo sed -i "/\/Commands/d" /etc/bash.bashrc
+echo "PATH=\"\${PATH}:/$Org/Commands\"" >> /etc/bash.bashrc
+
+Success Switech to $Org
