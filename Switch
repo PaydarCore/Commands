@@ -11,4 +11,4 @@ fi
 sudo sed -i "/\/Commands/d" /etc/bash.bashrc
 echo "PATH=\"\${PATH}:/$Org/Commands\"" >> /etc/bash.bashrc
 
-Success Switech to $Org
+Success Switched to $Org
