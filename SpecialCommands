@@ -5,6 +5,7 @@ Info "Getting git status..."
 Status
 
 # Your code here
+BashCompletionWordListUpdate
 
 Success Completed
 echo

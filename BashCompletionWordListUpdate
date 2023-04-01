@@ -1,0 +1,9 @@
+#!/bin/bash
+
+HostsList=$(ls -p /PaydarCore/Deployment/Hosts | grep -v / | tr '\n' ' ')
+ServersList=$(ls -p /PaydarCore/Deployment/Servers/ | grep -v / | tr '\n' ' ')
+HostsAndServersList=$(echo $HostsList $ServersList | sed 's/  / /g')
+
+complete -W "$HostsList" Deploy
+complete -W "$HostsAndServersList" Ssh
+complete -W "$HostsAndServersList" Server
