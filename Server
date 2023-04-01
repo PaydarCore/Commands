@@ -8,6 +8,8 @@ if [[ $TargetDomain == "" ]]; then
     exit
 fi
 
+getent hosts $TargetDomain > /dev/null
+
 Ip=$(getent hosts $TargetDomain | awk '{ print $1 }')
 if [[ $Ip == "" ]]; then 
     Error 'Cannot find IP Address'
@@ -23,9 +25,9 @@ if [[ $HostServer == "" ]]; then
     exit
 fi
 
-Info Ip:
-Success $Ip
-Divide
+
 Info HostServer:
-Success $HostServer
+echo $HostServer
+Info Ip:
+echo $Ip
 echo
