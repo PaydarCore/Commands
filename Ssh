@@ -23,11 +23,20 @@ HostServer=$(grep $Ip /PaydarCore/Deployment/Servers/* | cut -d: -f1  | cut -d/ 
 FirstNumber=$(echo $HostServer | cut -c 7)
 
 if [[ $FirstNumber == 1 ]]; then
+
     Info Linux Server
+    ServerPath=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep ServerPath | awk '{print $2}')
+    if [[ $ServerPath != "" ]]; then 
+        ssh -A root@$Domain -t "cd $ServerPath; bash --login"
+        exit;
+    fi
     ssh -A root@$Domain
+
 elif [[ $FirstNumber == 2 ]]; then
+
     Info Windows Server
     ssh -A administrator@$Domain
+
 else
     Error Unknown OS
 fi
