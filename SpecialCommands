@@ -7,5 +7,7 @@ Status
 # Your code here
 BashCompletionWordListUpdate
 
+rm -rf /PaydarCore/Deployment/
+
 Success Completed
 echo
