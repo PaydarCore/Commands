@@ -8,18 +8,18 @@ if [[ $TargetDomain == "" ]]; then
     exit;
 fi
 
-HostServer=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep HostServer | awk '{print $2}')
+HostServer=$(cat /PaydarNode/Deployment/Hosts/$1 2>/dev/null | grep HostServer | awk '{print $2}')
 if [[ $HostServer == "" ]]; then 
     HostServer=$TargetDomain
 fi
 
-ServerPath=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep ServerPath | awk '{print $2}')
+ServerPath=$(cat /PaydarNode/Deployment/Hosts/$1 2>/dev/null | grep ServerPath | awk '{print $2}')
 if [[ $ServerPath == "" ]]; then 
     Error 'ServerPath is not available in the Local Hosts';
     exit;
 fi
 
-ProjectPath=$(cat /PaydarCore/Deployment/Hosts/$1 2>/dev/null | grep ProjectPath | awk '{print $2}')
+ProjectPath=$(cat /PaydarNode/Deployment/Hosts/$1 2>/dev/null | grep ProjectPath | awk '{print $2}')
 if [[ $ProjectPath == "" ]]; then 
     Error 'ProjectPath is not available in the Local Hosts';
     exit;

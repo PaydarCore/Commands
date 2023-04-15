@@ -17,7 +17,7 @@ if [[ $Ip == "" ]]; then
     exit
 fi
 
-HostServer=$(grep $Ip /PaydarCore/Deployment/Servers/* | cut -d: -f1  | cut -d/ -f5)
+HostServer=$(grep $Ip /PaydarNode/Deployment/Servers/* | cut -d: -f1  | cut -d/ -f5)
 if [[ $HostServer == "" ]]; then 
     Error 'Cannot find server'
     Warning 'make sure this domain hosted by Paydar and exist in Deployment/Servers'

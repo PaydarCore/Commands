@@ -1,7 +1,7 @@
 #!/bin/bash
 
-HostsList=$(ls -p /PaydarCore/Deployment/Hosts | grep -v / | tr '\n' ' ')
-ServersList=$(ls -p /PaydarCore/Deployment/Servers/ | grep -v / | tr '\n' ' ')
+HostsList=$(ls -p /PaydarNode/Deployment/Hosts | grep -v / | tr '\n' ' ')
+ServersList=$(ls -p /PaydarNode/Deployment/Servers/ | grep -v / | tr '\n' ' ')
 HostsAndServersList=$(echo $HostsList $ServersList | sed 's/  / /g')
 
 complete -W "$HostsList" Deploy
