@@ -13,7 +13,6 @@ getent hosts $TargetDomain > /dev/null
 Ip=$(getent hosts $TargetDomain | awk '{ print $1 }')
 if [[ $Ip == "" ]]; then 
     Error 'Cannot find IP Address'
-    echo
     exit
 fi
 
@@ -21,13 +20,13 @@ HostServer=$(grep $Ip /PaydarNode/Deployment/Servers/* | cut -d: -f1  | cut -d/ 
 if [[ $HostServer == "" ]]; then 
     Error 'Cannot find server'
     Warning 'make sure this domain hosted by Paydar and exist in Deployment/Servers'
-    echo
     exit
 fi
 
-
+echo
 Info HostServer:
-echo $HostServer
+Success $HostServer
+Divide
 Info Ip:
-echo $Ip
+Success $Ip
 echo
