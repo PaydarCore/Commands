@@ -5,8 +5,6 @@ Info "Getting git status..."
 Status
 
 # Your code here
-BashCompletionWordListUpdate
-rm -rf /PaydarNode/Kilid
 
 Success Completed
 echo

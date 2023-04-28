@@ -16,4 +16,6 @@ Divide
 Success "Got all"
 Divide
 
+BashCompletionWordListUpdate
+
 SpecialCommands
