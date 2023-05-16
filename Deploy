@@ -130,7 +130,6 @@ fi
 
 Divide
 Info "Removing old deployment..."
-
 ssh root@$HostServer "rm -rf $ServerPath/$TargetDomain.deployer $ServerPath/publish.zip"
 Info "Old deployment files deleted"
 
@@ -142,8 +141,6 @@ scp /Build/$TargetDomain.deployer root@$HostServer:$ServerPath
 scp /Build/publish.zip root@$HostServer:$ServerPath
 
 Info "Project uploaded."
-Divide
-Success "Uploading Done"
 
 Divide
 Info "Deploying the project..."
