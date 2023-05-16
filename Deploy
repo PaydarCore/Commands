@@ -95,11 +95,11 @@ export Brand=$(echo $ServerPath | cut -d'/' -f3)
 
 Divide
 Success "Telemetry Info"
-Info HostServer: $HostServer
-Info TargetDomain: $TargetDomain
-Info ProjectPath: $ProjectPath
-Info ServerPath: $ServerPath
-Info ServerPort: $ServerPort
+Info HostServer $HostServer
+Info TargetDomain $TargetDomain
+Info ProjectPath $ProjectPath
+Info ServerPath $ServerPath
+Info ServerPort $ServerPort
 Info Organization $Organization
 Info Repository $Repository
 Info Project $Project
@@ -141,6 +141,9 @@ scp /Build/$TargetDomain.deployer root@$HostServer:$ServerPath
 scp /Build/publish.zip root@$HostServer:$ServerPath
 
 Info "Project uploaded."
+Divide
+Success "Uploading Done"
+Divide
 
 Divide
 Info "Deploying the project..."
