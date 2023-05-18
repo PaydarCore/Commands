@@ -135,18 +135,19 @@ Info "Old deployment files deleted"
 
 Divide
 Info "Uploading started..."
+echo
 
 scp /Build/docker-compose.yml root@$HostServer:$ServerPath
 scp /Build/$TargetDomain.deployer root@$HostServer:$ServerPath
 scp /Build/publish.zip root@$HostServer:$ServerPath
 
-Info "Project uploaded."
-Divide
+echo
 Success "Uploading Done"
 Divide
 
 Divide
 Info "Deploying the project..."
+echo
 
 ssh root@$HostServer "chmod 777 $ServerPath/$TargetDomain.deployer"
 ssh root@$HostServer "$ServerPath/$TargetDomain.deployer" &
