@@ -52,6 +52,7 @@ Divide
 
 Build
 
+echo
 Info "Project build finished"
 Divide
 
@@ -78,7 +79,7 @@ elif IsApi; then
 fi
 
 Info "Built output is compressed"
-Divide
+echo
 Success "Compressing Done"
 Divide
 
@@ -94,7 +95,7 @@ export ServerProject=$(echo $ServerPath | cut -d'/' -f4)
 export Brand=$(echo $ServerPath | cut -d'/' -f3)
 
 Divide
-Success "Telemetry Info"
+Success "Telemetry"
 Info HostServer $HostServer
 Info TargetDomain $TargetDomain
 Info ProjectPath $ProjectPath
@@ -145,7 +146,6 @@ echo
 Success "Uploading Done"
 Divide
 
-Divide
 Info "Deploying the project..."
 echo
 
