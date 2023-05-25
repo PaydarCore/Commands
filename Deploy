@@ -8,6 +8,27 @@ if [[ $TargetDomain == "" ]]; then
     exit;
 fi
 
+if [[ ! -d /PaydarNode/Deployment ]]; then 
+    Error Please clone the Deployment repo
+    exit
+fi
+
+if [[ ! -f /PaydarNode/Deployment/Hosts/$1 ]]; then 
+    Error Cannot find deployment file: /PaydarNode/Deployment/Hosts/$1
+    exit
+fi
+
+ProjectPath=$(cat /PaydarNode/Deployment/Hosts/$1 2>/dev/null | grep ProjectPath | awk '{print $2}')
+if [[ ! -d $ProjectPath ]]; then 
+    Error Cannot find project $ProjectPath
+    Error Please clone the repository
+    exit
+fi
+if [[ $ProjectPath == "" ]]; then 
+    Error Cannot find ProjectPath in /PaydarNode/Deployment/Hosts/$1
+    exit
+fi
+
 HostServer=$(cat /PaydarNode/Deployment/Hosts/$1 2>/dev/null | grep HostServer | awk '{print $2}')
 if [[ $HostServer == "" ]]; then 
     HostServer=$TargetDomain
@@ -15,14 +36,8 @@ fi
 
 ServerPath=$(cat /PaydarNode/Deployment/Hosts/$1 2>/dev/null | grep ServerPath | awk '{print $2}')
 if [[ $ServerPath == "" ]]; then 
-    Error 'ServerPath is not available in the Local Hosts';
-    exit;
-fi
-
-ProjectPath=$(cat /PaydarNode/Deployment/Hosts/$1 2>/dev/null | grep ProjectPath | awk '{print $2}')
-if [[ $ProjectPath == "" ]]; then 
-    Error 'ProjectPath is not available in the Local Hosts';
-    exit;
+    Error Cannot find ServerPath in /PaydarNode/Deployment/Hosts/$1
+    exit
 fi
 
 Info Validating server path...
