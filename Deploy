@@ -48,12 +48,13 @@ cd $ProjectPath
 Extract
 
 Info "Building the project..."
-Divide
+echo
 
 Build
 
 echo
 Info "Project build finished"
+
 Divide
 
 sudo chmod 777 /Build
@@ -79,8 +80,7 @@ elif IsApi; then
 fi
 
 Info "Built output is compressed"
-echo
-Success "Compressing Done"
+
 Divide
 
 export HostServer=$HostServer
@@ -94,7 +94,6 @@ export Project=$Project
 export ServerProject=$(echo $ServerPath | cut -d'/' -f4)
 export Brand=$(echo $ServerPath | cut -d'/' -f3)
 
-Divide
 Success "Telemetry"
 Info HostServer $HostServer
 Info TargetDomain $TargetDomain
@@ -135,6 +134,7 @@ ssh root@$HostServer "rm -rf $ServerPath/$TargetDomain.deployer $ServerPath/publ
 Info "Old deployment files deleted"
 
 Divide
+
 Info "Uploading started..."
 echo
 
@@ -143,7 +143,8 @@ scp /Build/$TargetDomain.deployer root@$HostServer:$ServerPath
 scp /Build/publish.zip root@$HostServer:$ServerPath
 
 echo
-Success "Uploading Done"
+Info "Uploaded."
+
 Divide
 
 Info "Deploying the project..."
