@@ -6,4 +6,4 @@ sudo rm -rf /$Organization/$Repository
 
 cd /$Organization
 
-git clone git@github.com:$Organization/$Repository
+git clone --depth 1 git@github.com:$Organization/$Repository
