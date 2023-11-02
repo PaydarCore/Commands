@@ -22,17 +22,16 @@ function GetJson()
         Divide
         Response=$(cat /Temp/RepositoriesJson)
     fi
-    
 }
 
 function LoopAndClone()
 {
-    echo $Response | jq -r ".[].name" | 
+    echo $Response | jq -r ".[].name" |
     {
         while read -r name ; do
-            (git -C /$Organization clone git@github.com:$Organization/$name) &
+            (git -C /$Organization clone --depth 1 git@github.com:$Organization/$name) &
             # if [[ "$name" == *Api ]] || [[ "$name" == *Panel ]] || [[ "$name" == Site ]] || [[ "$name" == Common ]] || [[ "$name" == Blog ]]; then
-            #     git clone git@github.com:$Organization/$name
+            #     git clone --depth 1 git@github.com:$Organization/$name
             # fi
         done
         wait
@@ -41,13 +40,13 @@ function LoopAndClone()
 
 Organization=$1
 
-if [[ $Organization == "" ]]; then 
+if [[ $Organization == "" ]]; then
     Error 'Organization name is not provided';
     exit;
 fi
 
 sudo mkdir -p /$Organization
-sudo chmod -R 777 /$Organization
+sudo chmod -R 777 --preserve-root /$Organization
 
 ValidateGitHubAccessTokenFile
 
@@ -63,7 +62,7 @@ fi
 
 if [[ $Response == *"Not Found"* ]]; then
     # Response=$(curl --silent -H "Authorization: token $accessToken" "https://api.github.com/repos/PaydarNode/$Organization")
-    git -C /PaydarNode clone git@github.com:PaydarNode/$Organization
+    git -C /PaydarNode clone --depth 1 git@github.com:PaydarNode/$Organization
     exit
 fi
 
@@ -73,10 +72,10 @@ LoopAndClone
 
 rm -rf /Temp/RepositoriesJson
 
-find /PaydarCore /PaydarNode -maxdepth 2  -type d -name ".git" 2>/dev/null | xargs sudo chmod -R 777
+find /PaydarCore /PaydarNode -maxdepth 2 -type d -name ".git" 2>/dev/null | xargs sudo chmod -R 777 --preserve-root
 
-sudo chmod -R 777 /PaydarCore
-sudo chmod -R 777 /PaydarNode
+sudo chmod -R 777 --preserve-root /PaydarCore
+sudo chmod -R 777 --preserve-root /PaydarNode
 
 FixGit
 

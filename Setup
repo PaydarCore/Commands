@@ -31,7 +31,7 @@ SetupLocalDns
 CleanDocker
 CopyGitIgnore
 
-sudo chmod -R 777 /$Organization/$Repository
+sudo chmod -R 777 --preserve-root /$Organization/$Repository
 
 export ComposePath=/Temp/$Organization/$Repository/$Project/DockerCompose.yml
 sudo mkdir -p $(dirname $ComposePath)
