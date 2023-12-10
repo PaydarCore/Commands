@@ -151,11 +151,11 @@ Info "Old deployment files deleted"
 Divide
 
 Warning If built successfully and deploy failed to do so:
-Warning scp /Build/docker-compose.yml root@$HostServer:$ServerPath
-Warning scp /Build/$TargetDomain.deployer root@$HostServer:$ServerPath
-Warning scp /Build/publish.zip root@$HostServer:$ServerPath
-Warning ssh root@$HostServer "chmod 777 $ServerPath/$TargetDomain.deployer"
-Warning ssh root@$HostServer "$ServerPath/$TargetDomain.deployer" &
+Info scp /Build/docker-compose.yml root@$HostServer:$ServerPath
+Info scp /Build/$TargetDomain.deployer root@$HostServer:$ServerPath
+Info scp /Build/publish.zip root@$HostServer:$ServerPath
+Info ssh root@$HostServer "chmod 777 $ServerPath/$TargetDomain.deployer"
+Info ssh root@$HostServer "$ServerPath/$TargetDomain.deployer" &
 
 Divide
 
